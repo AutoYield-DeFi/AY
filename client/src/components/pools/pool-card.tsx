@@ -64,7 +64,7 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <p className="text-sm text-muted-foreground">{t('common.tvl')}</p>
-            <p className="text-lg font-semibold">{formatCurrency(parseInt(pool.tvl))}</p>
+            <p className="text-lg font-semibold">{formatCurrency(Number(pool.tvl))}</p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">{t('common.apr')}</p>
@@ -78,7 +78,10 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
               <BarChart2 className="h-4 w-4" />
               <span>{t('pools.volume_24h')}</span>
             </div>
-            <p className="text-sm font-medium">{formatCurrency(parseInt(pool.volume24h))}</p>
+            <p className="text-sm font-medium">{formatCurrency(Number(pool.volume24h))}</p>
+            <p className="text-xs text-muted-foreground">
+              {t('pools.weekly_volume')}: {formatCurrency(Number(pool.volume7d))}
+            </p>
           </div>
           <div>
             <div className="flex items-center space-x-1 text-sm text-muted-foreground">
@@ -86,6 +89,28 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
               <span>{t('pools.utilization')}</span>
             </div>
             <p className="text-sm font-medium">{pool.utilizationRate}%</p>
+            <p className="text-xs text-muted-foreground">
+              {t('pools.daily_fees')}: {formatCurrency(Number(pool.dailyFees))}
+            </p>
+          </div>
+        </div>
+
+        <div className="pt-2 border-t">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-sm text-muted-foreground">{pool.token0}</p>
+              <p className="text-sm font-medium">{formatCurrency(Number(pool.token0Price))}</p>
+              <p className="text-xs text-muted-foreground">
+                Reserve: {Number(pool.token0Reserve).toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">{pool.token1}</p>
+              <p className="text-sm font-medium">{formatCurrency(Number(pool.token1Price))}</p>
+              <p className="text-xs text-muted-foreground">
+                Reserve: {Number(pool.token1Reserve).toLocaleString()}
+              </p>
+            </div>
           </div>
         </div>
 
