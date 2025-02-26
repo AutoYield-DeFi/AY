@@ -1,6 +1,19 @@
 import type { Pool, Position } from "@shared/schema";
 
-export const pools: Pool[] = [
+// Add historical data for pool charts
+const historyData = [
+  { date: '2024-02-20', tvl: 2400000 },
+  { date: '2024-02-21', tvl: 2600000 },
+  { date: '2024-02-22', tvl: 2900000 },
+  { date: '2024-02-23', tvl: 2700000 },
+  { date: '2024-02-24', tvl: 3100000 },
+];
+
+interface PoolWithHistory extends Pool {
+    history?: {date: string, tvl: number}[]
+}
+
+export const pools: PoolWithHistory[] = [
   {
     id: 1,
     name: "SOL-USDC",
@@ -20,7 +33,8 @@ export const pools: Pool[] = [
     token1Reserve: "1275000",
     token0Price: "25.50",
     token1Price: "1.00",
-    createdAt: new Date("2024-01-01")
+    createdAt: new Date("2024-01-01"),
+    history: historyData
   },
   {
     id: 2,
@@ -41,7 +55,8 @@ export const pools: Pool[] = [
     token1Reserve: "266667",
     token0Price: "25.50",
     token1Price: "3.82",
-    createdAt: new Date("2024-01-02")
+    createdAt: new Date("2024-01-02"),
+    history: historyData
   },
   {
     id: 3,
@@ -62,7 +77,8 @@ export const pools: Pool[] = [
     token1Reserve: "446250",
     token0Price: "25.50",
     token1Price: "2.00",
-    createdAt: new Date("2024-01-03")
+    createdAt: new Date("2024-01-03"),
+    history: historyData
   },
   {
     id: 4,
@@ -83,7 +99,8 @@ export const pools: Pool[] = [
     token1Reserve: "30000000000",
     token0Price: "25.50",
     token1Price: "0.0000255",
-    createdAt: new Date("2024-01-04")
+    createdAt: new Date("2024-01-04"),
+    history: historyData
   },
   {
     id: 5,
@@ -104,7 +121,8 @@ export const pools: Pool[] = [
     token1Reserve: "229500",
     token0Price: "25.50",
     token1Price: "5.00",
-    createdAt: new Date("2024-01-05")
+    createdAt: new Date("2024-01-05"),
+    history: historyData
   },
   {
     id: 6,
@@ -125,7 +143,8 @@ export const pools: Pool[] = [
     token1Reserve: "84000",
     token0Price: "25.50",
     token1Price: "26.77",
-    createdAt: new Date("2024-01-06")
+    createdAt: new Date("2024-01-06"),
+    history: historyData
   }
 ];
 
