@@ -8,9 +8,11 @@ import { formatCurrency } from "@/lib/utils";
 import { ArrowUpRight, ArrowDownRight, Wallet2, Clock } from "lucide-react";
 import type { Position } from "@shared/schema";
 import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 export default function Portfolio() {
   const [selectedPosition, setSelectedPosition] = useState<Position | null>(null);
+  const { t } = useTranslation();
 
   const totalValue = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value), 0);
   const totalValue24hAgo = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value24hAgo), 0);
@@ -25,9 +27,9 @@ export default function Portfolio() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight">Portfolio</h2>
+        <h2 className="text-3xl font-bold tracking-tight">{t('portfolio.title')}</h2>
         <p className="text-muted-foreground">
-          Track your liquidity positions and returns
+          {t('portfolio.description')}
         </p>
       </div>
 
@@ -36,7 +38,7 @@ export default function Portfolio() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Wallet2 className="h-5 w-5" />
-              Total Value
+              {t('portfolio.current_value')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -60,7 +62,7 @@ export default function Portfolio() {
               ) : (
                 <ArrowDownRight className="h-5 w-5 text-red-500" />
               )}
-              Performance
+              {t('portfolio.performance')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -88,15 +90,15 @@ export default function Portfolio() {
         </Card>
       </div>
 
-      <div className="grid gap-4 grid-cols-1 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1">
         <AssetsChart />
       </div>
 
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h3 className="text-xl font-semibold">Active Positions</h3>
+          <h3 className="text-xl font-semibold">{t('portfolio.active_positions')}</h3>
           <Button variant="outline" size="sm" disabled>
-            Add Position
+            {t('portfolio.add_position')}
           </Button>
         </div>
 
@@ -114,8 +116,8 @@ export default function Portfolio() {
                       <div>
                         <p className="font-medium text-lg">{pool?.name}</p>
                         <div className="text-sm text-muted-foreground">
-                          <p>Initial: {formatCurrency(Number(position.amount))}</p>
-                          <p>Pool Share: {((Number(position.value) / Number(pool?.tvl)) * 100).toFixed(2)}%</p>
+                          <p>{t('portfolio.initial')}: {formatCurrency(Number(position.amount))}</p>
+                          <p>{t('portfolio.pool_share')}: {((Number(position.value) / Number(pool?.tvl)) * 100).toFixed(2)}%</p>
                           <p className="flex items-center gap-1">
                             <Clock className="h-3 w-3" />
                             {format(new Date(position.entryDate), 'MMM d, yyyy')}
@@ -127,13 +129,13 @@ export default function Portfolio() {
                         size="sm"
                         onClick={() => setSelectedPosition(position)}
                       >
-                        Withdraw
+                        {t('common.withdraw')}
                       </Button>
                     </div>
 
                     <div className="space-y-3 pt-2 border-t">
                       <div>
-                        <p className="text-sm text-muted-foreground">Current Value</p>
+                        <p className="text-sm text-muted-foreground">{t('portfolio.current_value')}</p>
                         <p className="font-medium">{formatCurrency(Number(position.value))}</p>
                         <p className={`text-xs ${Number(position.value) - Number(position.value24hAgo) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                           {Number(position.value) - Number(position.value24hAgo) >= 0 ? '+' : ''}
@@ -141,11 +143,11 @@ export default function Portfolio() {
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Daily Yield</p>
+                        <p className="text-sm text-muted-foreground">{t('portfolio.daily_yield')}</p>
                         <p className="font-medium text-green-500">+{formatCurrency(dailyFees)}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Performance</p>
+                        <p className="text-sm text-muted-foreground">{t('portfolio.performance')}</p>
                         <p className={`font-medium ${Number(position.pnl) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                           {Number(position.pnl) >= 0 ? '+' : ''}{formatCurrency(Number(position.pnl))}
                           <span className="text-xs ml-1">
@@ -165,7 +167,7 @@ export default function Portfolio() {
 
                     <div className="pt-2 border-t">
                       <div className="flex justify-between items-center text-sm">
-                        <span className="text-muted-foreground">Pool APR</span>
+                        <span className="text-muted-foreground">{t('common.apr')}</span>
                         <span className="font-medium text-green-500">{pool?.apr}%</span>
                       </div>
                     </div>
