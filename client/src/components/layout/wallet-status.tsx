@@ -1,12 +1,22 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Wallet } from "lucide-react";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 
 interface WalletStatusProps {
   isConnected: boolean;
 }
 
 export const WalletStatus: FC<WalletStatusProps> = ({ isConnected }) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null; // Prevent hydration issues
+  }
+
   return (
     <div className="relative flex items-center">
       <AnimatePresence mode="wait">

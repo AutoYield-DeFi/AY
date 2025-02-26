@@ -1,12 +1,14 @@
-export const pools = [
+import type { Pool, Position } from "@shared/schema";
+
+export const pools: Pool[] = [
   {
     id: 1,
     name: "SOL-USDC",
     token0: "SOL",
     token1: "USDC",
-    tvl: 2500000,
-    apr: 25.5,
-    volume24h: 750000,
+    tvl: "2500000",
+    apr: "25.5",
+    volume24h: "750000",
     createdAt: new Date("2024-01-01")
   },
   {
@@ -14,9 +16,9 @@ export const pools = [
     name: "ETH-USDC",
     token0: "ETH",
     token1: "USDC",
-    tvl: 5000000,
-    apr: 18.2,
-    volume24h: 1200000,
+    tvl: "5000000",
+    apr: "18.2",
+    volume24h: "1200000",
     createdAt: new Date("2024-01-02")
   },
   {
@@ -24,27 +26,27 @@ export const pools = [
     name: "BTC-USDC",
     token0: "BTC",
     token1: "USDC", 
-    tvl: 8000000,
-    apr: 15.8,
-    volume24h: 2000000,
+    tvl: "8000000",
+    apr: "15.8",
+    volume24h: "2000000",
     createdAt: new Date("2024-01-03")
   }
 ];
 
-export const portfolioPositions = [
+export const portfolioPositions: Position[] = [
   {
     id: 1,
     poolId: 1,
-    amount: 10000,
-    value: 12500,
-    pnl: 2500
+    amount: "10000",
+    value: "12500",
+    pnl: "2500"
   },
   {
     id: 2,
     poolId: 2,
-    amount: 25000,
-    value: 28000,
-    pnl: 3000
+    amount: "25000",
+    value: "28000",
+    pnl: "3000"
   }
 ];
 
