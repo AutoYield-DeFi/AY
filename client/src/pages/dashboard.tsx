@@ -31,13 +31,15 @@ export default function Dashboard() {
         </p>
       </div>
 
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
         <StatsCards />
       </div>
 
       <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
-        <OverviewChart />
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-2">
+          <OverviewChart />
+        </div>
+        <div>
           <NoticeBoard />
         </div>
       </div>
@@ -91,7 +93,7 @@ export default function Dashboard() {
             <div className="space-y-4">
               <div>
                 <p className="text-lg font-medium">{t('dashboard.total_value')}</p>
-                <div className="flex items-baseline gap-2">
+                <div className="flex flex-col sm:flex-row sm:items-baseline gap-2">
                   <p className="text-2xl font-bold">{formatCurrency(totalValue)}</p>
                   <p className={`text-sm ${valueChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                     {valueChange >= 0 ? '+' : ''}{formatCurrency(valueChange)} (24h)
