@@ -9,6 +9,17 @@ export const pools: Pool[] = [
     tvl: "2500000",
     apr: "25.5",
     volume24h: "750000",
+    volume7d: "4500000",
+    dailyFees: "2250",
+    weeklyFees: "15750",
+    utilizationRate: "75.5",
+    impermanentLoss: "2.3",
+    riskLevel: "medium",
+    priceRatio: "25.50",
+    token0Reserve: "50000",
+    token1Reserve: "1275000",
+    token0Price: "25.50",
+    token1Price: "1.00",
     createdAt: new Date("2024-01-01")
   },
   {
@@ -19,6 +30,17 @@ export const pools: Pool[] = [
     tvl: "5000000",
     apr: "18.2",
     volume24h: "1200000",
+    volume7d: "7800000",
+    dailyFees: "3600",
+    weeklyFees: "23400",
+    utilizationRate: "82.3",
+    impermanentLoss: "1.8",
+    riskLevel: "low",
+    priceRatio: "3200.00",
+    token0Reserve: "1000",
+    token1Reserve: "3200000",
+    token0Price: "3200.00",
+    token1Price: "1.00",
     createdAt: new Date("2024-01-02")
   },
   {
@@ -29,6 +51,17 @@ export const pools: Pool[] = [
     tvl: "8000000",
     apr: "15.8",
     volume24h: "2000000",
+    volume7d: "12000000",
+    dailyFees: "6000",
+    weeklyFees: "36000",
+    utilizationRate: "88.5",
+    impermanentLoss: "1.5",
+    riskLevel: "low",
+    priceRatio: "42000.00",
+    token0Reserve: "150",
+    token1Reserve: "6300000",
+    token0Price: "42000.00",
+    token1Price: "1.00",
     createdAt: new Date("2024-01-03")
   }
 ];

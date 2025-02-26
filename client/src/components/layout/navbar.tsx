@@ -3,17 +3,19 @@ import { WalletIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { WalletStatus } from "./wallet-status";
+import { LanguageSwitcher } from "./language-switcher";
+import { useTranslation } from "react-i18next";
 
 export function NavigationBar() {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [isWalletConnected, setIsWalletConnected] = useState(false);
 
   const handleConnectWallet = () => {
-    // Toggle wallet connection state for demo
     setIsWalletConnected(!isWalletConnected);
 
     toast({
-      title: isWalletConnected ? "Wallet Disconnected" : "Wallet Connected",
+      title: isWalletConnected ? t('common.disconnect_wallet') : t('common.connect_wallet'),
       description: "This is a demo - wallet connection is not implemented",
     });
   };
@@ -26,13 +28,14 @@ export function NavigationBar() {
             <h2 className="text-lg font-bold gradient-text">AutoYield</h2>
           </div>
           <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
             <WalletStatus isConnected={isWalletConnected} />
             <Button 
               variant={isWalletConnected ? "destructive" : "outline"}
               onClick={handleConnectWallet}
             >
               <WalletIcon className="mr-2 h-4 w-4" />
-              {isWalletConnected ? "Disconnect" : "Connect Wallet"}
+              {isWalletConnected ? t('common.disconnect_wallet') : t('common.connect_wallet')}
             </Button>
           </div>
         </div>
