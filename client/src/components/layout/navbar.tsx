@@ -1,13 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { WalletIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+import { WalletStatus } from "./wallet-status";
 
 export function NavigationBar() {
   const { toast } = useToast();
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
 
   const handleConnectWallet = () => {
+    // Toggle wallet connection state for demo
+    setIsWalletConnected(!isWalletConnected);
+
     toast({
-      title: "Wallet Connection",
+      title: isWalletConnected ? "Wallet Disconnected" : "Wallet Connected",
       description: "This is a demo - wallet connection is not implemented",
     });
   };
@@ -20,12 +26,13 @@ export function NavigationBar() {
             <h2 className="text-lg font-bold gradient-text">AutoYield</h2>
           </div>
           <div className="flex items-center space-x-4">
+            <WalletStatus isConnected={isWalletConnected} />
             <Button 
-              variant="outline"
+              variant={isWalletConnected ? "destructive" : "outline"}
               onClick={handleConnectWallet}
             >
               <WalletIcon className="mr-2 h-4 w-4" />
-              Connect Wallet
+              {isWalletConnected ? "Disconnect" : "Connect Wallet"}
             </Button>
           </div>
         </div>
