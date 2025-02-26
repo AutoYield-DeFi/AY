@@ -94,6 +94,22 @@ i18n
             percent: '{{value, number}}%',
             currency: '{{value, currency}}',
           },
+          dashboard: {
+            title: 'Dashboard',
+            description: 'Overview of your AutoYield performance',
+            notices: {
+              title: 'Noticeboard',
+              high_yield_title: 'High Yield Opportunity',
+              high_yield_message: 'SOL-USDC pool currently offering 25.5% APR. Consider increasing your position.',
+              market_update_title: 'Market Update',
+              market_update_message: 'Higher than usual market volatility expected this week. Monitor your positions closely.',
+            },
+            recent_activity: 'Recent Activity',
+            portfolio_summary: 'Portfolio Summary',
+            total_value: 'Total Value',
+            average_apr: 'Average APR',
+            total_yield: 'Total Yield',
+          }
         },
       },
       es: {
@@ -182,6 +198,22 @@ i18n
             percent: '{{value, number}}%',
             currency: '{{value, currency}}',
           },
+          dashboard: {
+            title: 'Panel',
+            description: 'AutoYield performans özeti',
+            notices: {
+              title: 'Duyuru Panosu',
+              high_yield_title: 'Yüksek Getiri Fırsatı',
+              high_yield_message: 'SOL-USDC havuzu şu anda %25.5 APR sunuyor. Pozisyonunuzu artırmayı düşünün.',
+              market_update_title: 'Piyasa Güncellemesi',
+              market_update_message: 'Bu hafta normalden daha yüksek piyasa volatilitesi bekleniyor. Pozisyonlarınızı yakından takip edin.',
+            },
+            recent_activity: 'Son Aktiviteler',
+            portfolio_summary: 'Portföy Özeti',
+            total_value: 'Toplam Değer',
+            average_apr: 'Ortalama APR',
+            total_yield: 'Toplam Getiri',
+          }
         },
       },
       ja: {
@@ -270,6 +302,22 @@ i18n
             percent: '{{value, number}}%',
             currency: '{{value, currency}}',
           },
+          dashboard: {
+            title: 'ダッシュボード',
+            description: 'AutoYieldのパフォーマンス概要',
+            notices: {
+              title: '通知ボード',
+              high_yield_title: '高利回り機会',
+              high_yield_message: 'SOL-USDCプールが現在25.5%のAPRを提供中。ポジション増加をご検討ください。',
+              market_update_title: '市場アップデート',
+              market_update_message: '今週は通常より高い市場変動性が予想されます。ポジションを注意深く監視してください。',
+            },
+            recent_activity: '最近のアクティビティ',
+            portfolio_summary: 'ポートフォリオ概要',
+            total_value: '総額',
+            average_apr: '平均APR',
+            total_yield: '総利回り',
+          }
         },
       },
       tr: {
@@ -358,6 +406,22 @@ i18n
             percent: '{{value, number}}%',
             currency: '{{value, currency}}',
           },
+          dashboard: {
+            title: 'Panel',
+            description: 'AutoYield performans özeti',
+            notices: {
+              title: 'Duyuru Panosu',
+              high_yield_title: 'Yüksek Getiri Fırsatı',
+              high_yield_message: 'SOL-USDC havuzu şu anda %25.5 APR sunuyor. Pozisyonunuzu artırmayı düşünün.',
+              market_update_title: 'Piyasa Güncellemesi',
+              market_update_message: 'Bu hafta normalden daha yüksek piyasa volatilitesi bekleniyor. Pozisyonlarınızı yakından takip edin.',
+            },
+            recent_activity: 'Son Aktiviteler',
+            portfolio_summary: 'Portföy Özeti',
+            total_value: 'Toplam Değer',
+            average_apr: 'Ortalama APR',
+            total_yield: 'Toplam Getiri',
+          }
         },
       },
     },
