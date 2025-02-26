@@ -13,6 +13,9 @@ i18n
           common: {
             connect_wallet: 'Connect Wallet',
             disconnect_wallet: 'Disconnect',
+            dashboard: 'Dashboard',
+            pools: 'Pools',
+            portfolio: 'Portfolio',
             total_value: 'Total Value',
             total_pnl: 'Total P&L',
             apr: 'APR',
@@ -24,7 +27,6 @@ i18n
           pools: {
             title: 'Liquidity Pools',
             description: 'Manage your liquidity positions',
-            create_pool: 'Create Pool',
             fee_tier: 'Fee Tier',
             daily_fees: 'Daily Fees',
             weekly_volume: 'Weekly Volume',
@@ -47,6 +49,9 @@ i18n
           common: {
             connect_wallet: 'Conectar Billetera',
             disconnect_wallet: 'Desconectar',
+            dashboard: 'Panel',
+            pools: 'Pools',
+            portfolio: 'Portafolio',
             total_value: 'Valor Total',
             total_pnl: 'Ganancias y Pérdidas',
             apr: 'TAE',
@@ -58,7 +63,6 @@ i18n
           pools: {
             title: 'Pools de Liquidez',
             description: 'Gestiona tus posiciones de liquidez',
-            create_pool: 'Crear Pool',
             fee_tier: 'Nivel de Comisión',
             daily_fees: 'Comisiones Diarias',
             weekly_volume: 'Volumen Semanal',
