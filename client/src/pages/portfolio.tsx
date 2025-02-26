@@ -77,6 +77,7 @@ export default function Portfolio() {
           {portfolioPositions.map(position => {
             const pool = pools.find(p => p.id === position.poolId);
             const pnlPercentage = (Number(position.pnl) / (Number(position.value) - Number(position.pnl))) * 100;
+            const dailyFees = Number(pool?.dailyFees) * (Number(position.value) / Number(pool?.tvl));
 
             return (
               <Card key={position.id} className="card-gradient">
@@ -85,12 +86,13 @@ export default function Portfolio() {
                     <div className="flex justify-between items-start">
                       <div>
                         <p className="font-medium text-lg">{pool?.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          Initial: {formatCurrency(Number(position.amount))}
-                        </p>
+                        <div className="text-sm text-muted-foreground">
+                          <p>Initial: {formatCurrency(Number(position.amount))}</p>
+                          <p>Pool Share: {((Number(position.value) / Number(pool?.tvl)) * 100).toFixed(2)}%</p>
+                        </div>
                       </div>
                       <Button
-                        variant="outline"
+                        variant="secondary"
                         size="sm"
                         onClick={() => setSelectedPosition(position)}
                       >
@@ -98,19 +100,30 @@ export default function Portfolio() {
                       </Button>
                     </div>
 
-                    <div className="flex justify-between items-center pt-2 border-t">
+                    <div className="space-y-3 pt-2 border-t">
                       <div>
                         <p className="text-sm text-muted-foreground">Current Value</p>
                         <p className="font-medium">{formatCurrency(Number(position.value))}</p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-sm text-muted-foreground">P&L</p>
+                      <div>
+                        <p className="text-sm text-muted-foreground">Daily Yield</p>
+                        <p className="font-medium text-green-500">+{formatCurrency(dailyFees)}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">Total P&L</p>
                         <p className={`font-medium ${Number(position.pnl) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                           {Number(position.pnl) >= 0 ? '+' : ''}{formatCurrency(Number(position.pnl))}
                           <span className="text-xs ml-1">
                             ({pnlPercentage >= 0 ? '+' : ''}{pnlPercentage.toFixed(1)}%)
                           </span>
                         </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-muted-foreground">Pool APR</span>
+                        <span className="font-medium text-green-500">{pool?.apr}%</span>
                       </div>
                     </div>
                   </div>
