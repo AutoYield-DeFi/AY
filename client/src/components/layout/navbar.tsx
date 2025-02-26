@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { WalletIcon, LayoutDashboard, Database, Wallet } from "lucide-react";
+import { WalletIcon, LayoutDashboard, Database, Wallet, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { WalletStatus } from "./wallet-status";
@@ -12,6 +12,7 @@ const navigation = [
   { name: 'common.dashboard', href: '/', icon: LayoutDashboard },
   { name: 'common.pools', href: '/pools', icon: Database },
   { name: 'common.portfolio', href: '/portfolio', icon: Wallet },
+  { name: 'common.history', href: '/history', icon: Clock },
 ];
 
 export function NavigationBar() {
@@ -56,7 +57,7 @@ export function NavigationBar() {
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
             <WalletStatus isConnected={isWalletConnected} />
-            <Button 
+            <Button
               variant={isWalletConnected ? "destructive" : "outline"}
               onClick={handleConnectWallet}
             >
