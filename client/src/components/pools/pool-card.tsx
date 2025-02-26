@@ -6,6 +6,8 @@ import { SiBitcoin, SiEthereum } from "react-icons/si";
 import { CoinsIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { formatCurrency } from "@/lib/utils";
+import { PoolAnalytics } from "./pool-analytics";
+import { useState } from "react";
 
 interface PoolCardProps {
   pool: Pool;
@@ -41,6 +43,7 @@ const RiskBadge = ({ level }: { level: string }) => {
 
 export function PoolCard({ pool, onDeposit }: PoolCardProps) {
   const { t } = useTranslation();
+  const [showAnalytics, setShowAnalytics] = useState(false);
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 card-gradient">
@@ -93,11 +96,21 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
           </div>
         )}
 
+        {showAnalytics && (
+          <div className="pt-4">
+            <PoolAnalytics pool={pool} />
+          </div>
+        )}
+
         <div className="flex space-x-2 pt-2">
           <Button className="flex-1" variant="outline" onClick={() => onDeposit(pool)}>
             {t('common.deposit')}
           </Button>
-          <Button className="w-10 h-10 p-0" variant="outline">
+          <Button
+            className="w-10 h-10 p-0"
+            variant="outline"
+            onClick={() => setShowAnalytics(!showAnalytics)}
+          >
             <ArrowUpRight className="h-4 w-4" />
           </Button>
         </div>
