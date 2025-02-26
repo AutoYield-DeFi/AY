@@ -24,6 +24,7 @@ import { useToast } from "@/hooks/use-toast";
 import { SiBitcoin, SiEthereum } from "react-icons/si";
 import { CoinsIcon } from "lucide-react";
 
+// Define supported tokens
 const supportedTokens = [
   { symbol: "BTC", name: "Bitcoin", icon: SiBitcoin },
   { symbol: "ETH", name: "Ethereum", icon: SiEthereum },
@@ -31,6 +32,7 @@ const supportedTokens = [
   { symbol: "USDC", name: "USD Coin", icon: CoinsIcon },
 ];
 
+// Schema for form validation
 const createPoolSchema = z.object({
   token0: z.string().min(1, "First token is required"),
   token1: z.string().min(1, "Second token is required"),
