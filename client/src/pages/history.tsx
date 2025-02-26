@@ -5,93 +5,95 @@ import { format } from "date-fns";
 import { ArrowUpRight, ArrowDownRight, Clock } from "lucide-react";
 
 export default function History() {
+  // Combine all interactions and sort by date
+  const allInteractions = [
+    ...transactionHistory.map(tx => ({
+      ...tx,
+      date: new Date(tx.timestamp),
+      type: tx.type,
+    })),
+    ...historicalPositions.map(pos => ({
+      ...pos,
+      date: new Date(pos.exitDate),
+      type: "Position Closed",
+      amount: pos.exitValue,
+    }))
+  ].sort((a, b) => b.date.getTime() - a.date.getTime());
+
   return (
     <div className="space-y-8">
       <div>
         <h2 className="text-3xl font-bold tracking-tight">History</h2>
         <p className="text-muted-foreground">
-          View your past transactions and closed positions
+          View your complete transaction history and pool interactions
         </p>
       </div>
 
-      <div className="space-y-6">
-        <Card className="card-gradient">
-          <CardHeader>
-            <CardTitle>Closed Positions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {historicalPositions.map(position => {
-                const pool = pools.find(p => p.id === position.poolId);
-                const pnlPercentage = (Number(position.pnl) / (Number(position.amount))) * 100;
+      <Card className="card-gradient">
+        <CardHeader>
+          <CardTitle>Activity Log</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {allInteractions.map((interaction, index) => {
+              const pool = pools.find(p => p.id === interaction.poolId);
+              const isDeposit = interaction.type === "Deposit";
+              const isWithdraw = interaction.type === "Withdraw";
+              const isPositionClosed = interaction.type === "Position Closed";
 
-                return (
-                  <div key={position.id} className="flex items-start justify-between p-4 rounded-lg bg-muted/50">
+              // Calculate profit/loss for closed positions
+              const pnl = isPositionClosed 
+                ? Number(interaction.pnl)
+                : null;
+              const pnlPercentage = isPositionClosed
+                ? (pnl / Number(interaction.amount)) * 100
+                : null;
+
+              return (
+                <div key={`${interaction.type}-${index}`} className="flex items-start justify-between p-4 rounded-lg bg-muted/50">
+                  <div className="flex items-start gap-4">
+                    {isDeposit ? (
+                      <ArrowUpRight className="h-8 w-8 p-1.5 rounded-full bg-green-500/10 text-green-500" />
+                    ) : isWithdraw ? (
+                      <ArrowDownRight className="h-8 w-8 p-1.5 rounded-full bg-red-500/10 text-red-500" />
+                    ) : (
+                      <Clock className="h-8 w-8 p-1.5 rounded-full bg-blue-500/10 text-blue-500" />
+                    )}
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium">{pool?.name}</h3>
+                        <h3 className="font-medium">{interaction.type}</h3>
                         <span className="text-sm text-muted-foreground">
-                          {format(new Date(position.entryDate), 'MMM d, yyyy')} - {format(new Date(position.exitDate), 'MMM d, yyyy')}
+                          {pool?.name}
                         </span>
                       </div>
-                      <div className="mt-2 space-y-1 text-sm">
-                        <p>Initial: {formatCurrency(Number(position.amount))}</p>
-                        <p>Exit Value: {formatCurrency(Number(position.exitValue))}</p>
-                      </div>
-                    </div>
-                    <div className={`text-right ${Number(position.pnl) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      <div className="font-medium">
-                        {Number(position.pnl) >= 0 ? '+' : ''}{formatCurrency(Number(position.pnl))}
-                      </div>
-                      <div className="text-sm">
-                        ({pnlPercentage >= 0 ? '+' : ''}{pnlPercentage.toFixed(2)}%)
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="card-gradient">
-          <CardHeader>
-            <CardTitle>Transaction History</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {transactionHistory.map(transaction => {
-                const pool = pools.find(p => p.id === transaction.poolId);
-                const isDeposit = transaction.type === "Deposit";
-
-                return (
-                  <div key={transaction.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/50">
-                    <div className="flex items-center gap-4">
-                      {isDeposit ? (
-                        <ArrowUpRight className="h-8 w-8 p-1.5 rounded-full bg-green-500/10 text-green-500" />
-                      ) : (
-                        <ArrowDownRight className="h-8 w-8 p-1.5 rounded-full bg-red-500/10 text-red-500" />
+                      {isPositionClosed && (
+                        <div className="mt-1 space-y-1 text-sm">
+                          <p>Initial Investment: {formatCurrency(Number(interaction.amount))}</p>
+                          <p>Duration: {format(new Date(interaction.entryDate), 'MMM d, yyyy')} - {format(interaction.date, 'MMM d, yyyy')}</p>
+                          <p className={pnl >= 0 ? 'text-green-500' : 'text-red-500'}>
+                            P&L: {pnl >= 0 ? '+' : ''}{formatCurrency(pnl)}
+                            <span className="ml-1">
+                              ({pnlPercentage >= 0 ? '+' : ''}{pnlPercentage.toFixed(2)}%)
+                            </span>
+                          </p>
+                        </div>
                       )}
-                      <div>
-                        <h3 className="font-medium">{transaction.type}</h3>
-                        <p className="text-sm text-muted-foreground">{pool?.name}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-medium">
-                        {formatCurrency(Number(transaction.amount))}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {format(new Date(transaction.timestamp), 'MMM d, yyyy HH:mm')}
-                      </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+                  <div className="text-right">
+                    <div className="font-medium">
+                      {isDeposit ? '+' : '-'}{formatCurrency(Number(interaction.amount))}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {format(interaction.date, 'MMM d, yyyy HH:mm')}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
