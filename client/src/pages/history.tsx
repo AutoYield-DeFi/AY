@@ -3,8 +3,11 @@ import { historicalPositions, transactionHistory, pools } from "@/lib/mock-data"
 import { formatCurrency } from "@/lib/utils";
 import { format } from "date-fns";
 import { ArrowUpRight, ArrowDownRight, Clock } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function History() {
+  const { t } = useTranslation();
+
   // Combine all interactions and sort by date
   const allInteractions = [
     ...transactionHistory.map(tx => ({
@@ -23,15 +26,15 @@ export default function History() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight">History</h2>
+        <h2 className="text-3xl font-bold tracking-tight">{t('history.title')}</h2>
         <p className="text-muted-foreground">
-          View your complete transaction history and pool interactions
+          {t('history.description')}
         </p>
       </div>
 
       <Card className="card-gradient">
         <CardHeader>
-          <CardTitle>Activity Log</CardTitle>
+          <CardTitle>{t('history.activity_log')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -61,17 +64,19 @@ export default function History() {
                     )}
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-medium">{interaction.type}</h3>
+                        <h3 className="font-medium">
+                          {t(`history.transaction_type.${interaction.type.toLowerCase().replace(' ', '_')}`)}
+                        </h3>
                         <span className="text-sm text-muted-foreground">
                           {pool?.name}
                         </span>
                       </div>
                       {isPositionClosed && (
                         <div className="mt-1 space-y-1 text-sm">
-                          <p>Initial Investment: {formatCurrency(Number(interaction.amount))}</p>
-                          <p>Duration: {format(new Date(interaction.entryDate), 'MMM d, yyyy')} - {format(interaction.date, 'MMM d, yyyy')}</p>
+                          <p>{t('history.initial_investment')}: {formatCurrency(Number(interaction.amount))}</p>
+                          <p>{t('history.duration')}: {format(new Date(interaction.entryDate), 'MMM d, yyyy')} - {format(interaction.date, 'MMM d, yyyy')}</p>
                           <p className={pnl >= 0 ? 'text-green-500' : 'text-red-500'}>
-                            P&L: {pnl >= 0 ? '+' : ''}{formatCurrency(pnl)}
+                            {t('history.profit_loss')}: {pnl >= 0 ? '+' : ''}{formatCurrency(pnl)}
                             <span className="ml-1">
                               ({pnlPercentage >= 0 ? '+' : ''}{pnlPercentage.toFixed(2)}%)
                             </span>
