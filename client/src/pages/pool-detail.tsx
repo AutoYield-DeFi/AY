@@ -38,7 +38,7 @@ export default function PoolDetail() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="flex -space-x-3">
             <TokenIcon symbol={pool.token0} />
@@ -54,7 +54,7 @@ export default function PoolDetail() {
         <Button 
           size="lg"
           onClick={() => setShowDepositDialog(true)}
-          className="px-8 bg-primary hover:bg-primary/90"
+          className="w-full md:w-auto px-8 bg-primary hover:bg-primary/90"
         >
           {t('common.deposit')}
         </Button>
@@ -72,8 +72,8 @@ export default function PoolDetail() {
         </div>
       )}
 
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-4">
-        <Card className="card-gradient">
+      <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-4">
+        <Card className="card-gradient col-span-2 sm:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-4 w-4" />
@@ -90,7 +90,7 @@ export default function PoolDetail() {
           </CardContent>
         </Card>
 
-        <Card className="card-gradient">
+        <Card className="card-gradient col-span-2 sm:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
@@ -107,7 +107,7 @@ export default function PoolDetail() {
           </CardContent>
         </Card>
 
-        <Card className="card-gradient">
+        <Card className="card-gradient col-span-2 sm:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
@@ -124,7 +124,7 @@ export default function PoolDetail() {
           </CardContent>
         </Card>
 
-        <Card className="card-gradient">
+        <Card className="card-gradient col-span-2 sm:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LineChart className="h-4 w-4" />
@@ -236,7 +236,7 @@ export default function PoolDetail() {
           <CardTitle>{t('pools.metrics')}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <div>
               <h3 className="font-medium mb-4">{t('pools.risk_profile')}</h3>
               <div className="space-y-3">
@@ -269,7 +269,7 @@ export default function PoolDetail() {
               </div>
             </div>
 
-            <div>
+            <div className="sm:col-span-2 md:col-span-1">
               <h3 className="font-medium mb-4">{t('pools.pool_health')}</h3>
               <div className="space-y-3">
                 <div>
