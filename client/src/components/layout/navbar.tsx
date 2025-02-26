@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { WalletIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, memo } from "react";
 import { WalletStatus } from "./wallet-status";
 import { LanguageSwitcher } from "./language-switcher";
 import { useTranslation } from "react-i18next";
@@ -15,7 +15,29 @@ const navigation = [
   { name: 'History', href: '/history' },
 ];
 
-export function NavigationBar() {
+// Memoize navigation links to prevent re-renders
+const DesktopNav = memo(function DesktopNav({ location, t }: { location: string, t: (key: string) => string }) {
+  return (
+    <div className="hidden md:flex items-center space-x-1">
+      {navigation.map((item) => (
+        <Link key={item.href} href={item.href}>
+          <a
+            className={cn(
+              "flex items-center px-4 py-2 text-sm font-medium rounded-md",
+              location === item.href
+                ? "bg-primary/10 text-primary"
+                : "text-muted-foreground hover:text-primary hover:bg-primary/10"
+            )}
+          >
+            {item.name === 'History' ? item.name : t(item.name)}
+          </a>
+        </Link>
+      ))}
+    </div>
+  );
+});
+
+export const NavigationBar = memo(function NavigationBar() {
   const { toast } = useToast();
   const { t } = useTranslation();
   const [location] = useLocation();
@@ -23,7 +45,6 @@ export function NavigationBar() {
 
   const handleConnectWallet = () => {
     setIsWalletConnected(!isWalletConnected);
-
     toast({
       title: isWalletConnected ? t('common.disconnect_wallet') : t('common.connect_wallet'),
       description: "This is a demo - wallet connection is not implemented",
@@ -38,22 +59,7 @@ export function NavigationBar() {
             <Link href="/">
               <a className="text-lg font-bold gradient-text">AutoYield</a>
             </Link>
-            <div className="hidden md:flex items-center space-x-1">
-              {navigation.map((item) => (
-                <Link key={item.href} href={item.href}>
-                  <a
-                    className={cn(
-                      "flex items-center px-4 py-2 text-sm font-medium rounded-md",
-                      location === item.href
-                        ? "bg-primary/10 text-primary"
-                        : "text-muted-foreground hover:text-primary hover:bg-primary/10"
-                    )}
-                  >
-                    {item.name === 'History' ? item.name : t(item.name)}
-                  </a>
-                </Link>
-              ))}
-            </div>
+            <DesktopNav location={location} t={t} />
           </div>
 
           <div className="flex items-center space-x-4">
@@ -76,4 +82,4 @@ export function NavigationBar() {
       </div>
     </nav>
   );
-}
+});
