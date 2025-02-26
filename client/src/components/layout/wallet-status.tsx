@@ -1,11 +1,12 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Wallet } from "lucide-react";
+import { FC } from "react";
 
 interface WalletStatusProps {
   isConnected: boolean;
 }
 
-export function WalletStatus({ isConnected }: WalletStatusProps) {
+export const WalletStatus: FC<WalletStatusProps> = ({ isConnected }) => {
   return (
     <div className="relative flex items-center">
       <AnimatePresence mode="wait">
@@ -27,14 +28,14 @@ export function WalletStatus({ isConnected }: WalletStatusProps) {
               ease: "easeInOut",
             }}
             className={`p-2 rounded-full ${
-              isConnected 
+              isConnected
                 ? "bg-gradient-to-r from-green-400 to-emerald-500"
                 : "bg-gradient-to-r from-gray-400 to-gray-500"
             }`}
           >
             <Wallet className="h-5 w-5 text-white" />
           </motion.div>
-          
+
           {/* Status indicator dot */}
           <motion.div
             className={`absolute -top-1 -right-1 h-3 w-3 rounded-full ${
@@ -54,4 +55,4 @@ export function WalletStatus({ isConnected }: WalletStatusProps) {
       </AnimatePresence>
     </div>
   );
-}
+};
