@@ -12,7 +12,7 @@ const navigation = [
   { name: 'common.dashboard', href: '/', icon: LayoutDashboard },
   { name: 'common.pools', href: '/pools', icon: Database },
   { name: 'common.portfolio', href: '/portfolio', icon: Wallet },
-  { name: 'common.history', href: '/history', icon: Clock },
+  { name: 'History', href: '/history', icon: Clock },
 ];
 
 export function NavigationBar() {
@@ -48,7 +48,7 @@ export function NavigationBar() {
                     )}
                   >
                     <item.icon className="mr-2 h-4 w-4" />
-                    {t(item.name)}
+                    {item.name === 'History' ? item.name : t(item.name)}
                   </a>
                 </Link>
               ))}
