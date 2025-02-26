@@ -31,7 +31,7 @@ export default function PoolDetail() {
   const pool = pools.find(p => p.id === Number(params?.id));
 
   if (!pool) {
-    return <div>Pool not found</div>;
+    return <div>{t('pools.not_found')}</div>;
   }
 
   const hasHighIL = Number(pool.impermanentLoss) > 2;
@@ -47,7 +47,7 @@ export default function PoolDetail() {
           <div>
             <h2 className="text-3xl font-bold tracking-tight">{pool.name}</h2>
             <p className="text-muted-foreground">
-              Pool Details and Performance
+              {t('pools.details_description')}
             </p>
           </div>
         </div>
@@ -56,7 +56,7 @@ export default function PoolDetail() {
           onClick={() => setShowDepositDialog(true)}
           className="px-8 bg-primary hover:bg-primary/90"
         >
-          Deposit Now
+          {t('common.deposit')}
         </Button>
       </div>
 
@@ -64,11 +64,9 @@ export default function PoolDetail() {
         <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 flex items-start gap-3">
           <AlertTriangle className="h-5 w-5 text-yellow-500 shrink-0 mt-0.5" />
           <div>
-            <h3 className="font-medium text-yellow-500">High Impermanent Loss Risk</h3>
+            <h3 className="font-medium text-yellow-500">{t('pools.high_il_warning_title')}</h3>
             <p className="text-sm text-muted-foreground mt-1">
-              This pool currently has a higher risk of impermanent loss ({pool.impermanentLoss}%). 
-              Consider your investment carefully and start with a smaller position if you're new to DeFi.
-              <a href="#" className="text-primary hover:underline ml-1">Learn more about impermanent loss</a>
+              {t('pools.high_il_warning', { percentage: pool.impermanentLoss })}
             </p>
           </div>
         </div>
@@ -79,7 +77,7 @@ export default function PoolDetail() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-4 w-4" />
-              APR
+              {t('common.apr')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -87,7 +85,7 @@ export default function PoolDetail() {
               {pool.apr}%
             </div>
             <p className="text-sm text-muted-foreground mt-1">
-              Annual percentage rate
+              {t('pools.annual_rate')}
             </p>
           </CardContent>
         </Card>
@@ -96,7 +94,7 @@ export default function PoolDetail() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
-              Volume (24h)
+              {t('common.volume_24h')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -104,7 +102,7 @@ export default function PoolDetail() {
               {formatCurrency(Number(pool.volume24h))}
             </div>
             <p className="text-sm text-muted-foreground mt-1">
-              Last 24 hours trading
+              {t('pools.trading_volume')}
             </p>
           </CardContent>
         </Card>
@@ -113,7 +111,7 @@ export default function PoolDetail() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              Daily Fees
+              {t('pools.daily_fees')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -121,7 +119,7 @@ export default function PoolDetail() {
               {formatCurrency(Number(pool.dailyFees))}
             </div>
             <p className="text-sm text-muted-foreground mt-1">
-              Earned in last 24h
+              {t('pools.earned_24h')}
             </p>
           </CardContent>
         </Card>
@@ -130,7 +128,7 @@ export default function PoolDetail() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LineChart className="h-4 w-4" />
-              TVL
+              {t('common.tvl')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -138,7 +136,7 @@ export default function PoolDetail() {
               {formatCurrency(Number(pool.tvl))}
             </div>
             <p className="text-sm text-muted-foreground mt-1">
-              Total value locked
+              {t('pools.total_locked')}
             </p>
           </CardContent>
         </Card>
@@ -147,7 +145,7 @@ export default function PoolDetail() {
       <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
         <Card className="card-gradient">
           <CardHeader>
-            <CardTitle>Token Information</CardTitle>
+            <CardTitle>{t('pools.token_information')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -156,16 +154,16 @@ export default function PoolDetail() {
                   <TokenIcon symbol={pool.token0} />
                   <div>
                     <h3 className="font-medium">{pool.token0}</h3>
-                    <p className="text-sm text-muted-foreground">Primary Token</p>
+                    <p className="text-sm text-muted-foreground">{t('pools.primary_token')}</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-muted-foreground">Current Price</p>
+                    <p className="text-muted-foreground">{t('pools.current_price')}</p>
                     <p className="font-medium">{formatCurrency(Number(pool.token0Price))}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Pool Reserve</p>
+                    <p className="text-muted-foreground">{t('pools.pool_reserve')}</p>
                     <p className="font-medium">{Number(pool.token0Reserve).toLocaleString()}</p>
                   </div>
                 </div>
@@ -176,16 +174,16 @@ export default function PoolDetail() {
                   <TokenIcon symbol={pool.token1} />
                   <div>
                     <h3 className="font-medium">{pool.token1}</h3>
-                    <p className="text-sm text-muted-foreground">Paired Token</p>
+                    <p className="text-sm text-muted-foreground">{t('pools.paired_token')}</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-muted-foreground">Current Price</p>
+                    <p className="text-muted-foreground">{t('pools.current_price')}</p>
                     <p className="font-medium">{formatCurrency(Number(pool.token1Price))}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Pool Reserve</p>
+                    <p className="text-muted-foreground">{t('pools.pool_reserve')}</p>
                     <p className="font-medium">{Number(pool.token1Reserve).toLocaleString()}</p>
                   </div>
                 </div>
@@ -196,7 +194,7 @@ export default function PoolDetail() {
 
         <Card className="card-gradient">
           <CardHeader>
-            <CardTitle>TVL History</CardTitle>
+            <CardTitle>{t('pools.tvl_history')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[240px]">
@@ -235,20 +233,20 @@ export default function PoolDetail() {
 
       <Card className="card-gradient">
         <CardHeader>
-          <CardTitle>Pool Metrics</CardTitle>
+          <CardTitle>{t('pools.metrics')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="font-medium mb-4">Risk Profile</h3>
+              <h3 className="font-medium mb-4">{t('pools.risk_profile')}</h3>
               <div className="space-y-3">
                 <div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Risk Level</span>
-                    <span className="capitalize font-medium">{pool.riskLevel}</span>
+                    <span className="text-muted-foreground">{t('pools.risk_level')}</span>
+                    <span className="capitalize font-medium">{t(`pools.${pool.riskLevel}`)}</span>
                   </div>
                   <div className="flex justify-between text-sm mt-1">
-                    <span className="text-muted-foreground">Impermanent Loss</span>
+                    <span className="text-muted-foreground">{t('pools.impermanent_loss')}</span>
                     <span className="font-medium">{pool.impermanentLoss}%</span>
                   </div>
                 </div>
@@ -256,15 +254,15 @@ export default function PoolDetail() {
             </div>
 
             <div>
-              <h3 className="font-medium mb-4">Volume Metrics</h3>
+              <h3 className="font-medium mb-4">{t('pools.volume_metrics')}</h3>
               <div className="space-y-3">
                 <div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Weekly Volume</span>
+                    <span className="text-muted-foreground">{t('pools.weekly_volume')}</span>
                     <span className="font-medium">{formatCurrency(Number(pool.volume7d))}</span>
                   </div>
                   <div className="flex justify-between text-sm mt-1">
-                    <span className="text-muted-foreground">Weekly Fees</span>
+                    <span className="text-muted-foreground">{t('pools.weekly_fees')}</span>
                     <span className="font-medium">{formatCurrency(Number(pool.weeklyFees))}</span>
                   </div>
                 </div>
@@ -272,15 +270,15 @@ export default function PoolDetail() {
             </div>
 
             <div>
-              <h3 className="font-medium mb-4">Pool Health</h3>
+              <h3 className="font-medium mb-4">{t('pools.pool_health')}</h3>
               <div className="space-y-3">
                 <div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Utilization Rate</span>
+                    <span className="text-muted-foreground">{t('pools.utilization')}</span>
                     <span className="font-medium">{pool.utilizationRate}%</span>
                   </div>
                   <div className="flex justify-between text-sm mt-1">
-                    <span className="text-muted-foreground">Price Ratio</span>
+                    <span className="text-muted-foreground">{t('pools.price_ratio')}</span>
                     <span className="font-medium">{Number(pool.priceRatio).toFixed(4)}</span>
                   </div>
                 </div>
