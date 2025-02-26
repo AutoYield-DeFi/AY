@@ -5,14 +5,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { portfolioPositions, pools } from "@/lib/mock-data";
 import { formatCurrency } from "@/lib/utils";
-import { ArrowUpRight, ArrowDownRight, Wallet2 } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, Wallet2, Clock } from "lucide-react";
 import type { Position } from "@shared/schema";
+import { format } from "date-fns";
 
 export default function Portfolio() {
   const [selectedPosition, setSelectedPosition] = useState<Position | null>(null);
 
   const totalValue = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value), 0);
+  const totalValue24hAgo = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value24hAgo), 0);
+  const value24hChange = totalValue - totalValue24hAgo;
+  const value24hChangePercent = (value24hChange / totalValue24hAgo) * 100;
+
   const totalPnL = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl), 0);
+  const totalPnL24h = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl24h), 0);
+  const totalPnL7d = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl7d), 0);
   const pnlPercentage = (totalPnL / (totalValue - totalPnL)) * 100;
 
   return (
@@ -36,6 +43,12 @@ export default function Portfolio() {
             <div className="text-2xl font-bold">
               {formatCurrency(totalValue)}
             </div>
+            <div className={`text-sm mt-1 ${value24hChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+              {value24hChange >= 0 ? '+' : ''}{formatCurrency(value24hChange)} (24h)
+              <span className="ml-1">
+                ({value24hChangePercent >= 0 ? '+' : ''}{value24hChangePercent.toFixed(2)}%)
+              </span>
+            </div>
           </CardContent>
         </Card>
 
@@ -47,15 +60,29 @@ export default function Portfolio() {
               ) : (
                 <ArrowDownRight className="h-5 w-5 text-red-500" />
               )}
-              Total P&L
+              Performance
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className={`text-2xl font-bold ${totalPnL >= 0 ? 'text-green-500' : 'text-red-500'}`}>
               {totalPnL >= 0 ? '+' : ''}{formatCurrency(totalPnL)}
               <span className="text-sm ml-2">
-                ({pnlPercentage >= 0 ? '+' : ''}{pnlPercentage.toFixed(2)}%)
+                ({pnlPercentage >= 0 ? '+' : ''}{pnlPercentage.toFixed(2)}%) total
               </span>
+            </div>
+            <div className="grid grid-cols-2 gap-4 mt-2 text-sm">
+              <div>
+                <span className="text-muted-foreground">24h P&L: </span>
+                <span className={totalPnL24h >= 0 ? 'text-green-500' : 'text-red-500'}>
+                  {totalPnL24h >= 0 ? '+' : ''}{formatCurrency(totalPnL24h)}
+                </span>
+              </div>
+              <div>
+                <span className="text-muted-foreground">7d P&L: </span>
+                <span className={totalPnL7d >= 0 ? 'text-green-500' : 'text-red-500'}>
+                  {totalPnL7d >= 0 ? '+' : ''}{formatCurrency(totalPnL7d)}
+                </span>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -89,6 +116,10 @@ export default function Portfolio() {
                         <div className="text-sm text-muted-foreground">
                           <p>Initial: {formatCurrency(Number(position.amount))}</p>
                           <p>Pool Share: {((Number(position.value) / Number(pool?.tvl)) * 100).toFixed(2)}%</p>
+                          <p className="flex items-center gap-1">
+                            <Clock className="h-3 w-3" />
+                            {format(new Date(position.entryDate), 'MMM d, yyyy')}
+                          </p>
                         </div>
                       </div>
                       <Button
@@ -104,19 +135,31 @@ export default function Portfolio() {
                       <div>
                         <p className="text-sm text-muted-foreground">Current Value</p>
                         <p className="font-medium">{formatCurrency(Number(position.value))}</p>
+                        <p className={`text-xs ${Number(position.value) - Number(position.value24hAgo) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                          {Number(position.value) - Number(position.value24hAgo) >= 0 ? '+' : ''}
+                          {formatCurrency(Number(position.value) - Number(position.value24hAgo))} (24h)
+                        </p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Daily Yield</p>
                         <p className="font-medium text-green-500">+{formatCurrency(dailyFees)}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">Total P&L</p>
+                        <p className="text-sm text-muted-foreground">Performance</p>
                         <p className={`font-medium ${Number(position.pnl) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                           {Number(position.pnl) >= 0 ? '+' : ''}{formatCurrency(Number(position.pnl))}
                           <span className="text-xs ml-1">
                             ({pnlPercentage >= 0 ? '+' : ''}{pnlPercentage.toFixed(1)}%)
                           </span>
                         </p>
+                        <div className="text-xs space-x-2">
+                          <span className={Number(position.pnl24h) >= 0 ? 'text-green-500' : 'text-red-500'}>
+                            24h: {Number(position.pnl24h) >= 0 ? '+' : ''}{formatCurrency(Number(position.pnl24h))}
+                          </span>
+                          <span className={Number(position.pnl7d) >= 0 ? 'text-green-500' : 'text-red-500'}>
+                            7d: {Number(position.pnl7d) >= 0 ? '+' : ''}{formatCurrency(Number(position.pnl7d))}
+                          </span>
+                        </div>
                       </div>
                     </div>
 

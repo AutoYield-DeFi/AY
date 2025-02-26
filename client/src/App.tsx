@@ -7,6 +7,7 @@ import Dashboard from "@/pages/dashboard";
 import Pools from "@/pages/pools";
 import PoolDetail from "@/pages/pool-detail";
 import Portfolio from "@/pages/portfolio";
+import History from "@/pages/history";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -19,6 +20,7 @@ function Router() {
           <Route path="/pools" component={Pools} />
           <Route path="/pools/:id" component={PoolDetail} />
           <Route path="/portfolio" component={Portfolio} />
+          <Route path="/history" component={History} />
           <Route component={NotFound} />
         </Switch>
       </main>
