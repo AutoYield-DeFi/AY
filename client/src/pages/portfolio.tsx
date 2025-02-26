@@ -11,8 +11,8 @@ import type { Position } from "@shared/schema";
 export default function Portfolio() {
   const [selectedPosition, setSelectedPosition] = useState<Position | null>(null);
 
-  const totalValue = portfolioPositions.reduce((sum, pos) => sum + pos.value, 0);
-  const totalPnL = portfolioPositions.reduce((sum, pos) => sum + pos.pnl, 0);
+  const totalValue = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value), 0);
+  const totalPnL = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl), 0);
   const pnlPercentage = (totalPnL / (totalValue - totalPnL)) * 100;
 
   return (
@@ -76,7 +76,7 @@ export default function Portfolio() {
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {portfolioPositions.map(position => {
             const pool = pools.find(p => p.id === position.poolId);
-            const pnlPercentage = (position.pnl / (position.value - position.pnl)) * 100;
+            const pnlPercentage = (Number(position.pnl) / (Number(position.value) - Number(position.pnl))) * 100;
 
             return (
               <Card key={position.id} className="card-gradient">
@@ -86,7 +86,7 @@ export default function Portfolio() {
                       <div>
                         <p className="font-medium text-lg">{pool?.name}</p>
                         <p className="text-sm text-muted-foreground">
-                          Value: {formatCurrency(position.amount)}
+                          Initial: {formatCurrency(Number(position.amount))}
                         </p>
                       </div>
                       <Button
@@ -98,15 +98,15 @@ export default function Portfolio() {
                       </Button>
                     </div>
 
-                    <div className="flex justify-between items-center pt-2 border-t border-border">
+                    <div className="flex justify-between items-center pt-2 border-t">
                       <div>
                         <p className="text-sm text-muted-foreground">Current Value</p>
-                        <p className="font-medium">{formatCurrency(position.value)}</p>
+                        <p className="font-medium">{formatCurrency(Number(position.value))}</p>
                       </div>
                       <div className="text-right">
                         <p className="text-sm text-muted-foreground">P&L</p>
-                        <p className={`font-medium ${position.pnl >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                          {position.pnl >= 0 ? '+' : ''}{formatCurrency(position.pnl)}
+                        <p className={`font-medium ${Number(position.pnl) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                          {Number(position.pnl) >= 0 ? '+' : ''}{formatCurrency(Number(position.pnl))}
                           <span className="text-xs ml-1">
                             ({pnlPercentage >= 0 ? '+' : ''}{pnlPercentage.toFixed(1)}%)
                           </span>
