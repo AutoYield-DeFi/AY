@@ -7,18 +7,18 @@ export const pools = pgTable("pools", {
   name: text("name").notNull(),
   token0: text("token0").notNull(),
   token1: text("token1").notNull(),
-  tvl: numeric("tvl").notNull(),
-  apr: numeric("apr").notNull(),
-  volume24h: numeric("volume_24h").notNull(),
+  tvl: text("tvl").notNull(),
+  apr: text("apr").notNull(),
+  volume24h: text("volume_24h").notNull(),
   createdAt: timestamp("created_at").defaultNow()
 });
 
 export const portfolioPositions = pgTable("portfolio_positions", {
   id: serial("id").primaryKey(),
   poolId: serial("pool_id").references(() => pools.id),
-  amount: numeric("amount").notNull(),
-  value: numeric("value").notNull(),
-  pnl: numeric("pnl").notNull()
+  amount: text("amount").notNull(),
+  value: text("value").notNull(),
+  pnl: text("pnl").notNull()
 });
 
 export const insertPoolSchema = createInsertSchema(pools).omit({ 
