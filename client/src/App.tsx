@@ -4,18 +4,19 @@ import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { NavigationBar } from "@/components/layout/navbar";
 import { BottomNav } from "@/components/layout/bottom-nav";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, memo } from "react";
 import { Loading } from "@/components/ui/loading";
 
-// Lazy load pages for better performance
-const Dashboard = lazy(() => import("@/pages/dashboard"));
-const Pools = lazy(() => import("@/pages/pools"));
-const PoolDetail = lazy(() => import("@/pages/pool-detail"));
-const Portfolio = lazy(() => import("@/pages/portfolio"));
-const History = lazy(() => import("@/pages/history"));
-const NotFound = lazy(() => import("@/pages/not-found"));
+// Lazy load pages with more granular chunks
+const Dashboard = lazy(() => import("@/pages/dashboard" /* webpackChunkName: "dashboard" */));
+const Pools = lazy(() => import("@/pages/pools" /* webpackChunkName: "pools" */));
+const PoolDetail = lazy(() => import("@/pages/pool-detail" /* webpackChunkName: "pool-detail" */));
+const Portfolio = lazy(() => import("@/pages/portfolio" /* webpackChunkName: "portfolio" */));
+const History = lazy(() => import("@/pages/history" /* webpackChunkName: "history" */));
+const NotFound = lazy(() => import("@/pages/not-found" /* webpackChunkName: "not-found" */));
 
-function Router() {
+// Memoize the router component to prevent unnecessary re-renders
+const Router = memo(function Router() {
   return (
     <div className="flex flex-col min-h-screen">
       <NavigationBar />
@@ -34,7 +35,7 @@ function Router() {
       <BottomNav />
     </div>
   );
-}
+});
 
 function App() {
   return (
