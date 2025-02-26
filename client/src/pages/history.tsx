@@ -53,17 +53,17 @@ export default function History() {
                 : null;
 
               return (
-                <div key={`${interaction.type}-${index}`} className="flex items-start justify-between p-4 rounded-lg bg-muted/50">
+                <div key={`${interaction.type}-${index}`} className="flex flex-col sm:flex-row sm:items-start justify-between p-4 rounded-lg bg-muted/50 gap-4">
                   <div className="flex items-start gap-4">
                     {isDeposit ? (
-                      <ArrowUpRight className="h-8 w-8 p-1.5 rounded-full bg-green-500/10 text-green-500" />
+                      <ArrowUpRight className="h-8 w-8 p-1.5 rounded-full bg-green-500/10 text-green-500 shrink-0" />
                     ) : isWithdraw ? (
-                      <ArrowDownRight className="h-8 w-8 p-1.5 rounded-full bg-red-500/10 text-red-500" />
+                      <ArrowDownRight className="h-8 w-8 p-1.5 rounded-full bg-red-500/10 text-red-500 shrink-0" />
                     ) : (
-                      <Clock className="h-8 w-8 p-1.5 rounded-full bg-blue-500/10 text-blue-500" />
+                      <Clock className="h-8 w-8 p-1.5 rounded-full bg-blue-500/10 text-blue-500 shrink-0" />
                     )}
-                    <div>
-                      <div className="flex items-center gap-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                         <h3 className="font-medium">
                           {t(`history.transaction_type.${interaction.type.toLowerCase().replace(' ', '_')}`)}
                         </h3>
@@ -72,7 +72,7 @@ export default function History() {
                         </span>
                       </div>
                       {isPositionClosed && (
-                        <div className="mt-1 space-y-1 text-sm">
+                        <div className="mt-2 space-y-1 text-sm">
                           <p>{t('history.initial_investment')}: {formatCurrency(Number(interaction.amount))}</p>
                           <p>{t('history.duration')}: {format(new Date(interaction.entryDate), 'MMM d, yyyy')} - {format(interaction.date, 'MMM d, yyyy')}</p>
                           <p className={pnl >= 0 ? 'text-green-500' : 'text-red-500'}>
@@ -85,7 +85,7 @@ export default function History() {
                       )}
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-left sm:text-right mt-2 sm:mt-0">
                     <div className="font-medium">
                       {isDeposit ? '+' : '-'}{formatCurrency(Number(interaction.amount))}
                     </div>
