@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 const languages = [
   { code: 'en', name: 'English' },
   { code: 'es', name: 'Español' },
+  { code: 'ja', name: '日本語' },
+  { code: 'tr', name: 'Türkçe' },
 ];
 
 export function LanguageSwitcher() {
