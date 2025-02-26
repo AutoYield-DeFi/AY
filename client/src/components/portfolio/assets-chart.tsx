@@ -25,7 +25,7 @@ export function AssetsChart() {
         <CardTitle>Asset Allocation</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px]">
+        <div className="h-[300px] md:h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -33,7 +33,7 @@ export function AssetsChart() {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                outerRadius={120}
+                outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
                 label={({ name, value }) => `${name} (${((value/totalValue)*100).toFixed(1)}%)`}
@@ -42,13 +42,17 @@ export function AssetsChart() {
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <Legend 
+              <Legend
                 formatter={(value, entry) => {
                   const dataItem = data.find(d => d.name === value);
                   if (!dataItem) return value;
                   return (
                     `${value} - ${formatCurrency(dataItem.value)} (${dataItem.apr}% APR)`
                   );
+                }}
+                wrapperStyle={{
+                  fontSize: '12px',
+                  paddingTop: '20px'
                 }}
               />
             </PieChart>
@@ -60,7 +64,7 @@ export function AssetsChart() {
             <div key={index} className="space-y-2 p-3 rounded-lg bg-muted/50">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
-                <span className="font-medium">{item.name}</span>
+                <span className="font-medium truncate">{item.name}</span>
               </div>
               <div className="space-y-1">
                 <div className="text-sm">
