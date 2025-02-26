@@ -1,13 +1,12 @@
 import { Pool } from "@shared/schema";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BarChart2, ArrowUpRight, TrendingUp, AlertTriangle } from "lucide-react";
+import { BarChart2, TrendingUp } from "lucide-react";
 import { SiBitcoin, SiEthereum } from "react-icons/si";
 import { CoinsIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { formatCurrency } from "@/lib/utils";
-import { PoolAnalytics } from "./pool-analytics";
-import { useState } from "react";
+import { useLocation } from "wouter";
 
 interface PoolCardProps {
   pool: Pool;
@@ -43,10 +42,13 @@ const RiskBadge = ({ level }: { level: string }) => {
 
 export function PoolCard({ pool, onDeposit }: PoolCardProps) {
   const { t } = useTranslation();
-  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [, setLocation] = useLocation();
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 card-gradient">
+    <Card 
+      className="overflow-hidden hover:shadow-lg transition-shadow duration-300 card-gradient cursor-pointer" 
+      onClick={() => setLocation(`/pools/${pool.id}`)}
+    >
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -76,11 +78,11 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
           <div>
             <div className="flex items-center space-x-1 text-sm text-muted-foreground">
               <BarChart2 className="h-4 w-4" />
-              <span>{t('pools.volume_24h')}</span>
+              <span>Volume (24H)</span>
             </div>
             <p className="text-sm font-medium">{formatCurrency(Number(pool.volume24h))}</p>
             <p className="text-xs text-muted-foreground">
-              {t('pools.weekly_volume')}: {formatCurrency(Number(pool.volume7d))}
+              7D: {formatCurrency(Number(pool.volume7d))}
             </p>
           </div>
           <div>
@@ -90,55 +92,21 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
             </div>
             <p className="text-sm font-medium">{pool.utilizationRate}%</p>
             <p className="text-xs text-muted-foreground">
-              {t('pools.daily_fees')}: {formatCurrency(Number(pool.dailyFees))}
+              Fees: {formatCurrency(Number(pool.dailyFees))}
             </p>
           </div>
         </div>
 
-        <div className="pt-2 border-t">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-muted-foreground">{pool.token0}</p>
-              <p className="text-sm font-medium">{formatCurrency(Number(pool.token0Price))}</p>
-              <p className="text-xs text-muted-foreground">
-                Reserve: {Number(pool.token0Reserve).toLocaleString()}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">{pool.token1}</p>
-              <p className="text-sm font-medium">{formatCurrency(Number(pool.token1Price))}</p>
-              <p className="text-xs text-muted-foreground">
-                Reserve: {Number(pool.token1Reserve).toLocaleString()}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {parseFloat(pool.impermanentLoss) > 2 && (
-          <div className="flex items-center space-x-2 text-yellow-600 bg-yellow-50 p-2 rounded-md">
-            <AlertTriangle className="h-4 w-4" />
-            <span className="text-sm">High impermanent loss risk: {pool.impermanentLoss}%</span>
-          </div>
-        )}
-
-        {showAnalytics && (
-          <div className="pt-4">
-            <PoolAnalytics pool={pool} />
-          </div>
-        )}
-
-        <div className="flex space-x-2 pt-2">
-          <Button className="flex-1" variant="outline" onClick={() => onDeposit(pool)}>
-            {t('common.deposit')}
-          </Button>
-          <Button
-            className="w-10 h-10 p-0"
-            variant="outline"
-            onClick={() => setShowAnalytics(!showAnalytics)}
-          >
-            <ArrowUpRight className="h-4 w-4" />
-          </Button>
-        </div>
+        <Button 
+          className="w-full" 
+          variant="outline" 
+          onClick={(e) => {
+            e.stopPropagation();
+            onDeposit(pool);
+          }}
+        >
+          {t('common.deposit')}
+        </Button>
       </CardContent>
     </Card>
   );

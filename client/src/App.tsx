@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { NavigationBar } from "@/components/layout/navbar";
 import Dashboard from "@/pages/dashboard";
 import Pools from "@/pages/pools";
+import PoolDetail from "@/pages/pool-detail";
 import Portfolio from "@/pages/portfolio";
 import NotFound from "@/pages/not-found";
 
@@ -16,6 +17,7 @@ function Router() {
         <Switch>
           <Route path="/" component={Dashboard} />
           <Route path="/pools" component={Pools} />
+          <Route path="/pools/:id" component={PoolDetail} />
           <Route path="/portfolio" component={Portfolio} />
           <Route component={NotFound} />
         </Switch>
