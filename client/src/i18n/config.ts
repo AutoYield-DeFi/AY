@@ -36,6 +36,13 @@ i18n
             low: 'Low',
             medium: 'Medium',
             high: 'High',
+            high_il_warning: 'High impermanent loss risk detected. Consider your position carefully.',
+            analytics: {
+              volume_trend: 'Volume Trend',
+              performance: 'Performance Metrics',
+              risk_metrics: 'Risk Analysis',
+              price_impact: 'Price Impact',
+            }
           },
           numbers: {
             compact: '{{value, compact}}',
@@ -72,6 +79,13 @@ i18n
             low: 'Bajo',
             medium: 'Medio',
             high: 'Alto',
+            high_il_warning: 'Alto riesgo de pérdida impermanente detectado. Considera tu posición cuidadosamente.',
+            analytics: {
+              volume_trend: 'Tendencia de Volumen',
+              performance: 'Métricas de Rendimiento',
+              risk_metrics: 'Análisis de Riesgo',
+              price_impact: 'Impacto en el Precio',
+            }
           },
           numbers: {
             compact: '{{value, compact}}',
