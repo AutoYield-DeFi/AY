@@ -6,6 +6,7 @@ import { NavigationBar } from "@/components/layout/navbar";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { Suspense, lazy, memo } from "react";
 import { Loading } from "@/components/ui/loading";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 
 // Lazy load pages with more granular chunks
 const Dashboard = lazy(() => import("@/pages/dashboard" /* webpackChunkName: "dashboard" */));
@@ -21,16 +22,18 @@ const Router = memo(function Router() {
     <div className="flex flex-col min-h-screen">
       <NavigationBar />
       <main className="flex-1 container mx-auto px-4 py-8 pb-24 md:pb-8">
-        <Suspense fallback={<Loading />}>
-          <Switch>
-            <Route path="/" component={Dashboard} />
-            <Route path="/pools" component={Pools} />
-            <Route path="/pools/:id" component={PoolDetail} />
-            <Route path="/portfolio" component={Portfolio} />
-            <Route path="/history" component={History} />
-            <Route component={NotFound} />
-          </Switch>
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<Loading />}>
+            <Switch>
+              <Route path="/" component={Dashboard} />
+              <Route path="/pools" component={Pools} />
+              <Route path="/pools/:id" component={PoolDetail} />
+              <Route path="/portfolio" component={Portfolio} />
+              <Route path="/history" component={History} />
+              <Route component={NotFound} />
+            </Switch>
+          </Suspense>
+        </ErrorBoundary>
       </main>
       <BottomNav />
     </div>
@@ -39,10 +42,12 @@ const Router = memo(function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router />
-      <Toaster />
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <Router />
+        <Toaster />
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 
