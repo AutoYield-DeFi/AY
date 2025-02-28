@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { SiBitcoin, SiEthereum } from "react-icons/si";
 import { CoinsIcon, AlertTriangle, TrendingUp, LineChart, Calendar, Activity } from "lucide-react";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
+import { DefiTooltip } from "@/components/ui/defi-tooltip";
 
 const TokenIcon = ({ symbol }: { symbol: string }) => {
   switch (symbol.toUpperCase()) {
@@ -51,7 +52,7 @@ export default function PoolDetail() {
             </p>
           </div>
         </div>
-        <Button 
+        <Button
           size="lg"
           onClick={() => setShowDepositDialog(true)}
           className="w-full md:w-auto px-8 bg-primary hover:bg-primary/90"
@@ -64,7 +65,11 @@ export default function PoolDetail() {
         <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 flex items-start gap-3">
           <AlertTriangle className="h-5 w-5 text-yellow-500 shrink-0 mt-0.5" />
           <div>
-            <h3 className="font-medium text-yellow-500">{t('pools.high_il_warning_title')}</h3>
+            <h3 className="font-medium text-yellow-500 flex items-center gap-2">
+              <DefiTooltip term="impermanent_loss">
+                {t('pools.high_il_warning_title')}
+              </DefiTooltip>
+            </h3>
             <p className="text-sm text-muted-foreground mt-1">
               {t('pools.high_il_warning', { percentage: pool.impermanentLoss })}
             </p>
@@ -77,7 +82,7 @@ export default function PoolDetail() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-4 w-4" />
-              {t('common.apr')}
+              <DefiTooltip term="apr">{t('common.apr')}</DefiTooltip>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -128,7 +133,7 @@ export default function PoolDetail() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <LineChart className="h-4 w-4" />
-              {t('common.tvl')}
+              <DefiTooltip term="tvl">{t('common.tvl')}</DefiTooltip>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -206,8 +211,8 @@ export default function PoolDetail() {
                       <stop offset="95%" stopColor="hsl(268, 80%, 64%)" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <XAxis 
-                    dataKey="date" 
+                  <XAxis
+                    dataKey="date"
                     stroke="#888888"
                     fontSize={12}
                   />
@@ -217,8 +222,8 @@ export default function PoolDetail() {
                     tickFormatter={(value) => `$${(value/1000000).toFixed(1)}M`}
                   />
                   <Tooltip />
-                  <Area 
-                    type="monotone" 
+                  <Area
+                    type="monotone"
                     dataKey="tvl"
                     stroke="hsl(268, 80%, 64%)"
                     fillOpacity={1}
