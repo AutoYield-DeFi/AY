@@ -45,8 +45,6 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
   const { t } = useTranslation();
   const [, setLocation] = useLocation();
 
-  const dailyYield = Number(pool.dailyFees) / Number(pool.tvl) * 100;
-
   return (
     <Card 
       className="overflow-hidden hover:shadow-lg transition-shadow duration-300 card-gradient cursor-pointer" 
@@ -78,9 +76,6 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
               <p className="text-sm text-muted-foreground">{t('common.apr')}</p>
             </DefiTooltip>
             <p className="text-lg font-semibold text-green-500">{pool.apr}%</p>
-            <p className="text-xs text-muted-foreground">
-              ~{dailyYield.toFixed(2)}% {t('common.daily')}
-            </p>
           </div>
         </div>
 
@@ -88,9 +83,7 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
           <div>
             <div className="flex items-center space-x-1 text-sm text-muted-foreground">
               <BarChart2 className="h-4 w-4" />
-              <DefiTooltip term="liquidity">
-                <span>{t('common.volume')} (24H)</span>
-              </DefiTooltip>
+              <span>Volume (24H)</span>
             </div>
             <p className="text-sm font-medium">{formatCurrency(Number(pool.volume24h))}</p>
             <p className="text-xs text-muted-foreground">
@@ -100,14 +93,11 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
           <div>
             <div className="flex items-center space-x-1 text-sm text-muted-foreground">
               <TrendingUp className="h-4 w-4" />
-              <DefiTooltip term="impermanent_loss">
-                <span>{t('pools.impermanent_loss')}</span>
+              <DefiTooltip term="liquidity">
+                <span>Utilization</span>
               </DefiTooltip>
             </div>
-            <p className="text-sm font-medium">{pool.impermanentLoss}%</p>
-            <p className="text-xs text-muted-foreground">
-              {t('pools.utilization')}: {pool.utilizationRate}%
-            </p>
+            <p className="text-sm font-medium">{pool.utilizationRate}%</p>
           </div>
         </div>
 

@@ -8,7 +8,7 @@ import { HelpCircle } from "lucide-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
-// Define all DeFi terms and their explanations
+// Add "utilization" to the DEFI_TERMS object
 const DEFI_TERMS = {
   apr: {
     term: "APR",
@@ -37,6 +37,10 @@ const DEFI_TERMS = {
   slippage: {
     term: "Slippage",
     explanation: "The difference between expected and actual price due to market movement during transaction processing."
+  },
+  utilization: {
+    term: "Utilization Rate",
+    explanation: "The percentage of the pool's total capacity that is currently being used, indicating how actively the pool is being utilized."
   }
 } as const;
 
