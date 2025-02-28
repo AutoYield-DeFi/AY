@@ -7,6 +7,7 @@ import { CoinsIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { formatCurrency } from "@/lib/utils";
 import { useLocation } from "wouter";
+import { DefiTooltip } from "@/components/ui/defi-tooltip";
 
 interface PoolCardProps {
   pool: Pool;
@@ -28,9 +29,9 @@ const TokenIcon = ({ symbol }: { symbol: string }) => {
 
 const RiskBadge = ({ level }: { level: string }) => {
   const colors = {
-    low: "bg-green-100 text-green-800",
-    medium: "bg-yellow-100 text-yellow-800",
-    high: "bg-red-100 text-red-800",
+    low: "bg-green-500/10 text-green-500",
+    medium: "bg-yellow-500/10 text-yellow-500",
+    high: "bg-red-500/10 text-red-500",
   };
 
   return (
@@ -43,6 +44,8 @@ const RiskBadge = ({ level }: { level: string }) => {
 export function PoolCard({ pool, onDeposit }: PoolCardProps) {
   const { t } = useTranslation();
   const [, setLocation] = useLocation();
+
+  const dailyYield = Number(pool.dailyFees) / Number(pool.tvl) * 100;
 
   return (
     <Card 
@@ -65,12 +68,19 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
       <CardContent className="grid gap-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-muted-foreground">{t('common.tvl')}</p>
+            <DefiTooltip term="tvl">
+              <p className="text-sm text-muted-foreground">{t('common.tvl')}</p>
+            </DefiTooltip>
             <p className="text-lg font-semibold">{formatCurrency(Number(pool.tvl))}</p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">{t('common.apr')}</p>
+            <DefiTooltip term="apr">
+              <p className="text-sm text-muted-foreground">{t('common.apr')}</p>
+            </DefiTooltip>
             <p className="text-lg font-semibold text-green-500">{pool.apr}%</p>
+            <p className="text-xs text-muted-foreground">
+              ~{dailyYield.toFixed(2)}% {t('common.daily')}
+            </p>
           </div>
         </div>
 
@@ -78,7 +88,9 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
           <div>
             <div className="flex items-center space-x-1 text-sm text-muted-foreground">
               <BarChart2 className="h-4 w-4" />
-              <span>Volume (24H)</span>
+              <DefiTooltip term="liquidity">
+                <span>{t('common.volume')} (24H)</span>
+              </DefiTooltip>
             </div>
             <p className="text-sm font-medium">{formatCurrency(Number(pool.volume24h))}</p>
             <p className="text-xs text-muted-foreground">
@@ -88,11 +100,13 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
           <div>
             <div className="flex items-center space-x-1 text-sm text-muted-foreground">
               <TrendingUp className="h-4 w-4" />
-              <span>{t('pools.utilization')}</span>
+              <DefiTooltip term="impermanent_loss">
+                <span>{t('pools.impermanent_loss')}</span>
+              </DefiTooltip>
             </div>
-            <p className="text-sm font-medium">{pool.utilizationRate}%</p>
+            <p className="text-sm font-medium">{pool.impermanentLoss}%</p>
             <p className="text-xs text-muted-foreground">
-              Fees: {formatCurrency(Number(pool.dailyFees))}
+              {t('pools.utilization')}: {pool.utilizationRate}%
             </p>
           </div>
         </div>
