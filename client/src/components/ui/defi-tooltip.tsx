@@ -8,7 +8,6 @@ import { HelpCircle } from "lucide-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
-// Add "utilization" to the DEFI_TERMS object
 const DEFI_TERMS = {
   apr: {
     term: "APR",
@@ -38,9 +37,9 @@ const DEFI_TERMS = {
     term: "Slippage",
     explanation: "The difference between expected and actual price due to market movement during transaction processing."
   },
-  utilization: {
-    term: "Utilization Rate",
-    explanation: "The percentage of the pool's total capacity that is currently being used, indicating how actively the pool is being utilized."
+  pool_activity: {
+    term: "Pool Activity",
+    explanation: "How actively the pool is being used for trading and yield generation, indicating the pool's current momentum."
   }
 } as const;
 
@@ -53,7 +52,7 @@ interface DefiTooltipProps {
 
 export const DefiTooltip = memo(function DefiTooltip({ term, children }: DefiTooltipProps) {
   const { t } = useTranslation();
-  
+
   return (
     <TooltipProvider>
       <Tooltip delayDuration={300}>

@@ -93,8 +93,8 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
           <div>
             <div className="flex items-center space-x-1 text-sm text-muted-foreground">
               <TrendingUp className="h-4 w-4" />
-              <DefiTooltip term="liquidity">
-                <span>Utilization</span>
+              <DefiTooltip term="pool_activity">
+                <span>Pool Activity</span>
               </DefiTooltip>
             </div>
             <p className="text-sm font-medium">{pool.utilizationRate}%</p>
