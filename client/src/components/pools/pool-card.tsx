@@ -30,17 +30,17 @@ const TokenIcon = ({ symbol }: { symbol: string }) => {
 
 const RiskBadge = ({ level }: { level: string }) => {
   const colors = {
-    low: "bg-green-500/20 text-green-600 border-green-500/30",
-    medium: "bg-yellow-500/20 text-yellow-600 border-yellow-500/30",
-    high: "bg-red-500/20 text-red-600 border-red-500/30",
+    low: "bg-green-500/10 text-green-600 border-green-500/20",
+    medium: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20",
+    high: "bg-red-500/10 text-red-600 border-red-500/20",
   };
 
-  const colorClass = colors[level as keyof typeof colors] || "bg-gray-500/20 text-gray-600 border-gray-500/30";
+  const colorClass = colors[level.toLowerCase() as keyof typeof colors] || "bg-gray-500/10 text-gray-600 border-gray-500/20";
 
   return (
     <div className={`px-2 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1 ${colorClass} border`}>
       <Shield className="h-3 w-3" />
-      {level.charAt(0).toUpperCase() + level.slice(1)} Risk
+      {level.charAt(0).toUpperCase() + level.slice(1)}
     </div>
   );
 };
@@ -57,7 +57,7 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
 
   return (
     <Card 
-      className="overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 card-gradient border-primary/5 h-full flex flex-col" 
+      className="overflow-hidden border border-border/40 hover:border-primary/30 bg-card/80 hover:bg-card transition-all duration-300 h-full flex flex-col relative" 
       onClick={() => setLocation(`/pools/${pool.id}`)}
     >
       <CardHeader className="pb-2">
@@ -112,19 +112,28 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
         </div>
 
         {hasHighIL && (
-          <div className="p-2 bg-yellow-500/10 rounded-md border border-yellow-500/20 flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4 text-yellow-500 shrink-0" />
-            <DefiTooltip term="impermanent_loss" className="text-xs text-yellow-600">
-              {t('pools.high_il_warning_short')}
-            </DefiTooltip>
+          <div className="absolute top-1 right-1 z-10">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="p-1 rounded-full bg-yellow-500/10 border border-yellow-500/20">
+                    <AlertTriangle className="h-3.5 w-3.5 text-yellow-500/70" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="left">
+                  <DefiTooltip term="impermanent_loss" className="text-xs">
+                    {t('pools.high_il_warning_short')}
+                  </DefiTooltip>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         )}
       </CardContent>
 
       <CardFooter className="pt-2">
         <Button 
-          className="w-full" 
-          variant="outline" 
+          className="w-full bg-primary/90 hover:bg-primary" 
           onClick={(e) => {
             e.stopPropagation();
             onDeposit(pool);
@@ -133,6 +142,16 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
           {t('common.deposit')}
         </Button>
       </CardFooter>
+
+      {/* Overlay for better hover effect */}
+      <div className="absolute inset-0 bg-primary/5 opacity-0 hover:opacity-100 transition-opacity pointer-events-none"></div>
     </Card>
   );
 }
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
