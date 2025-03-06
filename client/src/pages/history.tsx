@@ -92,9 +92,9 @@ export default function History() {
     .reduce((sum, pos) => sum + Number(pos.pnl), 0);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 md:space-y-8">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
+        <h2 className="text-2xl md:text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
           {t('history.title')}
         </h2>
         <p className="text-muted-foreground max-w-3xl">
@@ -103,12 +103,12 @@ export default function History() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-3">
+      <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-3">
         <Card className="bg-card/80 border border-border/50">
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex flex-col gap-1">
-              <p className="text-muted-foreground text-sm">Total Deposits</p>
-              <p className="text-2xl font-bold text-green-500">
+              <p className="text-xs md:text-sm text-muted-foreground">{t('history.total_deposits', 'Total Deposits')}</p>
+              <p className="text-xl md:text-2xl font-bold text-green-500">
                 +{formatCurrency(totalDeposits)}
               </p>
             </div>
@@ -116,10 +116,10 @@ export default function History() {
         </Card>
 
         <Card className="bg-card/80 border border-border/50">
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex flex-col gap-1">
-              <p className="text-muted-foreground text-sm">Total Withdrawals</p>
-              <p className="text-2xl font-bold text-red-500">
+              <p className="text-xs md:text-sm text-muted-foreground">{t('history.total_withdrawals', 'Total Withdrawals')}</p>
+              <p className="text-xl md:text-2xl font-bold text-red-500">
                 -{formatCurrency(totalWithdrawals)}
               </p>
             </div>
@@ -127,10 +127,10 @@ export default function History() {
         </Card>
 
         <Card className="bg-card/80 border border-border/50">
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex flex-col gap-1">
-              <p className="text-muted-foreground text-sm">Realized P&L</p>
-              <p className={`text-2xl font-bold ${totalPnL >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+              <p className="text-xs md:text-sm text-muted-foreground">{t('portfolio.profit_loss', 'Realized P&L')}</p>
+              <p className={`text-xl md:text-2xl font-bold ${totalPnL >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                 {totalPnL >= 0 ? '+' : ''}{formatCurrency(totalPnL)}
               </p>
             </div>
@@ -140,50 +140,50 @@ export default function History() {
 
       <div className="flex justify-between items-center">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="flex justify-between items-center">
-            <TabsList>
-              <TabsTrigger value="all">All Activity</TabsTrigger>
-              <TabsTrigger value="deposits">Deposits</TabsTrigger>
-              <TabsTrigger value="withdrawals">Withdrawals</TabsTrigger>
-              <TabsTrigger value="closed">Closed Positions</TabsTrigger>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+            <TabsList className="mb-3 sm:mb-0">
+              <TabsTrigger value="all">{t('history.all_activity', 'All Activity')}</TabsTrigger>
+              <TabsTrigger value="deposits">{t('common.deposit', 'Deposits')}</TabsTrigger>
+              <TabsTrigger value="withdrawals">{t('common.withdraw', 'Withdrawals')}</TabsTrigger>
+              <TabsTrigger value="closed">{t('history.closed_positions', 'Closed Positions')}</TabsTrigger>
             </TabsList>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 text-sm">
-                  <Filter className="h-4 w-4" />
-                  {timeFilter === "all" ? "All Time" : 
-                   timeFilter === "week" ? "Past Week" : "Past Month"}
-                  <ChevronDown className="h-3.5 w-3.5 ml-1 opacity-70" />
+                <Button variant="outline" size="sm" className="gap-2 text-xs md:text-sm">
+                  <Filter className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  {timeFilter === "all" ? t('history.all_time', 'All Time') : 
+                   timeFilter === "week" ? t('history.past_week', 'Past Week') : t('history.past_month', 'Past Month')}
+                  <ChevronDown className="h-3 w-3 md:h-3.5 md:w-3.5 ml-1 opacity-70" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => setTimeFilter("all")}>
-                  All Time
+                  {t('history.all_time', 'All Time')}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTimeFilter("week")}>
-                  Past Week
+                  {t('history.past_week', 'Past Week')}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTimeFilter("month")}>
-                  Past Month
+                  {t('history.past_month', 'Past Month')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
 
-          <TabsContent value="all" className="mt-6">
+          <TabsContent value="all" className="mt-4 md:mt-6">
             <ActivityLog interactions={timeFilteredInteractions} />
           </TabsContent>
 
-          <TabsContent value="deposits" className="mt-6">
+          <TabsContent value="deposits" className="mt-4 md:mt-6">
             <ActivityLog interactions={timeFilteredInteractions} />
           </TabsContent>
 
-          <TabsContent value="withdrawals" className="mt-6">
+          <TabsContent value="withdrawals" className="mt-4 md:mt-6">
             <ActivityLog interactions={timeFilteredInteractions} />
           </TabsContent>
 
-          <TabsContent value="closed" className="mt-6">
+          <TabsContent value="closed" className="mt-4 md:mt-6">
             <ActivityLog interactions={timeFilteredInteractions} />
           </TabsContent>
         </Tabs>
@@ -210,15 +210,15 @@ function ActivityLog({ interactions }: { interactions: Interaction[] }) {
 
   if (interactions.length === 0) {
     return (
-      <div className="text-center py-16 bg-card/30 rounded-lg border border-border/30">
-        <p className="text-muted-foreground">No transactions found for the selected filters.</p>
+      <div className="text-center py-12 md:py-16 bg-card/30 rounded-lg border border-border/30">
+        <p className="text-muted-foreground">{t('history.no_transactions', 'No transactions found for the selected filters.')}</p>
       </div>
     );
   }
 
   return (
     <Card className="card-gradient border-border/40">
-      <CardContent className="p-6 space-y-4">
+      <CardContent className="p-4 md:p-6 space-y-3 md:space-y-4">
         {interactions.map((interaction, index) => {
           const pool = pools.find(p => p.id === interaction.poolId);
           const isDeposit = interaction.type === "Deposit";
@@ -245,31 +245,31 @@ function ActivityLog({ interactions }: { interactions: Interaction[] }) {
               {showDateHeader && (
                 <div className="flex items-center gap-2 py-2 mb-2 border-b border-border/30">
                   <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium">{currentDate}</span>
+                  <span className="text-xs md:text-sm font-medium">{currentDate}</span>
                 </div>
               )}
 
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between p-4 mb-4 rounded-lg bg-card/80 border border-border/20 hover:border-primary/20 hover:bg-card transition-all duration-200 gap-4">
-                <div className="flex items-start gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between p-3 mb-3 md:mb-4 rounded-lg bg-card/80 border border-border/20 hover:border-primary/20 hover:bg-card transition-all duration-200 gap-3 md:gap-4">
+                <div className="flex items-start gap-3 md:gap-4">
                   {isDeposit ? (
-                    <div className="h-10 w-10 flex items-center justify-center rounded-full bg-green-500/10 text-green-500 shrink-0">
-                      <ArrowUpRight className="h-5 w-5" />
+                    <div className="h-8 w-8 md:h-10 md:w-10 flex items-center justify-center rounded-full bg-green-500/10 text-green-500 shrink-0">
+                      <ArrowUpRight className="h-4 w-4 md:h-5 md:w-5" />
                     </div>
                   ) : isWithdraw ? (
-                    <div className="h-10 w-10 flex items-center justify-center rounded-full bg-red-500/10 text-red-500 shrink-0">
-                      <ArrowDownRight className="h-5 w-5" />
+                    <div className="h-8 w-8 md:h-10 md:w-10 flex items-center justify-center rounded-full bg-red-500/10 text-red-500 shrink-0">
+                      <ArrowDownRight className="h-4 w-4 md:h-5 md:w-5" />
                     </div>
                   ) : (
-                    <div className="h-10 w-10 flex items-center justify-center rounded-full bg-blue-500/10 text-blue-500 shrink-0">
-                      <Clock className="h-5 w-5" />
+                    <div className="h-8 w-8 md:h-10 md:w-10 flex items-center justify-center rounded-full bg-blue-500/10 text-blue-500 shrink-0">
+                      <Clock className="h-4 w-4 md:h-5 md:w-5" />
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-                      <h3 className="font-medium">
+                      <h3 className="text-sm md:text-base font-medium">
                         {t(`history.transaction_type.${interaction.type.toLowerCase().replace(' ', '_')}`)}
                       </h3>
-                      <Badge variant="secondary" className="w-fit flex items-center gap-1">
+                      <Badge variant="secondary" className="w-fit flex items-center gap-1 text-xs">
                         {pool && (
                           <>
                             <div className="flex -space-x-1 mr-1">
@@ -282,7 +282,7 @@ function ActivityLog({ interactions }: { interactions: Interaction[] }) {
                       </Badge>
                     </div>
                     {isPositionClosed && interaction.entryDate && (
-                      <div className="mt-2 space-y-1 text-sm">
+                      <div className="mt-2 space-y-1 text-xs md:text-sm">
                         <p>{t('history.initial_investment')}: {formatCurrency(Number(interaction.amount))}</p>
                         <p>{t('history.duration')}: {format(new Date(interaction.entryDate), 'MMM d, yyyy')} - {format(interaction.date, 'MMM d, yyyy')}</p>
                         {pnl !== null && (
@@ -300,10 +300,10 @@ function ActivityLog({ interactions }: { interactions: Interaction[] }) {
                   </div>
                 </div>
                 <div className="text-left sm:text-right mt-2 sm:mt-0">
-                  <div className="font-medium">
+                  <div className="text-sm md:text-base font-medium">
                     {isDeposit ? '+' : '-'}{formatCurrency(Number(interaction.amount))}
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-xs md:text-sm text-muted-foreground">
                     {format(interaction.date, 'HH:mm')}
                   </div>
                 </div>

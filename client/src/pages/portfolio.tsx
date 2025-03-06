@@ -17,7 +17,7 @@ import { CoinsIcon } from "lucide-react";
 import { ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 
 const TokenIcon = ({ symbol }: { symbol: string }) => {
-  switch (symbol.toUpperCase()) {
+  switch (symbol?.toUpperCase()) {
     case 'BTC':
       return <SiBitcoin className="h-5 w-5 text-orange-500" />;
     case 'ETH':
@@ -35,13 +35,14 @@ export default function Portfolio() {
   const { t } = useTranslation();
 
   const totalValue = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value), 0);
-  const totalValue24hAgo = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value24hAgo), 0);
+  // Handle optional properties with fallback to avoid type errors
+  const totalValue24hAgo = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value24hAgo || 0), 0);
   const value24hChange = totalValue - totalValue24hAgo;
   const value24hChangePercent = (value24hChange / totalValue24hAgo) * 100;
 
   const totalPnL = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl), 0);
-  const totalPnL24h = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl24h), 0);
-  const totalPnL7d = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl7d), 0);
+  const totalPnL24h = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl24h || 0), 0);
+  const totalPnL7d = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl7d || 0), 0);
   const pnlPercentage = (totalPnL / (totalValue - totalPnL)) * 100;
 
   // Group positions by pool type for the pie chart
@@ -71,9 +72,9 @@ export default function Portfolio() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 md:space-y-8">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
+        <h2 className="text-2xl md:text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
           {t('portfolio.title')}
         </h2>
         <p className="text-muted-foreground max-w-3xl">
@@ -81,7 +82,7 @@ export default function Portfolio() {
         </p>
       </div>
 
-      <div className="grid gap-6 grid-cols-1 md:grid-cols-12">
+      <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-12">
         {/* Main stats row */}
         <Card className="card-gradient md:col-span-8">
           <CardHeader className="pb-2">
@@ -93,13 +94,13 @@ export default function Portfolio() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col md:flex-row gap-6 md:items-end justify-between">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-6 md:items-end justify-between">
               <div>
-                <div className="text-3xl font-bold">
+                <div className="text-2xl md:text-3xl font-bold">
                   {formatCurrency(totalValue)}
                 </div>
-                <div className={`text-sm mt-1 flex items-center gap-1 ${value24hChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                  {value24hChange >= 0 ? <ArrowUpRight className="h-4 w-4" /> : <ArrowDownRight className="h-4 w-4" />}
+                <div className={`text-xs md:text-sm mt-1 flex items-center gap-1 ${value24hChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                  {value24hChange >= 0 ? <ArrowUpRight className="h-3 w-3 md:h-4 md:w-4" /> : <ArrowDownRight className="h-3 w-3 md:h-4 md:w-4" />}
                   {value24hChange >= 0 ? '+' : ''}{formatCurrency(value24hChange)} (24h)
                   <span className="ml-1">
                     ({value24hChangePercent >= 0 ? '+' : ''}{value24hChangePercent.toFixed(2)}%)
@@ -108,14 +109,14 @@ export default function Portfolio() {
               </div>
 
               <div className="flex flex-col md:items-end">
-                <div className="text-sm text-muted-foreground mb-1">Performance</div>
-                <div className={`text-xl font-bold ${totalPnL >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                <div className="text-xs md:text-sm text-muted-foreground mb-1">{t('portfolio.performance')}</div>
+                <div className={`text-lg md:text-xl font-bold ${totalPnL >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                   {totalPnL >= 0 ? '+' : ''}{formatCurrency(totalPnL)}
-                  <span className="text-sm ml-2">
+                  <span className="text-xs md:text-sm ml-2">
                     ({pnlPercentage >= 0 ? '+' : ''}{pnlPercentage.toFixed(2)}%)
                   </span>
                 </div>
-                <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="grid grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm">
                   <div>
                     <span className="text-muted-foreground">24h: </span>
                     <span className={totalPnL24h >= 0 ? 'text-green-500' : 'text-red-500'}>
@@ -132,7 +133,7 @@ export default function Portfolio() {
               </div>
             </div>
 
-            <div className="mt-6 h-[150px]">
+            <div className="mt-4 md:mt-6 h-[120px] md:h-[150px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={performanceData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#444" opacity={0.2} />
@@ -173,7 +174,7 @@ export default function Portfolio() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[200px]">
+            <div className="h-[180px] md:h-[200px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -181,8 +182,8 @@ export default function Portfolio() {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    outerRadius={80}
-                    innerRadius={40}
+                    outerRadius={70}
+                    innerRadius={30}
                     fill="#8884d8"
                     dataKey="value"
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
@@ -199,28 +200,28 @@ export default function Portfolio() {
         </Card>
       </div>
 
-      <Tabs defaultValue="positions" className="space-y-6">
+      <Tabs defaultValue="positions" className="space-y-4 md:space-y-6">
         <TabsList className="space-x-2">
           <TabsTrigger value="positions" className="relative">
-            <span>Active Positions</span>
+            <span>{t('portfolio.active_positions')}</span>
             <span className="absolute top-0 right-1 text-xs bg-primary text-primary-foreground rounded-full h-5 w-5 flex items-center justify-center">
               {portfolioPositions.length}
             </span>
           </TabsTrigger>
-          <TabsTrigger value="performance">Performance Metrics</TabsTrigger>
-          <TabsTrigger value="rewards">Rewards & Incentives</TabsTrigger>
+          <TabsTrigger value="performance">{t('portfolio.performance')}</TabsTrigger>
+          <TabsTrigger value="rewards">{t('history.rewards', 'Rewards & Incentives')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="positions" className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-xl font-semibold">{t('portfolio.active_positions')}</h3>
-            <Button variant="outline" size="sm" className="flex items-center gap-1">
-              <TrendingUp className="h-4 w-4" />
+            <h3 className="text-lg md:text-xl font-semibold">{t('portfolio.active_positions')}</h3>
+            <Button variant="outline" size="sm" className="flex items-center gap-1 text-xs md:text-sm">
+              <TrendingUp className="h-3 w-3 md:h-4 md:w-4" />
               {t('portfolio.add_position')}
             </Button>
           </div>
 
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 md:gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {portfolioPositions.map(position => {
               const pool = pools.find(p => p.id === position.poolId);
               const pnlPercentage = (Number(position.pnl) / (Number(position.value) - Number(position.pnl))) * 100;
@@ -232,8 +233,8 @@ export default function Portfolio() {
                   key={position.id} 
                   className="overflow-hidden border border-border/40 hover:border-primary/30 bg-card/80 hover:bg-card transition-all duration-300 flex flex-col relative"
                 >
-                  <CardContent className="p-6">
-                    <div className="flex flex-col space-y-4">
+                  <CardContent className="p-4 md:p-6">
+                    <div className="flex flex-col space-y-3 md:space-y-4">
                       <div className="flex justify-between items-start">
                         <div className="flex items-center gap-2">
                           <div className="flex -space-x-2">
@@ -241,7 +242,7 @@ export default function Portfolio() {
                             <TokenIcon symbol={pool?.token1 || ""} />
                           </div>
                           <div>
-                            <p className="font-medium text-lg">{pool?.name}</p>
+                            <p className="font-medium text-sm md:text-lg">{pool?.name}</p>
                             <div className={`text-xs ${Number(position.pnl) >= 0 ? 'text-green-500' : 'text-red-500'} flex items-center`}>
                               {Number(position.pnl) >= 0 ? <ArrowUpRight className="h-3 w-3 mr-1" /> : <ArrowDownRight className="h-3 w-3 mr-1" />}
                               {Number(position.pnl) >= 0 ? '+' : ''}{formatCurrency(Number(position.pnl))}
@@ -253,38 +254,38 @@ export default function Portfolio() {
                           variant="secondary"
                           size="sm"
                           onClick={() => setSelectedPosition(position)}
-                          className="ml-2 shrink-0"
+                          className="ml-2 shrink-0 text-xs"
                         >
                           {t('common.withdraw')}
                         </Button>
                       </div>
 
                       <div className="space-y-3 pt-3 border-t">
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-2 md:gap-4">
                           <div>
                             <p className="text-xs text-muted-foreground">{t('portfolio.initial_investment')}</p>
-                            <p className="font-medium">{formatCurrency(Number(position.amount))}</p>
+                            <p className="text-sm md:text-base font-medium">{formatCurrency(Number(position.amount))}</p>
                           </div>
                           <div>
                             <p className="text-xs text-muted-foreground">{t('portfolio.current_value')}</p>
-                            <p className="font-medium">{formatCurrency(Number(position.value))}</p>
+                            <p className="text-sm md:text-base font-medium">{formatCurrency(Number(position.value))}</p>
                           </div>
                           <div>
                             <DefiTooltip term="pool_share" className="text-xs text-muted-foreground">
                               {t('portfolio.pool_share')}
                             </DefiTooltip>
-                            <p className="font-medium">{percentOfTVL}%</p>
+                            <p className="text-sm md:text-base font-medium">{percentOfTVL}%</p>
                           </div>
                           <div>
                             <p className="text-xs text-muted-foreground">{t('portfolio.daily_yield')}</p>
-                            <p className="font-medium text-green-500">+{formatCurrency(dailyFees)}</p>
+                            <p className="text-sm md:text-base font-medium text-green-500">+{formatCurrency(dailyFees)}</p>
                           </div>
                         </div>
 
                         <div className="flex items-center justify-between text-xs mt-2">
                           <div className="flex items-center gap-1 text-muted-foreground">
                             <Clock className="h-3 w-3" />
-                            {format(new Date(position.entryDate), 'MMM d, yyyy')}
+                            {position.entryDate ? format(new Date(position.entryDate), 'MMM d, yyyy') : '-'}
                           </div>
                           <div className="flex items-center">
                             <span className="text-muted-foreground mr-1">APR:</span>
@@ -303,43 +304,43 @@ export default function Portfolio() {
           </div>
         </TabsContent>
 
-        <TabsContent value="performance" className="space-y-6">
+        <TabsContent value="performance" className="space-y-4 md:space-y-6">
           <Card className="card-gradient">
-            <CardHeader>
-              <CardTitle>Performance Analysis</CardTitle>
+            <CardHeader className="p-4 md:p-6 pb-2 md:pb-4">
+              <CardTitle className="text-lg md:text-xl">{t('portfolio.performance_analysis', 'Performance Analysis')}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="p-4 md:p-6 pt-2 md:pt-0 space-y-4">
               <div className="space-y-2">
-                <h4 className="font-medium">Performance by Time Period</h4>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <h4 className="text-sm md:text-base font-medium">{t('portfolio.performance_by_time', 'Performance by Time Period')}</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
                   <Card className="bg-background/50">
-                    <CardContent className="p-4">
-                      <div className="text-sm text-muted-foreground">24h Return</div>
-                      <div className={`text-lg font-bold ${totalPnL24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                    <CardContent className="p-3 md:p-4">
+                      <div className="text-xs md:text-sm text-muted-foreground">24h {t('portfolio.return', 'Return')}</div>
+                      <div className={`text-sm md:text-lg font-bold ${totalPnL24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                         {totalPnL24h >= 0 ? '+' : ''}{formatCurrency(totalPnL24h)}
                       </div>
                     </CardContent>
                   </Card>
                   <Card className="bg-background/50">
-                    <CardContent className="p-4">
-                      <div className="text-sm text-muted-foreground">7d Return</div>
-                      <div className={`text-lg font-bold ${totalPnL7d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                    <CardContent className="p-3 md:p-4">
+                      <div className="text-xs md:text-sm text-muted-foreground">7d {t('portfolio.return', 'Return')}</div>
+                      <div className={`text-sm md:text-lg font-bold ${totalPnL7d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                         {totalPnL7d >= 0 ? '+' : ''}{formatCurrency(totalPnL7d)}
                       </div>
                     </CardContent>
                   </Card>
                   <Card className="bg-background/50">
-                    <CardContent className="p-4">
-                      <div className="text-sm text-muted-foreground">30d Return</div>
-                      <div className="text-lg font-bold text-green-500">
+                    <CardContent className="p-3 md:p-4">
+                      <div className="text-xs md:text-sm text-muted-foreground">30d {t('portfolio.return', 'Return')}</div>
+                      <div className="text-sm md:text-lg font-bold text-green-500">
                         +{formatCurrency(totalPnL * 1.2)}
                       </div>
                     </CardContent>
                   </Card>
                   <Card className="bg-background/50">
-                    <CardContent className="p-4">
-                      <div className="text-sm text-muted-foreground">All Time</div>
-                      <div className="text-lg font-bold text-green-500">
+                    <CardContent className="p-3 md:p-4">
+                      <div className="text-xs md:text-sm text-muted-foreground">{t('portfolio.all_time', 'All Time')}</div>
+                      <div className="text-sm md:text-lg font-bold text-green-500">
                         +{formatCurrency(totalPnL)}
                       </div>
                     </CardContent>
@@ -348,7 +349,7 @@ export default function Portfolio() {
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-medium">Best Performing Positions</h4>
+                <h4 className="text-sm md:text-base font-medium">{t('portfolio.best_performing', 'Best Performing Positions')}</h4>
                 <div className="space-y-2">
                   {portfolioPositions
                     .sort((a, b) => Number(b.pnl) - Number(a.pnl))
@@ -358,15 +359,15 @@ export default function Portfolio() {
                       const pnlPercentage = (Number(position.pnl) / (Number(position.value) - Number(position.pnl))) * 100;
 
                       return (
-                        <div key={position.id} className="flex items-center justify-between p-3 rounded-md border border-border/40 bg-background/50">
+                        <div key={position.id} className="flex items-center justify-between p-2 md:p-3 rounded-md border border-border/40 bg-background/50">
                           <div className="flex items-center gap-2">
                             <div className="flex -space-x-2">
                               <TokenIcon symbol={pool?.token0 || ""} />
                               <TokenIcon symbol={pool?.token1 || ""} />
                             </div>
-                            <div className="text-sm font-medium">{pool?.name}</div>
+                            <div className="text-xs md:text-sm font-medium">{pool?.name}</div>
                           </div>
-                          <div className="text-green-500 font-medium">
+                          <div className="text-green-500 text-xs md:text-sm font-medium">
                             +{formatCurrency(Number(position.pnl))} ({pnlPercentage.toFixed(1)}%)
                           </div>
                         </div>
@@ -380,14 +381,14 @@ export default function Portfolio() {
 
         <TabsContent value="rewards" className="space-y-4">
           <Card className="card-gradient">
-            <CardHeader>
-              <CardTitle>Rewards & Incentives</CardTitle>
+            <CardHeader className="p-4 md:p-6 pb-2 md:pb-4">
+              <CardTitle className="text-lg md:text-xl">{t('history.rewards', 'Rewards & Incentives')}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="p-6 text-center bg-gradient-to-br from-primary/20 to-primary/5 rounded-lg border border-primary/10">
-                <h3 className="text-lg font-medium mb-2">Coming Soon</h3>
-                <p className="text-muted-foreground">
-                  Protocol token rewards and liquidity incentives will be available in the next update.
+            <CardContent className="p-4 md:p-6 pt-2 md:pt-0 space-y-4">
+              <div className="p-4 md:p-6 text-center bg-gradient-to-br from-primary/20 to-primary/5 rounded-lg border border-primary/10">
+                <h3 className="text-base md:text-lg font-medium mb-2">{t('portfolio.coming_soon', 'Coming Soon')}</h3>
+                <p className="text-xs md:text-sm text-muted-foreground">
+                  {t('portfolio.protocol_rewards', 'Protocol token rewards and liquidity incentives will be available in the next update.')}
                 </p>
               </div>
             </CardContent>
