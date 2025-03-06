@@ -207,8 +207,8 @@ export default function PoolDetail() {
                 <AreaChart data={pool.history}>
                   <defs>
                     <linearGradient id="tvlGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(268, 80%, 64%)" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="hsl(268, 80%, 64%)" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.2}/>
+                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
                   <XAxis
@@ -225,7 +225,7 @@ export default function PoolDetail() {
                   <Area
                     type="monotone"
                     dataKey="tvl"
-                    stroke="hsl(268, 80%, 64%)"
+                    stroke="hsl(var(--primary))"
                     fillOpacity={1}
                     fill="url(#tvlGradient)"
                   />

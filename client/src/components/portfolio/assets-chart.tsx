@@ -2,10 +2,13 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { portfolioPositions, pools } from "@/lib/mock-data";
 import { formatCurrency } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 const COLORS = ['#9333ea', '#c084fc', '#e9d5ff'];
 
 export function AssetsChart() {
+  const { t } = useTranslation();
+
   const data = portfolioPositions.map(position => {
     const pool = pools.find(p => p.id === position.poolId);
     return {
@@ -22,7 +25,7 @@ export function AssetsChart() {
   return (
     <Card className="col-span-4 card-gradient">
       <CardHeader>
-        <CardTitle>Asset Allocation</CardTitle>
+        <CardTitle>{t('portfolio.asset_allocation')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-[300px] md:h-[400px]">
@@ -68,15 +71,15 @@ export function AssetsChart() {
               </div>
               <div className="space-y-1">
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Value: </span>
+                  <span className="text-muted-foreground">{t('portfolio.value')}: </span>
                   <span className="font-medium">{formatCurrency(item.value)}</span>
                 </div>
                 <div className="text-sm">
-                  <span className="text-muted-foreground">Initial: </span>
+                  <span className="text-muted-foreground">{t('portfolio.initial')}: </span>
                   <span className="font-medium">{formatCurrency(item.amount)}</span>
                 </div>
                 <div className={`text-sm ${item.pnl >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                  <span>P&L: </span>
+                  <span>{t('portfolio.profit_loss')}: </span>
                   <span className="font-medium">
                     {item.pnl >= 0 ? '+' : ''}{formatCurrency(item.pnl)}
                   </span>

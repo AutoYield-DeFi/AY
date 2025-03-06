@@ -121,9 +121,9 @@ export function PoolCard({ pool, onDeposit }: PoolCardProps) {
                   </div>
                 </TooltipTrigger>
                 <TooltipContent side="left">
-                  <DefiTooltip term="impermanent_loss" className="text-xs">
+                  <div className="text-xs">
                     {t('pools.high_il_warning_short')}
-                  </DefiTooltip>
+                  </div>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

@@ -24,6 +24,9 @@ i18n
             deposit: 'Deposit',
             withdraw: 'Withdraw',
             history: 'History',
+            help: 'Help',
+            need_help: 'Need help?',
+            help_tooltip: 'If you need assistance with DeFi concepts or using this platform, visit our Knowledge Base or contact support.'
           },
           pools: {
             title: 'Liquidity Pools',
@@ -38,6 +41,7 @@ i18n
             medium: 'Medium',
             high: 'High',
             high_il_warning: 'High impermanent loss risk detected. Consider your position carefully.',
+            high_il_warning_short: 'Higher impermanent loss risk',
             analytics: {
               volume_trend: 'Volume Trend',
               performance: 'Performance Metrics',
@@ -47,7 +51,6 @@ i18n
             not_found: 'Pool not found',
             details_description: 'Pool Details and Performance',
             high_il_warning_title: 'High Impermanent Loss Risk',
-            high_il_warning: 'This pool currently has a higher risk of impermanent loss ({{percentage}}%). Consider your investment carefully and start with a smaller position if you\'re new to DeFi.',
             annual_rate: 'Annual percentage rate',
             trading_volume: 'Last 24 hours trading',
             earned_24h: 'Earned in last 24h',
@@ -75,10 +78,13 @@ i18n
               estimated_apr: 'Estimated APR',
               daily_yield: 'Daily Yield',
               yearly_yield: 'Yearly Yield',
+              yearly_impact: 'This investment could generate {{yield}} annually - enough for about {{coffees}} coffees!',
               deposit_summary: 'Deposit Summary',
               total_value: 'Total Value',
               warning: 'Please review the details carefully. Once confirmed, this action cannot be undone.',
               current_price: 'Current price',
+              risk_note: 'Impermanent Loss Risk',
+              risk_explanation: 'This pool has a {{percentage}}% risk of impermanent loss which could affect your returns if market conditions change drastically.',
               steps: {
                 amount: 'Amount',
                 token_split: 'Token Split',
@@ -101,6 +107,12 @@ i18n
             pool_share: 'Pool Share',
             daily_yield: 'Daily Yield',
             entry_date: 'Entry Date',
+            asset_allocation: 'Asset Allocation',
+            add_position: 'Add Position',
+            initial: 'Initial',
+            value: 'Value',
+            profit_loss: 'P&L',
+            initial_investment: 'Initial Investment',
           },
           history: {
             title: 'History',
@@ -135,6 +147,22 @@ i18n
             total_value: 'Total Value',
             average_apr: 'Average APR',
             total_yield: 'Total Yield',
+          },
+          defi: {
+            terms: {
+              apr: 'Annual Percentage Rate - The yearly rate of return on your investment without compounding.',
+              tvl: 'Total Value Locked - The total amount of assets deposited in the pool.',
+              pool_share: 'The percentage of the pool that your deposit represents.',
+              impermanent_loss: 'Potential loss that occurs when the price of your deposited assets changes compared to simply holding them.',
+              pool_activity: 'How actively the pool is being used for trading and yield generation, indicating the pool\'s current momentum.',
+              yield_farming: 'Strategy of staking or lending crypto assets to generate high returns in the form of additional cryptocurrency.',
+              smart_contract: 'Self-executing code on a blockchain that automatically implements the terms of an agreement when predetermined conditions are met.',
+              gas_fee: 'Transaction fee paid to network validators for processing transactions on a blockchain network.',
+              amm: 'Automated Market Maker - A decentralized exchange protocol that uses liquidity pools to enable automatic trading.',
+              protocol_fee: 'Fee charged by a DeFi platform that goes to the protocol treasury or is distributed to governance token holders.',
+              utilization_rate: 'The percentage of available assets in a pool that are currently being lent out or used.',
+              risk_note: 'High levels can significantly impact returns. Consider your risk tolerance.'
+            }
           }
         },
       },
@@ -154,6 +182,9 @@ i18n
             deposit: 'Depositar',
             withdraw: 'Retirar',
             history: 'Historial',
+            help: 'Ayuda',
+            need_help: '¿Necesitas ayuda?',
+            help_tooltip: 'Si necesitas asistencia con conceptos DeFi o el uso de esta plataforma, visita nuestra Base de Conocimientos o contacta con soporte.'
           },
           pools: {
             title: 'Pools de Liquidez',
@@ -168,6 +199,7 @@ i18n
             medium: 'Medio',
             high: 'Alto',
             high_il_warning: 'Alto riesgo de pérdida impermanente detectado. Considera tu posición cuidadosamente.',
+            high_il_warning_short: 'Mayor riesgo de pérdida impermanente',
             analytics: {
               volume_trend: 'Tendencia de Volumen',
               performance: 'Métricas de Rendimiento',
@@ -177,7 +209,6 @@ i18n
             not_found: 'Pool no encontrado',
             details_description: 'Detalles y Rendimiento del Pool',
             high_il_warning_title: 'Alto Riesgo de Pérdida Impermanente',
-            high_il_warning: 'Este pool actualmente tiene un mayor riesgo de pérdida impermanente ({{percentage}}%). Considere su inversión cuidadosamente y comience con una posición más pequeña si es nuevo en DeFi.',
             annual_rate: 'Tasa porcentual anual',
             trading_volume: 'Comercio de las últimas 24 horas',
             earned_24h: 'Ganado en las últimas 24h',
@@ -205,10 +236,13 @@ i18n
               estimated_apr: 'TAE Estimada',
               daily_yield: 'Rendimiento Diario',
               yearly_yield: 'Rendimiento Anual',
+              yearly_impact: 'Esta inversión podría generar {{yield}} anualmente - ¡suficiente para aproximadamente {{coffees}} cafés!',
               deposit_summary: 'Resumen del Depósito',
               total_value: 'Valor Total',
               warning: 'Por favor, revise los detalles cuidadosamente. Una vez confirmado, esta acción no se puede deshacer.',
               current_price: 'Precio actual',
+              risk_note: 'Riesgo de Pérdida Impermanente',
+              risk_explanation: 'Este pool tiene un {{percentage}}% de riesgo de pérdida impermanente que podría afectar tus rendimientos si las condiciones del mercado cambian drásticamente.',
               steps: {
                 amount: 'Cantidad',
                 token_split: 'Distribución de Tokens',
@@ -231,6 +265,12 @@ i18n
             pool_share: 'Participación en Pool',
             daily_yield: 'Rendimiento Diario',
             entry_date: 'Fecha de Entrada',
+            asset_allocation: 'Asignación de Activos',
+            add_position: 'Añadir Posición',
+            initial: 'Inicial',
+            value: 'Valor',
+            profit_loss: 'Ganancias/Pérdidas',
+            initial_investment: 'Inversión Inicial',
           },
           history: {
             title: 'Historial',
@@ -252,19 +292,35 @@ i18n
           },
           dashboard: {
             title: 'Panel',
-            description: 'AutoYield performans özeti',
+            description: 'Visión general del rendimiento de AutoYield',
             notices: {
-              title: 'Duyuru Panosu',
-              high_yield_title: 'Yüksek Getiri Fırsatı',
-              high_yield_message: 'SOL-USDC havuzu şu anda %25.5 APR sunuyor. Pozisyonunuzu artırmayı düşünün.',
-              market_update_title: 'Piyasa Güncellemesi',
-              market_update_message: 'Bu hafta normalden daha yüksek piyasa volatilitesi bekleniyor. Pozisyonlarınızı yakından takip edin.',
+              title: 'Tablón de Anuncios',
+              high_yield_title: 'Oportunidad de Alto Rendimiento',
+              high_yield_message: 'El pool SOL-USDC ofrece actualmente un 25.5% APR. Considera aumentar tu posición.',
+              market_update_title: 'Actualización de Mercado',
+              market_update_message: 'Se espera una volatilidad del mercado mayor de lo habitual esta semana. Monitorea tus posiciones de cerca.',
             },
-            recent_activity: 'Son Aktiviteler',
-            portfolio_summary: 'Portföy Özeti',
-            total_value: 'Toplam Değer',
-            average_apr: 'Ortalama APR',
-            total_yield: 'Toplam Getiri',
+            recent_activity: 'Actividad Reciente',
+            portfolio_summary: 'Resumen del Portafolio',
+            total_value: 'Valor Total',
+            average_apr: 'APR Promedio',
+            total_yield: 'Rendimiento Total',
+          },
+          defi: {
+            terms: {
+              apr: 'Tasa Porcentual Anual - La tasa anual de retorno de tu inversión sin interés compuesto.',
+              tvl: 'Valor Total Bloqueado - La cantidad total de activos depositados en el pool.',
+              pool_share: 'El porcentaje del pool que representa tu depósito.',
+              impermanent_loss: 'Pérdida potencial que ocurre cuando el precio de tus activos depositados cambia en comparación con simplemente mantenerlos.',
+              pool_activity: 'Qué tan activamente se utiliza el pool para el comercio y la generación de rendimiento, lo que indica el impulso actual del pool.',
+              yield_farming: 'Estrategia de staking o préstamo de criptoactivos para generar altos rendimientos en forma de criptomoneda adicional.',
+              smart_contract: 'Código autoejecutante en una blockchain que implementa automáticamente los términos de un acuerdo cuando se cumplen condiciones predeterminadas.',
+              gas_fee: 'Tarifa de transacción pagada a los validadores de la red por procesar transacciones en una red blockchain.',
+              amm: 'Creador de Mercado Automatizado - Un protocolo de intercambio descentralizado que utiliza pools de liquidez para habilitar el comercio automático.',
+              protocol_fee: 'Tarifa cobrada por una plataforma DeFi que va al tesoro del protocolo o se distribuye a los poseedores de tokens de gobernanza.',
+              utilization_rate: 'El porcentaje de activos disponibles en un pool que actualmente están siendo prestados o utilizados.',
+              risk_note: 'Los niveles altos pueden afectar significativamente los rendimientos. Considera tu tolerancia al riesgo.'
+            }
           }
         },
       },
@@ -284,6 +340,9 @@ i18n
             deposit: '預入',
             withdraw: '引出',
             history: '履歴',
+            help: 'ヘルプ',
+            need_help: 'ヘルプが必要ですか？',
+            help_tooltip: 'DeFiの概念やこのプラットフォームの使用について支援が必要な場合は、知識ベースにアクセスするかサポートにお問い合わせください。'
           },
           pools: {
             title: '流動性プール',
@@ -298,6 +357,7 @@ i18n
             medium: '中',
             high: '高',
             high_il_warning: '高い非永続的損失リスクが検出されました。慎重にポジションを検討してください。',
+            high_il_warning_short: '高い非永続的損失リスク',
             analytics: {
               volume_trend: '取引量トレンド',
               performance: 'パフォーマンス指標',
@@ -307,7 +367,6 @@ i18n
             not_found: 'プールが見つかりません',
             details_description: 'プール詳細とパフォーマンス',
             high_il_warning_title: '高い非永続的損失リスク',
-            high_il_warning: 'このプールは現在、より高い非永続的損失のリスク（{{percentage}}％）があります。投資を慎重に検討し、DeFi初心者の方は少額から始めてください。',
             annual_rate: '年間利率',
             trading_volume: '過去24時間の取引',
             earned_24h: '過去24時間の収益',
@@ -335,10 +394,13 @@ i18n
               estimated_apr: '推定APR',
               daily_yield: '日次利回り',
               yearly_yield: '年間利回り',
+              yearly_impact: 'この投資は年間{{yield}}を生み出す可能性があります - 約{{coffees}}杯のコーヒーに相当します！',
               deposit_summary: '預入サマリー',
               total_value: '総額',
               warning: '詳細を注意深く確認してください。確認後、この操作は取り消せません。',
               current_price: '現在の価格',
+              risk_note: '非永続的損失リスク',
+              risk_explanation: 'このプールは{{percentage}}%の非永続的損失リスクがあり、市場状況が大きく変化した場合にリターンに影響する可能性があります。',
               steps: {
                 amount: '数量',
                 token_split: 'トークンスプリット',
@@ -361,6 +423,12 @@ i18n
             pool_share: 'プールシェア',
             daily_yield: '日次利回り',
             entry_date: '開始日',
+            asset_allocation: '資産配分',
+            add_position: 'ポジション追加',
+            initial: '初期',
+            value: '価値',
+            profit_loss: '損益',
+            initial_investment: '初期投資',
           },
           history: {
             title: '履歴',
@@ -395,6 +463,22 @@ i18n
             total_value: '総額',
             average_apr: '平均APR',
             total_yield: '総利回り',
+          },
+          defi: {
+            terms: {
+              apr: '年率 - 複利なしでの投資の年間収益率。',
+              tvl: 'ロック済み総額 - プールに預けられた資産の総額。',
+              pool_share: 'あなたの預金がプール全体に占める割合。',
+              impermanent_loss: '資産を単に保有する場合と比較して、預けた資産の価格が変動した際に発生する可能性のある損失。',
+              pool_activity: 'プールが取引や収益生成にどの程度積極的に使用されているか、プールの現在の勢いを示す指標。',
+              yield_farming: '追加の暗号通貨の形で高いリターンを生み出すために暗号資産をステーキングまたは貸し出す戦略。',
+              smart_contract: '特定の条件が満たされた時に契約条件を自動的に実行するブロックチェーン上の自己実行コード。',
+              gas_fee: 'ブロックチェーンネットワークでトランザクションを処理するためにネットワーク検証者に支払われる手数料。',
+              amm: '自動マーケットメーカー - 自動取引を可能にするために流動性プールを使用する分散型取引プロトコル。',
+              protocol_fee: 'DeFiプラットフォームによって請求され、プロトコルの財務や統治トークン保有者に分配される手数料。',
+              utilization_rate: 'プール内で現在貸し出されているか使用されている利用可能な資産の割合。',
+              risk_note: '高いレベルはリターンに大きな影響を与える可能性があります。あなたのリスク許容度を考慮してください。'
+            }
           }
         },
       },
@@ -414,6 +498,9 @@ i18n
             deposit: 'Yatır',
             withdraw: 'Çek',
             history: 'Geçmiş',
+            help: 'Yardım',
+            need_help: 'Yardıma mı ihtiyacınız var?',
+            help_tooltip: 'DeFi kavramları veya bu platformun kullanımı hakkında yardıma ihtiyacınız varsa, Bilgi Tabanımızı ziyaret edin veya destek ile iletişime geçin.'
           },
           pools: {
             title: 'Likidite Havuzları',
@@ -428,6 +515,7 @@ i18n
             medium: 'Orta',
             high: 'Yüksek',
             high_il_warning: 'Yüksek geçici kayıp riski tespit edildi. Pozisyonunuzu dikkatlice değerlendirin.',
+            high_il_warning_short: 'Yüksek geçici kayıp riski',
             analytics: {
               volume_trend: 'Hacim Trendi',
               performance: 'Performans Metrikleri',
@@ -437,7 +525,6 @@ i18n
             not_found: 'Havuz bulunamadı',
             details_description: 'Havuz Detayları ve Performansı',
             high_il_warning_title: 'Yüksek Geçici Kayıp Riski',
-            high_il_warning: 'Bu havuz şu anda daha yüksek geçici kayıp riski taşımaktadır ({{percentage}}%). Yatırımınızı dikkatlice değerlendirin ve DeFi\'ye yeniyseniz daha küçük bir pozisyonla başlayın.',
             annual_rate: 'Yıllık yüzdesel oran',
             trading_volume: 'Son 24 saatlik işlem hacmi',
             earned_24h: 'Son 24 saatte kazanılan',
@@ -465,10 +552,13 @@ i18n
               estimated_apr: 'Tahmini Yıllık Getiri',
               daily_yield: 'Günlük Getiri',
               yearly_yield: 'Yıllık Getiri',
+              yearly_impact: 'Bu yatırım yıllık {{yield}} kazandırabilir - yaklaşık {{coffees}} fincan kahve için yeterli!',
               deposit_summary: 'Yatırım Özeti',
               total_value: 'Toplam Değer',
               warning: 'Lütfen detayları dikkatlice inceleyin. Onaylamadan sonra bu işlem geri alınamaz.',
               current_price: 'Güncel fiyat',
+              risk_note: 'Geçici Kayıp Riski',
+              risk_explanation: 'Bu havuz %{{percentage}} geçici kayıp riski taşıyor, bu da piyasa koşulları ciddi şekilde değişirse getirilerinizi etkileyebilir.',
               steps: {
                 amount: 'Miktar',
                 token_split: 'Token Dağılımı',
@@ -491,6 +581,12 @@ i18n
             pool_share: 'Havuz Payı',
             daily_yield: 'Günlük Getiri',
             entry_date: 'Giriş Tarihi',
+            asset_allocation: 'Varlık Dağılımı',
+            add_position: 'Pozisyon Ekle',
+            initial: 'İlk',
+            value: 'Değer',
+            profit_loss: 'Kar/Zarar',
+            initial_investment: 'İlk Yatırım',
           },
           history: {
             title: 'Geçmiş',
@@ -525,6 +621,22 @@ i18n
             total_value: 'Toplam Değer',
             average_apr: 'Ortalama APR',
             total_yield: 'Toplam Getiri',
+          },
+          defi: {
+            terms: {
+              apr: 'Yıllık Yüzde Oranı - Bileşik faiz olmadan yatırımınızın yıllık getiri oranı.',
+              tvl: 'Kilitli Toplam Değer - Havuza yatırılan varlıkların toplam miktarı.',
+              pool_share: 'Yatırımınızın havuzu temsil eden yüzdesi.',
+              impermanent_loss: 'Yatırılan varlıklarınızın fiyatı sadece tutmaya kıyasla değiştiğinde ortaya çıkabilecek potansiyel kayıp.',
+              pool_activity: 'Havuzun şu anki ivmesini gösteren, ticaret ve getiri üretimi için ne kadar aktif olarak kullanıldığı.',
+              yield_farming: 'Ek kripto para şeklinde yüksek getiri elde etmek için kripto varlıkları stake etme veya ödünç verme stratejisi.',
+              smart_contract: 'Önceden belirlenmiş koşullar karşılandığında bir anlaşmanın şartlarını otomatik olarak uygulayan blok zinciri üzerindeki kendi kendine yürütülen kod.',
+              gas_fee: 'Bir blok zinciri ağında işlemleri işlemek için ağ doğrulayıcılarına ödenen işlem ücreti.',
+              amm: 'Otomatik Piyasa Yapıcı - Otomatik ticareti mümkün kılmak için likidite havuzlarını kullanan merkezi olmayan bir borsa protokolü.',
+              protocol_fee: 'DeFi platformu tarafından alınan ve protokol hazinesine giden veya yönetişim token sahiplerine dağıtılan ücret.',
+              utilization_rate: 'Bir havuzdaki mevcut varlıkların şu anda ödünç verilen veya kullanılan yüzdesi.',
+              risk_note: 'Yüksek seviyeler getirileri önemli ölçüde etkileyebilir. Risk toleransınızı göz önünde bulundurun.'
+            }
           }
         },
       },
