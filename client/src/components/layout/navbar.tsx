@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { WalletIcon } from "lucide-react";
+import { WalletIcon, HelpCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState, memo } from "react";
 import { WalletStatus } from "./wallet-status";
@@ -7,12 +7,18 @@ import { LanguageSwitcher } from "./language-switcher";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const navigation = [
   { name: 'common.dashboard', href: '/' },
   { name: 'common.pools', href: '/pools' },
   { name: 'common.portfolio', href: '/portfolio' },
-  { name: 'History', href: '/history' },
+  { name: 'common.history', href: '/history' },
 ];
 
 // Memoize navigation links to prevent re-renders
@@ -29,7 +35,7 @@ const DesktopNav = memo(function DesktopNav({ location, t }: { location: string,
                 : "text-muted-foreground hover:text-primary hover:bg-primary/10"
             )}
           >
-            {item.name === 'History' ? item.name : t(item.name)}
+            {t(item.name)}
           </a>
         </Link>
       ))}
@@ -63,14 +69,33 @@ export const NavigationBar = memo(function NavigationBar() {
           </div>
 
           <div className="flex items-center space-x-4">
+            <TooltipProvider>
+              <Tooltip delayDuration={300}>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="text-muted-foreground">
+                    <HelpCircle className="h-5 w-5" />
+                    <span className="sr-only">{t('common.help')}</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" align="end" className="max-w-sm">
+                  <div className="space-y-2">
+                    <p className="font-medium">{t('common.need_help')}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('common.help_tooltip')}
+                    </p>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <LanguageSwitcher />
             <div className="hidden md:block">
               <WalletStatus isConnected={isWalletConnected} />
             </div>
             <Button
-              variant={isWalletConnected ? "destructive" : "outline"}
+              variant={isWalletConnected ? "destructive" : "default"}
               onClick={handleConnectWallet}
               size="sm"
+              className={isWalletConnected ? "" : "bg-primary hover:bg-primary/90"}
             >
               <WalletIcon className="h-4 w-4 md:mr-2" />
               <span className="hidden md:inline">

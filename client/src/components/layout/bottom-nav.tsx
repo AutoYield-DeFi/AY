@@ -13,7 +13,7 @@ const navigation = [
   { name: 'common.dashboard', href: '/', Icon: LayoutDashboard },
   { name: 'common.pools', href: '/pools', Icon: Database },
   { name: 'common.portfolio', href: '/portfolio', Icon: Wallet },
-  { name: 'History', href: '/history', Icon: Clock },
+  { name: 'common.history', href: '/history', Icon: Clock },
 ];
 
 export const BottomNav = memo(function BottomNav() {
@@ -35,7 +35,7 @@ export const BottomNav = memo(function BottomNav() {
             >
               <Icon className="h-5 w-5" />
               <span className="text-xs font-medium truncate">
-                {name === 'History' ? name : t(name)}
+                {t(name)}
               </span>
             </a>
           </Link>
