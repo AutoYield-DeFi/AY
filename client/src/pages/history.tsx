@@ -132,7 +132,7 @@ export default function History() {
         <Card className="card-gradient">
           <CardContent className="p-4">
             <div className="flex flex-col gap-1">
-              <p className="text-xs text-muted-foreground">{t('portfolio.profit_loss')}</p>
+              <p className="text-xs text-muted-foreground">{t('history.profit_loss')}</p>
               <p className={cn(
                 "text-xl font-bold",
                 totalPnL >= 0 ? "text-green-500" : "text-red-500"
@@ -176,7 +176,7 @@ export default function History() {
           </DropdownMenu>
         </div>
 
-        <TabsContent value="all">
+        <TabsContent value="all" className="mt-4">
           <ActivityLog interactions={timeFilteredInteractions} />
         </TabsContent>
       </Tabs>

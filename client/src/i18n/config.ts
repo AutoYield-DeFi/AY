@@ -20,7 +20,9 @@ i18n
             pools: 'Pools',
             portfolio: 'Portfolio',
             total_value: 'Total Value',
+            profit_loss: 'Profit/Loss',
             total_pnl: 'Total P&L',
+            pnl: 'P&L',
             apr: 'APR',
             tvl: 'TVL',
             volume_24h: '24h Volume',
@@ -45,6 +47,7 @@ i18n
             total_balance: 'Total Balance',
             recent_activity: 'Recent Activity',
             view_all: 'View All',
+            view_all_transactions: 'View all transactions',
             notices: {
               title: 'Noticeboard',
               high_yield_title: 'High Yield Opportunity',
@@ -81,6 +84,7 @@ i18n
             deposit: 'Deposit',
             asset_allocation: 'Asset Allocation',
             add_position: 'Add Position',
+            profit_loss: 'Profit/Loss',
           },
           pools: {
             title: 'Pools',
@@ -120,6 +124,7 @@ i18n
             tvl_history: 'TVL History',
             high_il_warning_title: 'High Impermanent Loss Risk',
             high_il_warning: 'High impermanent loss risk detected. Consider your position carefully.',
+            daily_fees: 'Daily Fees',
           },
           history: {
             title: 'History',
@@ -134,11 +139,12 @@ i18n
             total_withdrawals: 'Total Withdrawals',
             initial_investment: 'Initial Investment',
             duration: 'Duration',
-            profit_loss: 'P&L',
+            profit_loss: 'Profit/Loss',
             all_time: 'All Time',
             past_week: 'Past Week',
             past_month: 'Past Month',
             no_transactions: 'No transactions found for the selected filters.',
+            closed_positions: 'Closed Positions',
           },
           numbers: {
             compact: '{{value, compact}}',
