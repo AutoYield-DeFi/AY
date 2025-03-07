@@ -1,0 +1,83 @@
+You're absolutely right—since **rebalancing happens automatically**, there’s no need for a **Rebalance** button. That simplifies the interface and keeps it more user-friendly.
+
+---
+
+## **Detailed UI/UX Feedback & Wireframe Plan**
+The **Portfolio Page** should be structured to ensure clarity, logical flow, and user-friendliness. Here’s a breakdown:
+
+---
+
+### **📌 1. New Layout Plan**
+Instead of the current structure where analytics are taking too much space, we will prioritize **user interactions at the top**, followed by analytics.
+
+#### **🔹 Section 1: Portfolio Overview (Top)**
+- **Key Focus:** Show the user's **active positions & available funds**.
+- **Elements to Include:**
+  - **User's Wallet Balance (SOL & USDC)**
+  - **Total Portfolio Value (USD)**
+  - **Active Liquidity Positions**
+    - For each position:
+      - Token Pair (e.g., **BONK/SOL**)
+      - Status (e.g., **Active**, **Exited**, **AI Waiting**)
+      - Total Funds Allocated
+      - Fees Earned
+      - Estimated APR
+      - **Action Buttons:**
+        - **Withdraw Liquidity**
+        - **Manually Enter Position (only if AI exited)**
+        - (Rebalancing happens automatically, so no button for that)
+
+---
+
+#### **🔹 Section 2: AI Decision Summary (Middle)**
+- **Key Focus:** Transparency—explain AI’s actions.
+- **Elements to Include:**
+  - **Why AI Exited/Entered a Position**
+  - **Recent AI Actions (Last 3 decisions)**:
+    - Example: `"Exited BONK/SOL due to low trading volume. Funds converted to SOL."`
+  - **Projected Next Move (if applicable)**
+
+---
+
+#### **🔹 Section 3: Analytics & Performance History (Bottom)**
+- **Key Focus:** Data-driven insights for users who want detailed tracking.
+- **Elements to Include:**
+  - **Portfolio Growth Chart** (Total Value Over Time)
+  - **Historical AI Trades**
+  - **Yield Earned Breakdown (Fees Earned, APR Performance, etc.)**
+  - **Liquidity Pool Trends (e.g., Best Performing Pairs)**
+
+---
+
+## **🖥️ Wireframe UI Mockup**
+Now, I will generate a UI wireframe based on this structure. Give me a moment. ⏳
+
+### **🛠️ Explanation of the UI Wireframe**
+This **React-based wireframe** follows the **new layout plan** with logical structuring:
+
+1. **📌 Portfolio Overview (Top)**
+   - Shows **total funds, available balance**, and **active liquidity positions**.
+   - Each position includes:
+     - **Status (Active/Exited)**
+     - **Funds allocated**
+     - **Fees earned**
+     - **APR**
+     - **Withdraw button** for active positions.
+     - **"Re-enter Position" button** for exited positions.
+
+2. **📌 AI Decision Summary (Middle)**
+   - Displays **recent AI actions** in a simple, user-friendly list.
+   - Helps users **understand why positions changed**.
+
+3. **📌 Portfolio Performance Analytics (Bottom)**
+   - **Interactive line chart** to visualize **total portfolio value over time**.
+   - More analytics can be added if needed.
+
+---
+
+### **🔄 Next Steps**
+- **You can directly copy-paste this React code into Replit AI**.
+- Adjust styling to match your **brand identity**.
+- Add **real backend data** (instead of mock data) to make it functional.
+
+Would you like me to refine any part of this wireframe further? 🚀

@@ -137,7 +137,19 @@ i18n
             all_time: 'All Time',
             best_performing: 'Best Performing Positions',
             coming_soon: 'Coming Soon',
-            protocol_rewards: 'Protocol token rewards and liquidity incentives will be available in the next update.'
+            protocol_rewards: 'Protocol token rewards and liquidity incentives will be available in the next update.',
+            available_balance: 'Available Balance',
+            total_balance: 'Total Balance',
+            ai_strategy: 'AI Strategy Overview',
+            next_move: 'Next Projected Move',
+            recent_decisions: 'Recent Decisions',
+            decision_types: {
+              enter: 'Enter',
+              exit: 'Exit',
+              rebalance: 'Rebalance'
+            },
+            monitoring_message: 'Monitoring {{pool}} pool for potential position increase. Current metrics show favorable conditions with {{apr}}% APR.',
+            deposit: 'Deposit',
           },
           history: {
             title: 'History',
@@ -330,7 +342,19 @@ i18n
             all_time: 'Todo el Tiempo',
             best_performing: 'Posiciones con Mejor Rendimiento',
             coming_soon: 'Próximamente',
-            protocol_rewards: 'Las recompensas de tokens de protocolo e incentivos de liquidez estarán disponibles en la próxima actualización.'
+            protocol_rewards: 'Las recompensas de tokens de protocolo e incentivos de liquidez estarán disponibles en la próxima actualización.',
+            available_balance: 'Saldo Disponible',
+            total_balance: 'Saldo Total',
+            ai_strategy: 'Resumen de Estrategia IA',
+            next_move: 'Próximo Movimiento Proyectado',
+            recent_decisions: 'Decisiones Recientes',
+            decision_types: {
+              enter: 'Entrar',
+              exit: 'Salir',
+              rebalance: 'Reequilibrar'
+            },
+            monitoring_message: 'Monitoreando el pool {{pool}} para un posible aumento de posición. Las métricas actuales muestran condiciones favorables con {{apr}}% APR.',
+            deposit: 'Depositar',
           },
           history: {
             title: 'Historial',
@@ -523,7 +547,19 @@ i18n
             all_time: '全期間',
             best_performing: '最高パフォーマンスのポジション',
             coming_soon: '近日公開',
-            protocol_rewards: 'プロトコルトークンの報酬と流動性インセンティブは次のアップデートで利用可能になります。'
+            protocol_rewards: 'プロトコルトークンの報酬と流動性インセンティブは次のアップデートで利用可能になります。',
+            available_balance: '利用可能残高',
+            total_balance: '合計残高',
+            ai_strategy: 'AI戦略概要',
+            next_move: '次の予測される動き',
+            recent_decisions: '最近の決定',
+            decision_types: {
+              enter: '参入',
+              exit: '退出',
+              rebalance: 'リバランス'
+            },
+            monitoring_message: '{{pool}}プールのポジション増加の可能性を監視中。現在の指標は{{apr}}% APRで好条件を示しています。',
+            deposit: '預入',
           },
           history: {
             title: '履歴',
@@ -716,7 +752,19 @@ i18n
             all_time: 'Tüm Zamanlar',
             best_performing: 'En İyi Performans Gösteren Pozisyonlar',
             coming_soon: 'Yakında',
-            protocol_rewards: 'Protokol token ödülleri ve likidite teşvikleri bir sonraki güncellemede mevcut olacaktır.'
+            protocol_rewards: 'Protokol token ödülleri ve likidite teşvikleri bir sonraki güncellemede mevcut olacaktır.',
+            available_balance: 'Kullanılabilir Bakiye',
+            total_balance: 'Toplam Bakiye',
+            ai_strategy: 'AI Strateji Genel Bakışı',
+            next_move: 'Sonraki Öngörülen Hamle',
+            recent_decisions: 'Son Kararlar',
+            decision_types: {
+              enter: 'Giriş',
+              exit: 'Çıkış',
+              rebalance: 'Yeniden Dengeleme'
+            },
+            monitoring_message: '{{pool}} havuzunda pozisyon artışı için izleme yapılıyor. Mevcut metrikler %{{apr}} APR ile uygun koşulları gösteriyor.',
+            deposit: 'Yatır',
           },
           history: {
             title: 'Geçmiş',
