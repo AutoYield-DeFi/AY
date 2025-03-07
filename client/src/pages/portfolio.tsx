@@ -75,9 +75,40 @@ export default function Portfolio() {
   const value24hChange = totalValue - totalValue24hAgo;
   const value24hChangePercent = (value24hChange / totalValue24hAgo) * 100;
 
+  const totalPnL = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl), 0);
+  const totalPnL24h = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl24h || 0), 0);
+  const totalPnL7d = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl7d || 0), 0);
+  const pnlPercentage = (totalPnL / (totalValue - totalPnL)) * 100;
+
   const solBalanceUSD = walletBalances.sol * walletBalances.solPrice;
   const usdcBalanceUSD = walletBalances.usdc * walletBalances.usdcPrice;
   const totalWalletBalance = solBalanceUSD + usdcBalanceUSD;
+
+  // Performance data for the line chart
+  const performanceData = [
+    { date: '1 Mar', value: totalValue - totalPnL * 0.9 },
+    { date: '2 Mar', value: totalValue - totalPnL * 0.7 },
+    { date: '3 Mar', value: totalValue - totalPnL * 0.5 },
+    { date: '4 Mar', value: totalValue - totalPnL * 0.3 },
+    { date: '5 Mar', value: totalValue - totalPnL * 0.1 },
+    { date: '6 Mar', value: totalValue },
+  ];
+
+  // Group positions by pool type for the pie chart
+  const assetsByPool = portfolioPositions.reduce<Record<string, number>>((acc, position) => {
+    const pool = pools.find(p => p.id === position.poolId);
+    if (pool) {
+      acc[pool.name] = (acc[pool.name] || 0) + Number(position.value);
+    }
+    return acc;
+  }, {});
+
+  const pieChartData = Object.entries(assetsByPool).map(([name, value]) => ({
+    name,
+    value
+  }));
+
+  const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#0088fe', '#00C49F'];
 
   return (
     <div className="space-y-6 md:space-y-8">
@@ -96,7 +127,7 @@ export default function Portfolio() {
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2">
               <Wallet2 className="h-5 w-5 text-primary" />
-              Available Balance
+              {t('portfolio.available_balance')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -109,7 +140,7 @@ export default function Portfolio() {
                     <div className="text-xs text-muted-foreground">${formatCurrency(solBalanceUSD)}</div>
                   </div>
                 </div>
-                <Button variant="outline" size="sm" className="text-xs">Deposit</Button>
+                <Button variant="outline" size="sm" className="text-xs">{t('portfolio.deposit')}</Button>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -119,10 +150,10 @@ export default function Portfolio() {
                     <div className="text-xs text-muted-foreground">${formatCurrency(usdcBalanceUSD)}</div>
                   </div>
                 </div>
-                <Button variant="outline" size="sm" className="text-xs">Deposit</Button>
+                <Button variant="outline" size="sm" className="text-xs">{t('portfolio.deposit')}</Button>
               </div>
               <div className="pt-2 border-t">
-                <div className="text-sm text-muted-foreground">Total Balance</div>
+                <div className="text-sm text-muted-foreground">{t('portfolio.total_balance')}</div>
                 <div className="text-xl font-bold">${formatCurrency(totalWalletBalance)}</div>
               </div>
             </div>
@@ -134,7 +165,7 @@ export default function Portfolio() {
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2">
               <Brain className="h-5 w-5 text-primary" />
-              AI Strategy Overview
+              {t('portfolio.ai_strategy')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -142,9 +173,9 @@ export default function Portfolio() {
               <div className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
                 <AlertCircle className="h-5 w-5 text-primary mt-0.5" />
                 <div>
-                  <h4 className="font-medium">Next Projected Move</h4>
+                  <h4 className="font-medium">{t('portfolio.next_move')}</h4>
                   <p className="text-sm text-muted-foreground">
-                    Monitoring ETH/USDC pool for potential position increase. Current metrics show favorable conditions with 18.2% APR.
+                    {t('portfolio.monitoring_message', { pool: 'ETH/USDC', apr: '18.2' })}
                   </p>
                 </div>
               </div>
@@ -163,7 +194,9 @@ export default function Portfolio() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium capitalize">{decision.action}</span>
+                        <span className="font-medium capitalize">
+                          {t(`portfolio.decision_types.${decision.action}`)}
+                        </span>
                         <span className="text-sm text-muted-foreground">{decision.pool}</span>
                         <Badge variant="secondary" className="text-xs">{decision.impact}</Badge>
                       </div>
@@ -505,32 +538,4 @@ export default function Portfolio() {
   );
 }
 
-const performanceData = [
-    { date: '1 Mar', value: totalValue - totalPnL * 0.9 },
-    { date: '2 Mar', value: totalValue - totalPnL * 0.7 },
-    { date: '3 Mar', value: totalValue - totalPnL * 0.5 },
-    { date: '4 Mar', value: totalValue - totalPnL * 0.3 },
-    { date: '5 Mar', value: totalValue - totalPnL * 0.1 },
-    { date: '6 Mar', value: totalValue },
-  ];
-
-  const totalPnL = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl), 0);
-  const totalPnL24h = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl24h || 0), 0);
-  const totalPnL7d = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl7d || 0), 0);
-  const pnlPercentage = (totalPnL / (totalValue - totalPnL)) * 100;
-
-  // Group positions by pool type for the pie chart
-  const assetsByPool = portfolioPositions.reduce<Record<string, number>>((acc, position) => {
-    const pool = pools.find(p => p.id === position.poolId);
-    if (pool) {
-      acc[pool.name] = (acc[pool.name] || 0) + Number(position.value);
-    }
-    return acc;
-  }, {});
-
-  const pieChartData = Object.entries(assetsByPool).map(([name, value]) => ({
-    name,
-    value
-  }));
-
-  const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#0088fe', '#00C49F'];
+const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#0088fe', '#00C49F'];
