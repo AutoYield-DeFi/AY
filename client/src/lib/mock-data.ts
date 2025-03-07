@@ -9,8 +9,16 @@ const historyData = [
   { date: '2024-02-24', tvl: 3100000 },
 ];
 
+// Mock wallet balances
+export const walletBalances = {
+  sol: 45.8,
+  usdc: 2150.25,
+  solPrice: 142.30,
+  usdcPrice: 1.00
+};
+
 interface PoolWithHistory extends Pool {
-    history?: {date: string, tvl: number}[]
+  history?: {date: string, tvl: number}[]
 }
 
 export const pools: PoolWithHistory[] = [

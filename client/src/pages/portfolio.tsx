@@ -62,31 +62,37 @@ export default function Portfolio() {
   const [selectedPosition, setSelectedPosition] = useState<Position | null>(null);
   const { t } = useTranslation();
 
-  const totalValue = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value), 0);
-  const totalValue24hAgo = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value24hAgo || 0), 0);
-  const value24hChange = totalValue - totalValue24hAgo;
-  const value24hChangePercent = (value24hChange / totalValue24hAgo) * 100;
-
-  const totalPnL = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl), 0);
-  const totalPnL24h = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl24h || 0), 0);
-  const totalPnL7d = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl7d || 0), 0);
-  const pnlPercentage = (totalPnL / (totalValue - totalPnL)) * 100;
-
+  // Calculate wallet balance
   const solBalanceUSD = walletBalances.sol * walletBalances.solPrice;
   const usdcBalanceUSD = walletBalances.usdc * walletBalances.usdcPrice;
   const totalWalletBalance = solBalanceUSD + usdcBalanceUSD;
 
+  // Calculate positions value
+  const totalPositionsValue = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value), 0);
+  const totalPositionsValue24hAgo = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value24hAgo || 0), 0);
+  const positionsValue24hChange = totalPositionsValue - totalPositionsValue24hAgo;
+  const positionsValue24hChangePercent = (positionsValue24hChange / totalPositionsValue24hAgo) * 100;
+
+  // Calculate total portfolio value (wallet + positions)
+  const totalPortfolioValue = totalWalletBalance + totalPositionsValue;
+
+  // Performance calculations
+  const totalPnL = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl), 0);
+  const totalPnL24h = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl24h || 0), 0);
+  const totalPnL7d = portfolioPositions.reduce((sum, pos) => sum + Number(pos.pnl7d || 0), 0);
+  const pnlPercentage = (totalPnL / (totalPositionsValue - totalPnL)) * 100;
+
   // Performance data for the line chart
   const performanceData = [
-    { date: '1 Mar', value: totalValue - totalPnL * 0.9 },
-    { date: '2 Mar', value: totalValue - totalPnL * 0.7 },
-    { date: '3 Mar', value: totalValue - totalPnL * 0.5 },
-    { date: '4 Mar', value: totalValue - totalPnL * 0.3 },
-    { date: '5 Mar', value: totalValue - totalPnL * 0.1 },
-    { date: '6 Mar', value: totalValue },
+    { date: '1 Mar', value: totalPortfolioValue - totalPnL * 0.9 },
+    { date: '2 Mar', value: totalPortfolioValue - totalPnL * 0.7 },
+    { date: '3 Mar', value: totalPortfolioValue - totalPnL * 0.5 },
+    { date: '4 Mar', value: totalPortfolioValue - totalPnL * 0.3 },
+    { date: '5 Mar', value: totalPortfolioValue - totalPnL * 0.1 },
+    { date: '6 Mar', value: totalPortfolioValue },
   ];
 
-  // Group positions by pool type for the pie chart
+  // Asset allocation data
   const assetsByPool = portfolioPositions.reduce<Record<string, number>>((acc, position) => {
     const pool = pools.find(p => p.id === position.poolId);
     if (pool) {
@@ -104,21 +110,84 @@ export default function Portfolio() {
 
   return (
     <div className="space-y-4 md:space-y-6">
+      {/* Header */}
       <div>
-        <h2 className="text-2xl md:text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
           {t('portfolio.title')}
-        </h2>
-        <p className="text-sm text-muted-foreground max-w-3xl">
+        </h1>
+        <p className="text-sm text-muted-foreground mt-1">
           {t('portfolio.description')}
         </p>
       </div>
 
-      {/* Top Row: Wallet & AI */}
+      {/* Portfolio Overview */}
+      <Card className="card-gradient">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base md:text-lg flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-primary" />
+            {t('portfolio.overview')}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Total Portfolio Value */}
+          <div>
+            <p className="text-sm text-muted-foreground">{t('portfolio.total_portfolio_value')}</p>
+            <p className="text-2xl md:text-3xl font-bold mt-1">{formatCurrency(totalPortfolioValue)}</p>
+            <div className="grid grid-cols-2 gap-4 mt-2">
+              <div>
+                <p className="text-xs text-muted-foreground">{t('portfolio.available_balance')}</p>
+                <p className="text-base md:text-lg font-medium">{formatCurrency(totalWalletBalance)}</p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">{t('portfolio.positions_value')}</p>
+                <p className="text-base md:text-lg font-medium">{formatCurrency(totalPositionsValue)}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* 24h Performance */}
+          <div className="flex flex-col md:flex-row gap-4 md:items-end justify-between pt-4 border-t">
+            <div>
+              <div className={cn(
+                "text-sm flex items-center gap-1",
+                positionsValue24hChange >= 0 ? "text-green-500" : "text-red-500"
+              )}>
+                {positionsValue24hChange >= 0 ? <ArrowUpRight className="h-4 w-4" /> : 
+                                            <ArrowDownRight className="h-4 w-4" />}
+                {positionsValue24hChange >= 0 ? '+' : ''}{formatCurrency(positionsValue24hChange)} (24h)
+                <span className="ml-1">
+                  ({positionsValue24hChangePercent >= 0 ? '+' : ''}{positionsValue24hChangePercent.toFixed(2)}%)
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:items-end">
+              <div className="text-sm text-muted-foreground mb-1">{t('portfolio.performance')}</div>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="text-muted-foreground">24h: </span>
+                  <span className={totalPnL24h >= 0 ? "text-green-500" : "text-red-500"}>
+                    {totalPnL24h >= 0 ? '+' : ''}{formatCurrency(totalPnL24h)}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">7d: </span>
+                  <span className={totalPnL7d >= 0 ? "text-green-500" : "text-red-500"}>
+                    {totalPnL7d >= 0 ? '+' : ''}{formatCurrency(totalPnL7d)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Wallet & AI Strategy */}
       <div className="grid gap-4 grid-cols-1 md:grid-cols-12">
-        {/* Wallet Balance */}
+        {/* Wallet */}
         <Card className="card-gradient md:col-span-5">
           <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+            <CardTitle className="text-base md:text-lg flex items-center gap-2">
               <Wallet2 className="h-5 w-5 text-primary" />
               {t('portfolio.available_balance')}
             </CardTitle>
@@ -145,10 +214,6 @@ export default function Portfolio() {
                 </div>
                 <Button variant="outline" size="sm" className="text-xs">{t('portfolio.deposit')}</Button>
               </div>
-              <div className="pt-2 border-t">
-                <div className="text-sm text-muted-foreground">{t('portfolio.total_balance')}</div>
-                <div className="text-xl font-bold">{formatCurrency(totalWalletBalance)}</div>
-              </div>
             </div>
           </CardContent>
         </Card>
@@ -156,7 +221,7 @@ export default function Portfolio() {
         {/* AI Strategy */}
         <Card className="card-gradient md:col-span-7">
           <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+            <CardTitle className="text-base md:text-lg flex items-center gap-2">
               <Brain className="h-5 w-5 text-primary" />
               {t('portfolio.ai_strategy')}
             </CardTitle>
@@ -207,63 +272,18 @@ export default function Portfolio() {
         </Card>
       </div>
 
-      {/* Performance Overview */}
+      {/* Charts */}
       <div className="grid gap-4 grid-cols-1 md:grid-cols-12">
+        {/* Performance Chart */}
         <Card className="card-gradient md:col-span-8">
           <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-base md:text-lg">
-              <TrendingUp className="h-5 w-5 text-primary" />
-              {t('portfolio.current_value')}
+            <CardTitle className="text-base md:text-lg flex items-center gap-2">
+              <Activity className="h-5 w-5 text-primary" />
+              {t('portfolio.performance_history')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col md:flex-row gap-4 md:items-end justify-between">
-              <div>
-                <div className="text-2xl md:text-3xl font-bold">
-                  {formatCurrency(totalValue)}
-                </div>
-                <div className={cn(
-                  "text-xs md:text-sm mt-1 flex items-center gap-1",
-                  value24hChange >= 0 ? "text-green-500" : "text-red-500"
-                )}>
-                  {value24hChange >= 0 ? <ArrowUpRight className="h-3 w-3 md:h-4 md:w-4" /> : 
-                                      <ArrowDownRight className="h-3 w-3 md:h-4 md:w-4" />}
-                  {value24hChange >= 0 ? '+' : ''}{formatCurrency(value24hChange)} (24h)
-                  <span className="ml-1">
-                    ({value24hChangePercent >= 0 ? '+' : ''}{value24hChangePercent.toFixed(2)}%)
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex flex-col md:items-end">
-                <div className="text-xs md:text-sm text-muted-foreground mb-1">{t('portfolio.performance')}</div>
-                <div className={cn(
-                  "text-lg md:text-xl font-bold",
-                  totalPnL >= 0 ? "text-green-500" : "text-red-500"
-                )}>
-                  {totalPnL >= 0 ? '+' : ''}{formatCurrency(totalPnL)}
-                  <span className="text-xs md:text-sm ml-2">
-                    ({pnlPercentage >= 0 ? '+' : ''}{pnlPercentage.toFixed(2)}%)
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm">
-                  <div>
-                    <span className="text-muted-foreground">24h: </span>
-                    <span className={totalPnL24h >= 0 ? "text-green-500" : "text-red-500"}>
-                      {totalPnL24h >= 0 ? '+' : ''}{formatCurrency(totalPnL24h)}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground">7d: </span>
-                    <span className={totalPnL7d >= 0 ? "text-green-500" : "text-red-500"}>
-                      {totalPnL7d >= 0 ? '+' : ''}{formatCurrency(totalPnL7d)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-4 md:mt-6 h-[120px] md:h-[150px]">
+            <div className="h-[200px] md:h-[240px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={performanceData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#444" opacity={0.2} />
@@ -296,10 +316,10 @@ export default function Portfolio() {
           </CardContent>
         </Card>
 
-        {/* Asset allocation */}
+        {/* Asset Allocation */}
         <Card className="card-gradient md:col-span-4">
           <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+            <CardTitle className="text-base md:text-lg flex items-center gap-2">
               <Activity className="h-5 w-5 text-primary" />
               {t('portfolio.asset_allocation')}
             </CardTitle>
@@ -335,8 +355,8 @@ export default function Portfolio() {
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <h3 className="text-lg md:text-xl font-semibold">{t('portfolio.active_positions')}</h3>
-          <Button variant="outline" size="sm" className="flex items-center gap-1 text-xs">
-            <TrendingUp className="h-3 w-3 md:h-4 md:w-4" />
+          <Button variant="outline" size="sm" className="text-xs">
+            <TrendingUp className="h-4 w-4 mr-1" />
             {t('portfolio.add_position')}
           </Button>
         </div>
@@ -362,7 +382,7 @@ export default function Portfolio() {
                           <TokenIcon symbol={pool?.token1 || ""} />
                         </div>
                         <div>
-                          <p className="font-medium text-sm md:text-base">{pool?.name}</p>
+                          <p className="font-medium text-sm">{pool?.name}</p>
                           <div className={cn(
                             "text-xs flex items-center",
                             Number(position.pnl) >= 0 ? "text-green-500" : "text-red-500"
