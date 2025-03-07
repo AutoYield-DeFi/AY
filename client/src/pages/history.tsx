@@ -5,7 +5,7 @@ import { formatCurrency } from "@/lib/utils";
 import { format } from "date-fns";
 import { ArrowUpRight, ArrowDownRight, Clock, Filter, ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SiBitcoin, SiEthereum, SiSolana } from "react-icons/si";
 import { CoinsIcon } from "lucide-react";
 import {
@@ -144,38 +144,42 @@ export default function History() {
         </Card>
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-        <TabsList className="h-9">
-          <TabsTrigger value="all" className="text-xs">{t('history.all_activity')}</TabsTrigger>
-          <TabsTrigger value="deposits" className="text-xs">{t('common.deposit')}</TabsTrigger>
-          <TabsTrigger value="withdrawals" className="text-xs">{t('common.withdraw')}</TabsTrigger>
-          <TabsTrigger value="closed" className="text-xs">{t('history.closed_positions')}</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue={activeTab} onValueChange={setActiveTab}>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <TabsList className="h-9">
+            <TabsTrigger value="all" className="text-xs">{t('history.all_activity')}</TabsTrigger>
+            <TabsTrigger value="deposits" className="text-xs">{t('common.deposit')}</TabsTrigger>
+            <TabsTrigger value="withdrawals" className="text-xs">{t('common.withdraw')}</TabsTrigger>
+            <TabsTrigger value="closed" className="text-xs">{t('history.closed_positions')}</TabsTrigger>
+          </TabsList>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="text-xs">
-              <Filter className="h-3.5 w-3.5 mr-1" />
-              {timeFilter === "all" ? t('history.all_time') : 
-               timeFilter === "week" ? t('history.past_week') : t('history.past_month')}
-              <ChevronDown className="h-3 w-3 ml-1 opacity-70" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => setTimeFilter("all")}>
-              {t('history.all_time')}
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTimeFilter("week")}>
-              {t('history.past_week')}
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTimeFilter("month")}>
-              {t('history.past_month')}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="text-xs">
+                <Filter className="h-3.5 w-3.5 mr-1" />
+                {timeFilter === "all" ? t('history.all_time') : 
+                 timeFilter === "week" ? t('history.past_week') : t('history.past_month')}
+                <ChevronDown className="h-3 w-3 ml-1 opacity-70" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTimeFilter("all")}>
+                {t('history.all_time')}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTimeFilter("week")}>
+                {t('history.past_week')}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTimeFilter("month")}>
+                {t('history.past_month')}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
 
-      <ActivityLog interactions={timeFilteredInteractions} />
+        <TabsContent value="all">
+          <ActivityLog interactions={timeFilteredInteractions} />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
