@@ -22,17 +22,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
-import type { Pool } from "@shared/schema";
+import type { Pool } from "@/lib/types";
 import { useTranslation } from "react-i18next";
 import { Progress } from "@/components/ui/progress";
 import { Info, ChevronRight, ChevronLeft, ArrowUpRight, ShieldCheck } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { DefiTooltip } from "@/components/ui/defi-tooltip";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const depositSchema = z.object({
   amount: z.string()
@@ -49,25 +48,7 @@ interface DepositDialogProps {
   onClose: () => void;
 }
 
-const STEPS = ["amount", "token_split"] as const;
-
-// Risk level indicator component
-const RiskBadge = ({ level }: { level: string }) => {
-  const colors = {
-    low: "bg-green-500/20 text-green-600 border-green-600/30",
-    medium: "bg-yellow-500/20 text-yellow-600 border-yellow-600/30",
-    high: "bg-red-500/20 text-red-600 border-red-600/30",
-  };
-
-  const colorClass = colors[level.toLowerCase() as keyof typeof colors] || "bg-gray-500/20 text-gray-600 border-gray-600/30";
-
-  return (
-    <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border ${colorClass}`}>
-      <ShieldCheck className="w-3 h-3 mr-1" />
-      {level.charAt(0).toUpperCase() + level.slice(1)}
-    </span>
-  );
-};
+const STEPS = ["amount", "review"] as const;
 
 export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
   const { toast } = useToast();
@@ -89,9 +70,7 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
   });
 
   const amount = Number(form.watch("amount")) || 0;
-  const token0Amount = amount / Number(pool.token0Price);
-  const token1Amount = amount / Number(pool.token1Price);
-  const estimatedDailyYield = (Number(pool.dailyFees) * (amount / Number(pool.tvl)));
+  const estimatedDailyYield = (Number(pool.fees24h) * (amount / Number(pool.tvl)));
   const estimatedYearlyYield = estimatedDailyYield * 365;
   const estimatedAPR = (estimatedYearlyYield / amount) * 100;
 
@@ -108,9 +87,7 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
         title: t('common.success'),
         description: t('pools.deposit.success_message', { 
           amount: formatCurrency(Number(data.amount)), 
-          pool: pool.name,
-          token0Amount: token0Amount.toFixed(6),
-          token1Amount: token1Amount.toFixed(6)
+          pool: pool.name
         }),
       });
 
@@ -133,10 +110,17 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <DialogHeader>
-              <div className="flex justify-between items-center">
-                <DialogTitle>{t('pools.deposit.title', { poolName: pool.name })}</DialogTitle>
-                <RiskBadge level={pool.riskLevel} />
-              </div>
+              <DialogTitle className="flex items-center gap-2">
+                {t('pools.deposit.title')} {pool.name}
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Info className="h-4 w-4 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="max-w-xs text-sm">{t('pools.deposit.tooltip')}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </DialogTitle>
               <DialogDescription>
                 {t('pools.deposit.step', {
                   current: currentStep + 1,
@@ -146,144 +130,109 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
               </DialogDescription>
               <Progress
                 value={((currentStep + 1) / STEPS.length) * 100}
-                className="h-1 bg-primary/20"
+                className="h-1"
               />
             </DialogHeader>
 
             {currentStep === 0 && (
-              <FormField
-                control={form.control}
-                name="amount"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t('pools.deposit.amount_label')}</FormLabel>
-                    <FormControl>
-                      <div className="space-y-2">
-                        <div className="relative">
-                          <Input
-                            placeholder="0.00"
-                            type="number"
-                            step="0.01"
-                            className="font-medium text-lg pl-7"
-                            {...field}
-                          />
-                          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                        </div>
-                        {amount > 0 && (
-                          <div className="space-y-3">
-                            <div className="p-3 rounded-lg bg-primary/5 border border-primary/10">
-                              <div className="flex items-center justify-between mb-1">
-                                <DefiTooltip term="pool_share" className="text-sm text-muted-foreground">
-                                  {t('pools.deposit.pool_share')}
-                                </DefiTooltip>
-                                <span className="font-medium">
-                                  {((amount / Number(pool.tvl)) * 100).toFixed(4)}%
-                                </span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <DefiTooltip term="apr" className="text-sm text-muted-foreground">
-                                  {t('pools.deposit.annual_yield')}
-                                </DefiTooltip>
-                                <span className="font-medium text-green-500 flex items-center">
-                                  <ArrowUpRight className="h-3 w-3 mr-1" />
-                                  {formatCurrency(estimatedYearlyYield)}
-                                </span>
-                              </div>
-                            </div>
+              <div className="space-y-4">
+                <Alert className="bg-muted">
+                  <AlertDescription>
+                    {t('pools.deposit.beginner_note')}
+                  </AlertDescription>
+                </Alert>
 
-                            {amount >= 100 && (
-                              <div className="text-xs text-muted-foreground p-2 bg-muted/40 rounded border">
-                                <p>{t('pools.deposit.yearly_impact', {
-                                  yield: formatCurrency(estimatedYearlyYield),
-                                  coffees: yearlyCoffees
-                                }, `This investment could generate ${formatCurrency(estimatedYearlyYield)} annually - enough for about ${yearlyCoffees} coffees!`)}</p>
-                              </div>
-                            )}
+                <FormField
+                  control={form.control}
+                  name="amount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('pools.deposit.amount_label')}</FormLabel>
+                      <FormControl>
+                        <div className="space-y-2">
+                          <div className="relative">
+                            <Input
+                              placeholder="0.00"
+                              type="number"
+                              step="0.01"
+                              className="pl-7 text-lg"
+                              {...field}
+                            />
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
                           </div>
-                        )}
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
+                          {amount > 0 && (
+                            <div className="space-y-3">
+                              <div className="p-4 rounded-lg bg-muted/50 space-y-3">
+                                <div className="flex justify-between items-center">
+                                  <span className="text-sm text-muted-foreground">
+                                    {t('pools.deposit.estimated_daily')}
+                                  </span>
+                                  <span className="font-medium text-green-500">
+                                    +{formatCurrency(estimatedDailyYield)}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <span className="text-sm text-muted-foreground">
+                                    {t('pools.deposit.estimated_yearly')}
+                                  </span>
+                                  <span className="font-medium text-green-500">
+                                    +{formatCurrency(estimatedYearlyYield)}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <span className="text-sm text-muted-foreground">APR</span>
+                                  <span className="font-medium text-green-500">
+                                    {estimatedAPR.toFixed(2)}%
+                                  </span>
+                                </div>
+                              </div>
+
+                              {amount >= 100 && (
+                                <div className="text-sm text-muted-foreground p-3 bg-muted rounded-lg border">
+                                  <p>{t('pools.deposit.yearly_impact', {
+                                    yield: formatCurrency(estimatedYearlyYield),
+                                    coffees: yearlyCoffees
+                                  })}</p>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             )}
 
             {currentStep === 1 && (
               <div className="space-y-4">
-                <div>
-                  <h3 className="font-medium mb-2">{t('pools.deposit.token_split')}</h3>
-                  <div className="space-y-3 p-4 rounded-lg bg-primary/5 border border-primary/10">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">{pool.token0}</span>
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Info className="h-4 w-4 text-primary/60" />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              {t('pools.deposit.current_price')}: {formatCurrency(Number(pool.token0Price))}
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </div>
-                      <span className="font-medium">{token0Amount.toFixed(6)}</span>
+                <div className="p-4 rounded-lg bg-muted/50 space-y-3">
+                  <h3 className="font-medium">{t('pools.deposit.summary')}</h3>
+
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">{t('pools.deposit.amount')}</span>
+                      <span className="font-medium">{formatCurrency(amount)}</span>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">{pool.token1}</span>
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Info className="h-4 w-4 text-primary/60" />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              {t('pools.deposit.current_price')}: {formatCurrency(Number(pool.token1Price))}
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </div>
-                      <span className="font-medium">{token1Amount.toFixed(6)}</span>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">{t('pools.deposit.pool')}</span>
+                      <span className="font-medium">{pool.name}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">APR</span>
+                      <span className="font-medium text-green-500">{pool.apr}%</span>
                     </div>
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="font-medium mb-2">{t('pools.deposit.expected_returns')}</h3>
-                  <div className="space-y-3 p-4 rounded-lg bg-green-500/5 border border-green-500/10">
-                    <div className="flex justify-between items-center">
-                      <DefiTooltip term="apr" className="text-sm text-muted-foreground">
-                        {t('pools.deposit.estimated_apr')}
-                      </DefiTooltip>
-                      <span className="font-medium text-green-500">{estimatedAPR.toFixed(2)}%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">{t('pools.deposit.daily_yield')}</span>
-                      <span className="font-medium text-green-500">+{formatCurrency(estimatedDailyYield)}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">{t('pools.deposit.yearly_yield')}</span>
-                      <span className="font-medium text-green-500">+{formatCurrency(estimatedYearlyYield)}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {Number(pool.impermanentLoss) > 2 && (
-                  <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                    <div className="flex items-start gap-2">
-                      <Info className="h-4 w-4 text-yellow-500 shrink-0 mt-0.5" />
-                      <div>
-                        <DefiTooltip term="impermanent_loss" className="text-sm font-medium text-yellow-600">
-                          {t('pools.deposit.risk_note')}
-                        </DefiTooltip>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {t('pools.deposit.risk_explanation', { percentage: pool.impermanentLoss })}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                <Alert>
+                  <AlertDescription>
+                    {t('pools.deposit.confirmation_note')}
+                  </AlertDescription>
+                </Alert>
               </div>
             )}
 
@@ -297,20 +246,10 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                   className="flex-1"
                 >
                   <ChevronLeft className="h-4 w-4 mr-1" />
-                  {t('pools.deposit.back')}
+                  {t('common.back')}
                 </Button>
               )}
-              {currentStep === 0 && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={onClose}
-                  disabled={isSubmitting}
-                  className="flex-1"
-                >
-                  {t('pools.deposit.cancel')}
-                </Button>
-              )}
+
               <Button
                 type="button"
                 onClick={() => {
@@ -321,13 +260,13 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                   }
                 }}
                 disabled={isSubmitting || (currentStep === 0 && !form.formState.isValid)}
-                className="flex-1 bg-primary hover:bg-primary/90"
+                className="flex-1"
               >
                 {currentStep === STEPS.length - 1 ? (
-                  isSubmitting ? t('pools.deposit.processing') : t('pools.deposit.confirm')
+                  isSubmitting ? t('common.processing') : t('pools.deposit.confirm')
                 ) : (
                   <>
-                    {t('pools.deposit.next')}
+                    {t('common.next')}
                     <ChevronRight className="h-4 w-4 ml-1" />
                   </>
                 )}
