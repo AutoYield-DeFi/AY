@@ -1,42 +1,76 @@
 import { useState, useMemo } from "react";
-import { DepositDialog } from "./deposit-dialog";
-import { PoolCard } from "./pool-card";
+import { PoolCard } from "./PoolCard";
 import { pools } from "@/lib/mock-data";
 
 interface PoolListProps {
   filterRisk?: string;
   sortBy?: string;
+  aprRange?: string;
+  searchQuery?: string;
 }
 
-export function PoolList({ filterRisk = "all", sortBy = "apr" }: PoolListProps) {
+export function PoolList({ 
+  filterRisk = "all", 
+  sortBy = "apr",
+  aprRange = "all",
+  searchQuery = ""
+}: PoolListProps) {
   const [selectedPool, setSelectedPool] = useState<typeof pools[0] | null>(null);
-
-  const handleDeposit = (pool: typeof pools[0]) => {
-    setSelectedPool(pool);
-  };
 
   // Filter and sort pools based on props
   const filteredAndSortedPools = useMemo(() => {
-    // First filter by risk level if needed
     let filteredPools = pools;
+
+    // Filter by risk level
     if (filterRisk !== "all") {
-      filteredPools = pools.filter(pool => pool.riskLevel.toLowerCase() === filterRisk);
+      filteredPools = filteredPools.filter(pool => 
+        pool.riskLevel.toLowerCase() === filterRisk
+      );
     }
 
-    // Then sort based on criteria
+    // Filter by APR range
+    if (aprRange !== "all") {
+      filteredPools = filteredPools.filter(pool => {
+        const apr = pool.apr;
+        switch (aprRange) {
+          case "0-10":
+            return apr >= 0 && apr <= 10;
+          case "10-20":
+            return apr > 10 && apr <= 20;
+          case "20-50":
+            return apr > 20 && apr <= 50;
+          case "50-plus":
+            return apr > 50;
+          default:
+            return true;
+        }
+      });
+    }
+
+    // Filter by search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filteredPools = filteredPools.filter(pool =>
+        pool.name.toLowerCase().includes(query) ||
+        pool.token1.toLowerCase().includes(query) ||
+        pool.token2.toLowerCase().includes(query)
+      );
+    }
+
+    // Sort based on criteria
     return filteredPools.sort((a, b) => {
       switch (sortBy) {
         case "apr":
-          return Number(b.apr) - Number(a.apr);
+          return b.apr - a.apr;
         case "tvl":
-          return Number(b.tvl) - Number(a.tvl);
+          return b.tvl - a.tvl;
         case "volume":
-          return Number(b.volume24h) - Number(a.volume24h);
+          return b.volume24h - a.volume24h;
         default:
-          return Number(b.apr) - Number(a.apr);
+          return b.apr - a.apr;
       }
     });
-  }, [filterRisk, sortBy]);
+  }, [filterRisk, sortBy, aprRange, searchQuery]);
 
   return (
     <>
@@ -49,17 +83,8 @@ export function PoolList({ filterRisk = "all", sortBy = "apr" }: PoolListProps) 
           <PoolCard
             key={pool.id}
             pool={pool}
-            onDeposit={handleDeposit}
           />
         ))
-      )}
-
-      {selectedPool && (
-        <DepositDialog
-          pool={selectedPool}
-          isOpen={!!selectedPool}
-          onClose={() => setSelectedPool(null)}
-        />
       )}
     </>
   );
