@@ -13,109 +13,123 @@ i18n
     resources: {
       en: {
         translation: {
-          common: {
-            connect_wallet: 'Connect Wallet',
-            disconnect_wallet: 'Disconnect',
-            dashboard: 'Dashboard',
-            pools: 'Pools',
-            portfolio: 'Portfolio',
-            total_value: 'Total Value',
-            profit_loss: 'Profit/Loss',
-            total_pnl: 'Total P&L',
-            pnl: 'P&L',
-            apr: 'APR',
-            tvl: 'TVL',
-            volume_24h: '24h Volume',
+          actions: {
             deposit: 'Deposit',
             withdraw: 'Withdraw',
-            history: 'History',
-            help: 'Help',
-            loading: 'Loading...',
+            connect_wallet: 'Connect Wallet',
+            disconnect: 'Disconnect',
             confirm: 'Confirm',
             cancel: 'Cancel',
             back: 'Back',
             next: 'Next',
-            processing: 'Processing...',
-            success: 'Success!',
-            error: 'Error',
-            details: 'View Details',
-            portfolio_value: 'Portfolio Value',
-            available_balance: 'Available Balance',
-            staked_value: 'Staked Value',
-            monthly_yield: 'Monthly Yield',
-            average_apr: 'Average APR',
-            recent_activity: 'Recent Activity',
             view_all: 'View All',
-            positions_count: '{{count}} active positions',
-            total_balance: 'Total Balance',
-            processing_transaction: 'Processing Transaction...',
             search: 'Search',
-            filter: 'Filter',
-            time_period: {
-              all: 'All Time',
-              week: 'Past Week',
-              month: 'Past Month'
-            }
+            filter: 'Filter'
+          },
+          nav: {
+            dashboard: 'Dashboard',
+            pools: 'Pools',
+            portfolio: 'Portfolio',
+            history: 'History',
+            help: 'Help'
+          },
+          stats: {
+            total_value: 'Total Value',
+            available_balance: 'Available Balance',
+            total_balance: 'Total Balance',
+            total_deposits: 'Total Deposits',
+            total_withdrawals: 'Total Withdrawals',
+            profit_loss: 'Profit/Loss',
+            monthly_yield: 'Monthly Yield',
+            average_apr: 'Average APR: {{value}}%',
+            active_positions: '{{count}} active positions',
+            deposits_count: '{{count}} deposits',
+            withdrawals_count: '{{count}} withdrawals',
+            positions_closed: '{{count}} positions closed',
+            tvl: 'TVL',
+            volume_24h: '24h Volume',
+            apr: 'APR',
+            pnl: 'P&L',
+            total_pnl: 'Total P&L'
+
           },
           dashboard: {
             title: 'Dashboard',
             description: 'Track your portfolio performance and market activity',
-            portfolio_summary: 'Portfolio Summary',
-            performance_history: 'Performance History',
-            total_value: 'Total Value',
-            available_balance: 'Available Balance',
-            total_balance: 'Total Balance',
-            recent_activity: 'Recent Activity',
-            view_all: 'View All',
-            view_all_transactions: 'View all transactions',
-            asset_allocation: 'Asset Allocation',
             portfolio_performance: 'Portfolio Performance',
-            performance_desc: 'Track your portfolio value and yields over time',
-            value: 'Value',
-            yield: 'Yield',
+            performance_description: 'Track your portfolio value and yields over time',
+            asset_allocation: 'Asset Allocation',
             distribution: 'Distribution of your portfolio',
+            recent_activity: 'Recent Activity',
             chart: {
-              tooltip: {
-                value: 'Value: {{value}}',
-                yield: 'Yield: +{{value}}'
-              }
-            }
+              value: 'Value',
+              yield: 'Yield',
+              value_tooltip: 'Value: {{value}}',
+              yield_tooltip: 'Yield: +{{value}}'
+            },
+            portfolio_summary: 'Portfolio Summary'
           },
           history: {
             title: 'Transaction History',
             description: 'Track your deposits, withdrawals, and position closures',
             all_activity: 'All Activity',
-            transaction_type: {
+            no_transactions: 'No transactions found',
+            try_filtering: 'Try adjusting your filters or search criteria',
+            search_placeholder: 'Search by pool name...',
+            transaction_types: {
               deposit: 'Deposit',
               withdraw: 'Withdraw',
               position_closed: 'Position Closed'
             },
-            total_deposits: 'Total Deposits',
-            total_withdrawals: 'Total Withdrawals',
-            initial_investment: 'Initial Investment',
-            duration: 'Duration',
-            profit_loss: 'Profit/Loss',
-            no_transactions: 'No transactions found',
-            deposits_count: '{{count}} deposits',
-            withdrawals_count: '{{count}} withdrawals',
-            closed_positions: 'Closed Positions',
-            search_placeholder: 'Search by pool name...',
-            deposits: 'Deposits',
-            withdrawals: 'Withdrawals',
-            filter_options: {
+            filters: {
               all_time: 'All Time',
               past_week: 'Past Week',
               past_month: 'Past Month'
             },
-            transaction_details: {
+            details: {
               initial: 'Initial',
               final: 'Final',
               duration: '{{start}} - {{end}}'
-            }
+            },
+            initial_investment: 'Initial Investment',
+            duration: 'Duration'
+          },
+          time: {
+            daily: 'Daily',
+            weekly: 'Weekly',
+            monthly: 'Monthly',
+            yearly: 'Yearly',
+            all: 'All Time',
+            week: 'Past Week',
+            month: 'Past Month'
+
+          },
+          status: {
+            loading: 'Loading...',
+            processing: 'Processing...',
+            success: 'Success!',
+            error: 'Error occurred',
+            processing_transaction: 'Processing Transaction...'
           },
           pools: {
             title: 'Pools',
             description: 'Manage your liquidity positions',
+            view_details: 'View Details',
+            utilization: 'Utilization',
+            pool_health: 'Pool Health',
+            health_metrics: 'Overall health and stability of the pool',
+            volume_metrics: '24-hour trading volume for this pool',
+            risk_levels: {
+              low: 'Low Risk',
+              medium: 'Medium Risk',
+              high: 'High Risk'
+            },
+            metrics: {
+              volume_24h: '24h Volume',
+              tvl: 'Total Value Locked',
+              apr: 'Annual Rate',
+              daily_fees: 'Daily Fees'
+            },
             deposit: {
               title: 'Deposit into',
               amount_label: 'Amount to Deposit',
@@ -143,22 +157,6 @@ i18n
                 amount: 'Select Amount',
                 review: 'Review & Confirm'
               }
-            },
-            view_details: 'View Details',
-            utilization: 'Utilization',
-            pool_health: 'Pool Health',
-            health_metrics: 'Overall health and stability of the pool',
-            volume_metrics: '24-hour trading volume for this pool',
-            risk_levels: {
-              low: 'Low Risk',
-              medium: 'Medium Risk',
-              high: 'High Risk'
-            },
-            metrics: {
-              volume_24h: '24h Volume',
-              tvl: 'Total Value Locked',
-              apr: 'Annual Rate',
-              daily_fees: 'Daily Fees'
             }
           },
           portfolio: {
@@ -178,98 +176,135 @@ i18n
             daily_yield: 'Daily Yield',
             deposit: 'Deposit',
             add_position: 'Add Position'
+          },
+          numbers: {
+            compact: '{{value, compact}}',
+            percent: '{{value, number}}%',
+            currency: '{{value, currency}}'
+          },
+          defi: {
+            terms: {
+              apr: 'Annual Percentage Rate - The annual rate of return on your investment without compound interest.',
+              tvl: 'Total Value Locked - The total amount of assets deposited in the pool.',
+              pool_share: 'The percentage of the pool that your deposit represents.',
+              impermanent_loss: 'Potential loss that occurs when the price of your deposited assets changes compared to simply holding them.',
+              pool_activity: 'How actively the pool is used for trading and yield generation, indicating the current momentum of the pool.',
+              yield_farming: 'Strategy of staking or lending crypto assets to generate high returns in the form of additional cryptocurrency.',
+              smart_contract: 'Self-executing code on a blockchain that automatically implements the terms of an agreement when predetermined conditions are met.',
+              gas_fee: 'Transaction fee paid to network validators for processing transactions on a blockchain network.',
+              amm: 'Automated Market Maker - A decentralized exchange protocol that uses liquidity pools to enable automated trading.',
+              protocol_fee: 'Fee charged by a DeFi platform that goes to the protocol treasury or is distributed to governance token holders.',
+              utilization_rate: 'The percentage of available assets in a pool that are currently being lent or used.',
+              risk_note: 'High levels can significantly impact returns. Consider your risk tolerance.'
+            }
           }
         }
       },
       es: {
         translation: {
-          common: {
-            connect_wallet: 'Conectar Billetera',
-            disconnect_wallet: 'Desconectar',
-            dashboard: 'Panel',
-            pools: 'Pools',
-            portfolio: 'Portafolio',
-            total_value: 'Valor Total',
-            total_pnl: 'Ganancias y Pérdidas',
-            apr: 'TAE',
-            tvl: 'VTB',
-            volume_24h: 'Volumen 24h',
+          actions: {
             deposit: 'Depositar',
             withdraw: 'Retirar',
-            history: 'Historial',
-            help: 'Ayuda',
-            need_help: '¿Necesitas ayuda?',
-            help_tooltip: 'Si necesitas asistencia con conceptos DeFi o el uso de esta plataforma, visita nuestra Base de Conocimientos o contacta con soporte.',
-            loading: 'Cargando...',
+            connect_wallet: 'Conectar Billetera',
+            disconnect: 'Desconectar',
             confirm: 'Confirmar',
             cancel: 'Cancelar',
             back: 'Atrás',
             next: 'Siguiente',
-            positions_count: '{{count}} posiciones activas',
-            total_balance: 'Saldo Total',
-            processing_transaction: 'Procesando transacción...',
+            view_all: 'Ver Todo',
             search: 'Buscar',
-            filter: 'Filtrar',
-            time_period: {
-              all: 'Todo el tiempo',
-              week: 'Última semana',
-              month: 'Último mes'
-            }
-
+            filter: 'Filtrar'
+          },
+          nav: {
+            dashboard: 'Panel',
+            pools: 'Pools',
+            portfolio: 'Portafolio',
+            history: 'Historial',
+            help: 'Ayuda'
+          },
+          stats: {
+            total_value: 'Valor Total',
+            available_balance: 'Saldo Disponible',
+            total_balance: 'Saldo Total',
+            total_deposits: 'Depósitos Totales',
+            total_withdrawals: 'Retiros Totales',
+            profit_loss: 'Ganancias/Pérdidas',
+            monthly_yield: 'Rendimiento Mensual',
+            average_apr: 'APR Promedio: {{value}}%',
+            active_positions: '{{count}} posiciones activas',
+            deposits_count: '{{count}} depósitos',
+            withdrawals_count: '{{count}} retiros',
+            positions_closed: '{{count}} posiciones cerradas',
+            tvl: 'VTB',
+            volume_24h: 'Volumen 24h',
+            apr: 'TAE',
+            pnl: 'Ganancias y Pérdidas',
+            total_pnl: 'Ganancias y Pérdidas Totales'
           },
           dashboard: {
             title: 'Panel',
             description: 'Visión general del rendimiento de AutoYield',
-            portfolio_summary: 'Resumen del Portafolio',
-            total_value: 'Valor Total',
-            available_balance: 'Saldo Disponible',
-            total_balance: 'Saldo Total',
+            portfolio_performance: 'Rendimiento del Portafolio',
+            performance_description: 'Rastrea el valor de tu portafolio y los rendimientos a lo largo del tiempo',
+            asset_allocation: 'Asignación de Activos',
+            distribution: 'Distribución de tu portafolio',
             recent_activity: 'Actividad Reciente',
-            view_all: 'Ver Todo',
+            chart: {
+              value: 'Valor',
+              yield: 'Rendimiento',
+              value_tooltip: 'Valor: {{value}}',
+              yield_tooltip: 'Rendimiento: +{{value}}'
+            },
+            portfolio_summary: 'Resumen del Portafolio',
             notices: {
               title: 'Tablón de Anuncios',
               high_yield_title: 'Oportunidad de Alto Rendimiento',
               high_yield_message: 'El pool SOL-USDC ofrece actualmente un 25.5% APR. Considera aumentar tu posición.',
               market_update_title: 'Actualización de Mercado',
-              market_update_message: 'Se espera una volatilidad del mercado mayor de lo habitual esta semana. Monitorea tus posiciones de cerca.',
-            },
-            performance_history: 'Historial de Rendimiento',
-            distribution: 'Distribución de tu portafolio',
-            chart: {
-              tooltip: {
-                value: 'Valor: {{value}}',
-                yield: 'Rendimiento: +{{value}}'
-              }
+              market_update_message: 'Se espera una volatilidad del mercado mayor de lo habitual esta semana. Monitorea tus posiciones de cerca.'
             }
           },
-          portfolio: {
-            title: 'Portafolio',
-            description: 'Rastrea tus posiciones de liquidez y rendimientos',
-            overview: 'Resumen del Portafolio',
-            total_portfolio_value: 'Valor Total del Portafolio',
-            available_balance: 'Saldo Disponible',
-            positions_value: 'Valor de Posiciones',
-            total_balance: 'Saldo Total',
-            initial_investment: 'Inversión Inicial',
-            current_value: 'Valor Actual',
-            performance: 'Rendimiento',
-            performance_history: 'Historial de Rendimiento',
-            value: 'Valor',
-            active_positions: 'Posiciones Activas',
-            pool_share: 'Participación en Pool',
-            daily_yield: 'Rendimiento Diario',
-            ai_strategy: 'Estrategia IA',
-            next_move: 'Próximo Movimiento Proyectado',
-            monitoring_message: 'Monitoreando el pool {{pool}} para un posible aumento de posición. Las métricas actuales muestran condiciones favorables con {{apr}}% APR.',
-            recent_decisions: 'Decisiones Recientes',
-            decision_types: {
-              enter: 'Entrar',
-              exit: 'Salir',
-              rebalance: 'Reequilibrar',
+          history: {
+            title: 'Historial de Transacciones',
+            description: 'Rastrea tus depósitos, retiros y cierres de posiciones',
+            all_activity: 'Toda la Actividad',
+            no_transactions: 'No se encontraron transacciones',
+            try_filtering: 'Intenta ajustar tus filtros o criterios de búsqueda',
+            search_placeholder: 'Buscar por nombre del pool...',
+            transaction_types: {
+              deposit: 'Depósito',
+              withdraw: 'Retiro',
+              position_closed: 'Posición Cerrada'
             },
-            deposit: 'Depositar',
-            asset_allocation: 'Asignación de Activos',
-            add_position: 'Añadir Posición',
+            filters: {
+              all_time: 'Todo el tiempo',
+              past_week: 'Última semana',
+              past_month: 'Último mes'
+            },
+            details: {
+              initial: 'Inicial',
+              final: 'Final',
+              duration: '{{start}} - {{end}}'
+            },
+            initial_investment: 'Inversión Inicial',
+            duration: 'Duración'
+
+          },
+          time: {
+            daily: 'Diario',
+            weekly: 'Semanal',
+            monthly: 'Mensual',
+            yearly: 'Anual',
+            all: 'Todo el tiempo',
+            week: 'Última semana',
+            month: 'Último mes'
+          },
+          status: {
+            loading: 'Cargando...',
+            processing: 'Procesando...',
+            success: '¡Éxito!',
+            error: 'Error',
+            processing_transaction: 'Procesando transacción...'
           },
           pools: {
             title: 'Pools de Liquidez',
@@ -336,47 +371,41 @@ i18n
                 amount: 'Seleccionar Cantidad',
                 review: 'Revisar y Confirmar'
               }
-            },
-            metrics: {
-              volume_24h: 'Volumen 24h',
-              tvl: 'Valor Total Bloqueado',
-              apr: 'Tasa Anual',
-              daily_fees: 'Comisiones Diarias'
             }
           },
-          history: {
-            title: 'Historial',
-            description: 'Ver tu historial completo de transacciones',
-            all_activity: 'Toda la Actividad',
-            transaction_type: {
-              deposit: 'Depósito',
-              withdraw: 'Retiro',
-              position_closed: 'Posición Cerrada',
-            },
-            total_deposits: 'Depósitos Totales',
-            total_withdrawals: 'Retiros Totales',
+          portfolio: {
+            title: 'Portafolio',
+            description: 'Rastrea tus posiciones de liquidez y rendimientos',
+            overview: 'Resumen del Portafolio',
+            total_portfolio_value: 'Valor Total del Portafolio',
+            available_balance: 'Saldo Disponible',
+            positions_value: 'Valor de Posiciones',
+            total_balance: 'Saldo Total',
             initial_investment: 'Inversión Inicial',
-            duration: 'Duración',
-            profit_loss: 'Ganancias/Pérdidas',
-            all_time: 'Todo el Tiempo',
-            past_week: 'Última Semana',
-            past_month: 'Último Mes',
-            no_transactions: 'No se encontraron transacciones para los filtros seleccionados.',
-            filter_options: {
-              all_time: 'Todo el tiempo',
-              past_week: 'Última semana',
-              past_month: 'Último mes'
+            current_value: 'Valor Actual',
+            performance: 'Rendimiento',
+            performance_history: 'Historial de Rendimiento',
+            value: 'Valor',
+            active_positions: 'Posiciones Activas',
+            pool_share: 'Participación en Pool',
+            daily_yield: 'Rendimiento Diario',
+            ai_strategy: 'Estrategia IA',
+            next_move: 'Próximo Movimiento Proyectado',
+            monitoring_message: 'Monitoreando el pool {{pool}} para un posible aumento de posición. Las métricas actuales muestran condiciones favorables con {{apr}}% APR.',
+            recent_decisions: 'Decisiones Recientes',
+            decision_types: {
+              enter: 'Entrar',
+              exit: 'Salir',
+              rebalance: 'Reequilibrar'
             },
-            transaction_details: {
-              initial: 'Inicial',
-              final: 'Final',
-              duration: '{{start}} - {{end}}'
-            }
+            deposit: 'Depositar',
+            asset_allocation: 'Asignación de Activos',
+            add_position: 'Añadir Posición'
           },
           numbers: {
             compact: '{{value, compact}}',
             percent: '{{value, number}}%',
-            currency: '{{value, currency}}',
+            currency: '{{value, currency}}'
           },
           defi: {
             terms: {
@@ -398,92 +427,108 @@ i18n
       },
       ja: {
         translation: {
-          common: {
-            connect_wallet: 'ウォレットを接続',
-            disconnect_wallet: '切断',
-            dashboard: 'ダッシュボード',
-            pools: 'プール',
-            portfolio: 'ポートフォリオ',
-            total_value: '総額',
-            total_pnl: '損益',
-            apr: '年利率',
-            tvl: 'ロック済み総額',
-            volume_24h: '24時間取引量',
+          actions: {
             deposit: '預入',
             withdraw: '引出',
-            history: '履歴',
-            help: 'ヘルプ',
-            need_help: 'ヘルプが必要ですか？',
-            help_tooltip: 'DeFiの概念やこのプラットフォームの使用について支援が必要な場合は、知識ベースにアクセスするかサポートにお問い合わせください。',
-            loading: '読み込み中...',
+            connect_wallet: 'ウォレットを接続',
+            disconnect: '切断',
             confirm: '確認',
             cancel: 'キャンセル',
             back: '戻る',
             next: '次へ',
-            positions_count: '{{count}}件のアクティブなポジション',
-            total_balance: '合計残高',
-            processing_transaction: 'トランザクション処理中...',
+            view_all: 'すべて表示',
             search: '検索',
-            filter: '絞り込み',
-            time_period: {
-              all: '全期間',
-              week: '過去1週間',
-              month: '過去1ヶ月'
-            }
+            filter: '絞り込み'
+          },
+          nav: {
+            dashboard: 'ダッシュボード',
+            pools: 'プール',
+            portfolio: 'ポートフォリオ',
+            history: '履歴',
+            help: 'ヘルプ'
+          },
+          stats: {
+            total_value: '総額',
+            available_balance: '利用可能残高',
+            total_balance: '合計残高',
+            total_deposits: '総預入額',
+            total_withdrawals: '総引出額',
+            profit_loss: '損益',
+            monthly_yield: '月次利回り',
+            average_apr: '平均APR: {{value}}%',
+            active_positions: '{{count}}件のアクティブなポジション',
+            deposits_count: '{{count}}件の預入',
+            withdrawals_count: '{{count}}件の引出',
+            positions_closed: '{{count}}件のポジション終了',
+            tvl: 'ロック済み総額',
+            volume_24h: '24時間取引量',
+            apr: '年利率',
+            pnl: '損益',
+            total_pnl: '損益合計'
           },
           dashboard: {
             title: 'ダッシュボード',
             description: 'AutoYieldのパフォーマンス概要',
-            portfolio_summary: 'ポートフォリオ概要',
-            total_value: '総額',
-            available_balance: '利用可能残高',
-            total_balance: '合計残高',
+            portfolio_performance: 'ポートフォリオパフォーマンス',
+            performance_description: 'ポートフォリオの価値と経年収益率を追跡',
+            asset_allocation: '資産配分',
+            distribution: 'ポートフォリオの配分',
             recent_activity: '最近のアクティビティ',
-            view_all: 'すべて表示',
+            chart: {
+              value: '価値',
+              yield: '利回り',
+              value_tooltip: '価値: {{value}}',
+              yield_tooltip: '利回り: +{{value}}'
+            },
+            portfolio_summary: 'ポートフォリオ概要',
             notices: {
               title: '通知ボード',
               high_yield_title: '高利回り機会',
               high_yield_message: 'SOL-USDCプールが現在25.5%のAPRを提供中。ポジション増加をご検討ください。',
               market_update_title: '市場アップデート',
-              market_update_message: '今週は通常より高い市場変動性が予想されます。ポジションを注意深く監視してください。',
-            },
-            performance_history: 'パフォーマンス履歴',
-            distribution: 'ポートフォリオの配分',
-            chart: {
-              tooltip: {
-                value: '価値: {{value}}',
-                yield: '利回り: +{{value}}'
-              }
+              market_update_message: '今週は通常より高い市場変動性が予想されます。ポジションを注意深く監視してください。'
             }
           },
-          portfolio: {
-            title: 'ポートフォリオ',
-            description: '流動性ポジションとリターンを追跡',
-            overview: 'ポートフォリオ概要',
-            total_portfolio_value: 'ポートフォリオ総額',
-            available_balance: '利用可能残高',
-            positions_value: 'ポジション価値',
-            total_balance: '合計残高',
-            initial_investment: '初期投資',
-            current_value: '現在価値',
-            performance: 'パフォーマンス',
-            performance_history: 'パフォーマンス履歴',
-            value: '価値',
-            active_positions: 'アクティブポジション',
-            pool_share: 'プールシェア',
-            daily_yield: '日次利回り',
-            ai_strategy: 'AI戦略',
-            next_move: '次の予測される動き',
-            monitoring_message: '{{pool}}プールのポジション増加の可能性を監視中。現在の指標は{{apr}}% APRで好条件を示しています。',
-            recent_decisions: '最近の決定',
-            decision_types: {
-              enter: '参入',
-              exit: '退出',
-              rebalance: 'リバランス',
+          history: {
+            title: '取引履歴',
+            description: '預入、引出、ポジション終了を追跡',
+            all_activity: '全アクティビティ',
+            no_transactions: '取引が見つかりません',
+            try_filtering: 'フィルタまたは検索条件を調整してみてください。',
+            search_placeholder: 'プール名で検索...',
+            transaction_types: {
+              deposit: '預入',
+              withdraw: '引出',
+              position_closed: 'ポジション終了'
             },
-            deposit: '預入',
-            asset_allocation: '資産配分',
-            add_position: 'ポジション追加',
+            filters: {
+              all_time: '全期間',
+              past_week: '過去1週間',
+              past_month: '過去1ヶ月'
+            },
+            details: {
+              initial: '開始時',
+              final: '終了時',
+              duration: '{{start}} - {{end}}'
+            },
+            initial_investment: '初期投資',
+            duration: '期間'
+          },
+          time: {
+            daily: '日次',
+            weekly: '週間',
+            monthly: '月次',
+            yearly: '年間',
+            all: '全期間',
+            week: '過去1週間',
+            month: '過去1ヶ月'
+          },
+          status: {
+            loading: '読み込み中...',
+            processing: '処理中...',
+            success: '成功しました！',
+            error: 'エラーが発生しました',
+            processing_transaction: 'トランザクション処理中...'
           },
           pools: {
             title: '流動性プール',
@@ -550,47 +595,41 @@ i18n
                 amount: '数量の選択',
                 review: '確認と承認'
               }
-            },
-            metrics: {
-              volume_24h: '24時間取引量',
-              tvl: 'ロック済み総額',
-              apr: '年間利率',
-              daily_fees: '日次手数料'
             }
           },
-          history: {
-            title: '履歴',
-            description: '取引履歴の完全な記録を表示',
-            all_activity: '全アクティビティ',
-            transaction_type: {
-              deposit: '預入',
-              withdraw: '引出',
-              position_closed: 'ポジション終了',
-            },
-            total_deposits: '総預入額',
-            total_withdrawals: '総引出額',
+          portfolio: {
+            title: 'ポートフォリオ',
+            description: '流動性ポジションとリターンを追跡',
+            overview: 'ポートフォリオ概要',
+            total_portfolio_value: 'ポートフォリオ総額',
+            available_balance: '利用可能残高',
+            positions_value: 'ポジション価値',
+            total_balance: '合計残高',
             initial_investment: '初期投資',
-            duration: '期間',
-            profit_loss: '損益',
-            all_time: '全期間',
-            past_week: '過去1週間',
-            past_month: '過去1ヶ月',
-            no_transactions: '選択されたフィルタに対する取引が見つかりません。',
-            filter_options: {
-              all_time: '全期間',
-              past_week: '過去1週間',
-              past_month: '過去1ヶ月'
+            current_value: '現在価値',
+            performance: 'パフォーマンス',
+            performance_history: 'パフォーマンス履歴',
+            value: '価値',
+            active_positions: 'アクティブポジション',
+            pool_share: 'プールシェア',
+            daily_yield: '日次利回り',
+            ai_strategy: 'AI戦略',
+            next_move: '次の予測される動き',
+            monitoring_message: '{{pool}}プールのポジション増加の可能性を監視中。現在の指標は{{apr}}% APRで好条件を示しています。',
+            recent_decisions: '最近の決定',
+            decision_types: {
+              enter: '参入',
+              exit: '退出',
+              rebalance: 'リバランス'
             },
-            transaction_details: {
-              initial: '開始時',
-              final: '終了時',
-              duration: '{{start}} - {{end}}'
-            }
+            deposit: '預入',
+            asset_allocation: '資産配分',
+            add_position: 'ポジション追加'
           },
           numbers: {
             compact: '{{value, compact}}',
             percent: '{{value, number}}%',
-            currency: '{{value, currency}}',
+            currency: '{{value, currency}}'
           },
           defi: {
             terms: {
@@ -612,92 +651,108 @@ i18n
       },
       tr: {
         translation: {
-          common: {
-            connect_wallet: 'Cüzdan Bağla',
-            disconnect_wallet: 'Bağlantıyı Kes',
-            dashboard: 'Panel',
-            pools: 'Havuzlar',
-            portfolio: 'Portföy',
-            total_value: 'Toplam Değer',
-            total_pnl: 'Toplam Kar/Zarar',
-            apr: 'Yıllık Getiri',
-            tvl: 'Kilitli Toplam Değer',
-            volume_24h: '24s Hacim',
+          actions: {
             deposit: 'Yatır',
             withdraw: 'Çek',
-            history: 'Geçmiş',
-            help: 'Yardım',
-            need_help: 'Yardıma mı ihtiyacınız var?',
-            help_tooltip: 'DeFi kavramları veya bu platformun kullanımı hakkında yardıma ihtiyacınız varsa, Bilgi Tabanımızı ziyaret edin veya destek ile iletişime geçin.',
-            loading: 'Yükleniyor...',
+            connect_wallet: 'Cüzdan Bağla',
+            disconnect: 'Bağlantıyı Kes',
             confirm: 'Onayla',
             cancel: 'İptal',
             back: 'Geri',
             next: 'İleri',
-            positions_count: '{{count}} aktif pozisyon',
-            total_balance: 'Toplam Bakiye',
-            processing_transaction: 'İşlem işleniyor...',
+            view_all: 'Tümünü Görüntüle',
             search: 'Ara',
-            filter: 'Filtrele',
-            time_period: {
-              all: 'Tüm Zamanlar',
-              week: 'Geçen Hafta',
-              month: 'Geçen Ay'
-            }
+            filter: 'Filtrele'
+          },
+          nav: {
+            dashboard: 'Panel',
+            pools: 'Havuzlar',
+            portfolio: 'Portföy',
+            history: 'Geçmiş',
+            help: 'Yardım'
+          },
+          stats: {
+            total_value: 'Toplam Değer',
+            available_balance: 'Kullanılabilir Bakiye',
+            total_balance: 'Toplam Bakiye',
+            total_deposits: 'Toplam Yatırımlar',
+            total_withdrawals: 'Toplam Çekimler',
+            profit_loss: 'Kar/Zarar',
+            monthly_yield: 'Aylık Getiri',
+            average_apr: 'Ortalama APR: {{value}}%',
+            active_positions: '{{count}} aktif pozisyon',
+            deposits_count: '{{count}} yatırım',
+            withdrawals_count: '{{count}} çekim',
+            positions_closed: '{{count}} pozisyon kapatıldı',
+            tvl: 'Kilitli Toplam Değer',
+            volume_24h: '24s Hacim',
+            apr: 'Yıllık Getiri',
+            pnl: 'Kar/Zarar',
+            total_pnl: 'Toplam Kar/Zarar'
           },
           dashboard: {
             title: 'Panel',
             description: 'AutoYield performansınıza genel bakış',
-            portfolio_summary: 'Portföy Özeti',
-            total_value: 'Toplam Değer',
-            available_balance: 'Kullanılabilir Bakiye',
-            total_balance: 'Toplam Bakiye',
+            portfolio_performance: 'Portföy Performansı',
+            performance_description: 'Portföy değeriniz ve zaman içindeki getirilerinizi takip edin',
+            asset_allocation: 'Varlık Dağılımı',
+            distribution: 'Portföyünüzün dağılımı',
             recent_activity: 'Son Aktivite',
-            view_all: 'Tümünü Görüntüle',
+            chart: {
+              value: 'Değer',
+              yield: 'Getiri',
+              value_tooltip: 'Değer: {{value}}',
+              yield_tooltip: 'Getiri: +{{value}}'
+            },
+            portfolio_summary: 'Portföy Özeti',
             notices: {
               title: 'Duyuru Panosu',
               high_yield_title: 'Yüksek Getiri Fırsatı',
               high_yield_message: 'SOL-USDC havuzu şu anda %25,5 APR sunuyor. Pozisyonunuzu artırmayı düşünün.',
               market_update_title: 'Piyasa Güncellemesi',
-              market_update_message: 'Bu hafta normalden daha yüksek piyasa oynaklığı bekleniyor. Pozisyonlarınızı yakından izleyin.',
-            },
-            performance_history: 'Performans Geçmişi',
-            distribution: 'Portföyünüzün dağılımı',
-            chart: {
-              tooltip: {
-                value: 'Değer: {{value}}',
-                yield: 'Getiri: +{{value}}'
-              }
+              market_update_message: 'Bu hafta normalden daha yüksek piyasa oynaklığı bekleniyor. Pozisyonlarınızı yakından izleyin.'
             }
           },
-          portfolio: {
-            title: 'Portföy',
-            description: 'Likidite pozisyonlarınızı ve getirilerinizi takip edin',
-            overview: 'Portföy Genel Bakışı',
-            total_portfolio_value: 'Toplam Portföy Değeri',
-            available_balance: 'Kullanılabilir Bakiye',
-            positions_value: 'Pozisyon Değeri',
-            total_balance: 'Toplam Bakiye',
-            initial_investment: 'İlk Yatırım',
-            current_value: 'Güncel Değer',
-            performance: 'Performans',
-            performance_history: 'Performans Geçmişi',
-            value: 'Değer',
-            active_positions: 'Aktif Pozisyonlar',
-            pool_share: 'Havuz Payı',
-            daily_yield: 'Günlük Getiri',
-            ai_strategy: 'AI Stratejisi',
-            next_move: 'Sonraki Öngörülen Hamle',
-            monitoring_message: '{{pool}} havuzunda pozisyon artışı için izleme yapılıyor. Mevcut metrikler %{{apr}} APR ile uygun koşulları gösteriyor.',
-            recent_decisions: 'Son Kararlar',
-            decision_types: {
-              enter: 'Giriş',
-              exit: 'Çıkış',
-              rebalance: 'Yeniden Dengeleme',
+          history: {
+            title: 'İşlem Geçmişi',
+            description: 'Yatırımlarınızı, çekimlerinizi ve pozisyon kapatmalarınızı takip edin',
+            all_activity: 'Tüm Aktiviteler',
+            no_transactions: 'İşlem bulunamadı',
+            try_filtering: 'Filtrelerinizi veya arama kriterlerinizi ayarlamayı deneyin',
+            search_placeholder: 'Havuz adına göre ara...',
+            transaction_types: {
+              deposit: 'Yatırım',
+              withdraw: 'Çekim',
+              position_closed: 'Pozisyon Kapatıldı'
             },
-            deposit: 'Yatır',
-            asset_allocation: 'Varlık Dağılımı',
-            add_position: 'Pozisyon Ekle',
+            filters: {
+              all_time: 'Tüm Zamanlar',
+              past_week: 'Geçen Hafta',
+              past_month: 'Geçen Ay'
+            },
+            details: {
+              initial: 'Başlangıç',
+              final: 'Bitiş',
+              duration: '{{start}} - {{end}}'
+            },
+            initial_investment: 'İlk Yatırım',
+            duration: 'Süre'
+          },
+          time: {
+            daily: 'Günlük',
+            weekly: 'Haftalık',
+            monthly: 'Aylık',
+            yearly: 'Yıllık',
+            all: 'Tüm Zamanlar',
+            week: 'Geçen Hafta',
+            month: 'Geçen Ay'
+          },
+          status: {
+            loading: 'Yükleniyor...',
+            processing: 'İşlem Görülüyor...',
+            success: 'Başarılı!',
+            error: 'Hata Oluştu',
+            processing_transaction: 'İşlem işleniyor...'
           },
           pools: {
             title: 'Likidite Havuzları',
@@ -731,7 +786,7 @@ i18n
             weekly_volume: 'Haftalık Hacim',
             weekly_fees: 'Haftalık Komisyonlar',
             annual_rate: 'Yıllık yüzdesel oran',
-            trading_volume: 'Son 24 saatlik işlem hacmi',
+trading_volume: 'Son 24 saatlik işlem hacmi',
             earned_24h: 'Son 24 saatte kazanılan',
             total_locked: 'Toplam kilitli değer',
             tvl_history: 'TVL Geçmişi',
@@ -764,47 +819,41 @@ i18n
                 amount: 'Miktar Seç',
                 review: 'İncele ve Onayla'
               }
-            },
-            metrics: {
-              volume_24h: '24s Hacim',
-              tvl: 'Kilitli Toplam Değer',
-              apr: 'Yıllık Oran',
-              daily_fees: 'Günlük Ücretler'
             }
           },
-          history: {
-            title: 'Geçmiş',
-            description: 'Eksiksiz işlem geçmişinizi görüntüleyin',
-            all_activity: 'Tüm Aktiviteler',
-            transaction_type: {
-              deposit: 'Yatırım',
-              withdraw: 'Çekim',
-              position_closed: 'Pozisyon Kapatıldı',
-            },
-            total_deposits: 'Toplam Yatırımlar',
-            total_withdrawals: 'Toplam Çekimler',
+          portfolio: {
+            title: 'Portföy',
+            description: 'Likidite pozisyonlarınızı ve getirilerinizi takip edin',
+            overview: 'Portföy Genel Bakışı',
+            total_portfolio_value: 'Toplam Portföy Değeri',
+            available_balance: 'Kullanılabilir Bakiye',
+            positions_value: 'Pozisyon Değeri',
+            total_balance: 'Toplam Bakiye',
             initial_investment: 'İlk Yatırım',
-            duration: 'Süre',
-            profit_loss: 'Kar/Zarar',
-            all_time: 'Tüm Zamanlar',
-            past_week: 'Geçen Hafta',
-            past_month: 'Geçen Ay',
-            no_transactions: 'Seçilen filtreler için işlem bulunamadı.',
-            filter_options: {
-              all_time: 'Tüm Zamanlar',
-              past_week: 'Geçen Hafta',
-              past_month: 'Geçen Ay'
+            current_value: 'Güncel Değer',
+            performance: 'Performans',
+            performance_history: 'Performans Geçmişi',
+            value: 'Değer',
+            active_positions: 'Aktif Pozisyonlar',
+            pool_share: 'Havuz Payı',
+            daily_yield: 'Günlük Getiri',
+            ai_strategy: 'AI Stratejisi',
+            next_move: 'Sonraki Öngörülen Hamle',
+            monitoring_message: '{{pool}} havuzunda pozisyon artışı için izleme yapılıyor. Mevcut metrikler %{{apr}} APR ile uygun koşulları gösteriyor.',
+            recent_decisions: 'Son Kararlar',
+            decision_types: {
+              enter: 'Giriş',
+              exit: 'Çıkış',
+              rebalance: 'Yeniden Dengeleme'
             },
-            transaction_details: {
-              initial: 'Başlangıç',
-              final: 'Bitiş',
-              duration: '{{start}} - {{end}}'
-            }
+            deposit: 'Yatır',
+            asset_allocation: 'Varlık Dağılımı',
+            add_position: 'Pozisyon Ekle'
           },
           numbers: {
             compact: '{{value, compact}}',
             percent: '{{value, number}}%',
-            currency: '{{value, currency}}',
+            currency: '{{value, currency}}'
           },
           defi: {
             terms: {
@@ -823,8 +872,8 @@ i18n
             }
           }
         }
-      },
-    },
+      }
+    }
   });
 
 export default i18n;
