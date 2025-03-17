@@ -18,8 +18,9 @@ import { formatCurrency, cn } from "@/lib/utils";
 import { transactionHistory, pools, walletBalances } from "@/lib/mock-data";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
-import { SiBitcoin, SiEthereum, SiSolana } from "react-icons/si";
+import { SiSolana } from "react-icons/si";
 import { CoinsIcon } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { 
   ResponsiveContainer, 
   AreaChart, 
@@ -34,19 +35,15 @@ import {
 } from "recharts";
 
 const TokenIcon = ({ symbol }: { symbol: string }) => {
-  switch (symbol?.toUpperCase()) {
-    case 'BTC':
-      return <SiBitcoin className="h-5 w-5 text-orange-500" />;
-    case 'ETH':
-      return <SiEthereum className="h-5 w-5 text-blue-500" />;
-    case 'SOL':
-      return <SiSolana className="h-5 w-5 text-[#14F195]" />;
-    default:
-      return <CoinsIcon className="h-5 w-5 text-primary" />;
+  if (symbol === 'SOL') {
+    return <SiSolana className="h-5 w-5 text-[#14F195]" />;
   }
+  return <CoinsIcon className="h-5 w-5 text-primary" />;
 };
 
 export default function Dashboard() {
+  const { t } = useTranslation();
+
   // Calculate wallet balance
   const solBalanceUSD = walletBalances.sol * walletBalances.solPrice;
   const usdcBalanceUSD = walletBalances.usdc * walletBalances.usdcPrice;
@@ -55,23 +52,23 @@ export default function Dashboard() {
   // Calculate positions value
   const totalPositionsValue = transactionHistory.reduce((sum, tx) => 
     tx.type === "Deposit" ? sum + Number(tx.amount) : sum - Number(tx.amount), 0);
-  const positionsValue24hChange = totalPositionsValue * 0.05; // Mock 5% daily change
+  const positionsValue24hChange = totalPositionsValue * 0.05;
   const positionsValue24hChangePercent = (positionsValue24hChange / totalPositionsValue) * 100;
 
   // Calculate total portfolio value
   const totalPortfolioValue = totalWalletBalance + totalPositionsValue;
 
-  // Performance data with multiple metrics
+  // Performance data
   const performanceData = [
-    { date: '1 Mar', value: totalPortfolioValue * 0.9, tvl: totalPortfolioValue * 0.85, yield: totalPortfolioValue * 0.01 },
-    { date: '2 Mar', value: totalPortfolioValue * 0.95, tvl: totalPortfolioValue * 0.9, yield: totalPortfolioValue * 0.012 },
-    { date: '3 Mar', value: totalPortfolioValue * 0.97, tvl: totalPortfolioValue * 0.95, yield: totalPortfolioValue * 0.015 },
-    { date: '4 Mar', value: totalPortfolioValue * 0.98, tvl: totalPortfolioValue * 0.97, yield: totalPortfolioValue * 0.018 },
-    { date: '5 Mar', value: totalPortfolioValue * 0.99, tvl: totalPortfolioValue * 0.99, yield: totalPortfolioValue * 0.02 },
-    { date: '6 Mar', value: totalPortfolioValue, tvl: totalPortfolioValue, yield: totalPortfolioValue * 0.022 },
+    { date: '1 Mar', value: totalPortfolioValue * 0.9, yield: totalPortfolioValue * 0.01 },
+    { date: '2 Mar', value: totalPortfolioValue * 0.95, yield: totalPortfolioValue * 0.012 },
+    { date: '3 Mar', value: totalPortfolioValue * 0.97, yield: totalPortfolioValue * 0.015 },
+    { date: '4 Mar', value: totalPortfolioValue * 0.98, yield: totalPortfolioValue * 0.018 },
+    { date: '5 Mar', value: totalPortfolioValue * 0.99, yield: totalPortfolioValue * 0.02 },
+    { date: '6 Mar', value: totalPortfolioValue, yield: totalPortfolioValue * 0.022 },
   ];
 
-  // Portfolio composition data
+  // Portfolio composition
   const portfolioComposition = [
     { name: 'SOL', value: solBalanceUSD },
     { name: 'USDC', value: usdcBalanceUSD },
@@ -90,10 +87,10 @@ export default function Dashboard() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-          Dashboard
+          {t('dashboard.title')}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Track your portfolio performance and market activity
+          {t('dashboard.description')}
         </p>
       </div>
 
@@ -103,7 +100,7 @@ export default function Dashboard() {
           <CardHeader className="p-4 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <Wallet className="h-4 w-4 text-primary" />
-              Total Balance
+              {t('common.total_value')}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 pt-2">
@@ -124,7 +121,7 @@ export default function Dashboard() {
           <CardHeader className="p-4 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <CircleDollarSign className="h-4 w-4 text-primary" />
-              Available Funds
+              {t('common.available_balance')}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 pt-2">
@@ -140,13 +137,13 @@ export default function Dashboard() {
           <CardHeader className="p-4 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-primary" />
-              Staked Value
+              {t('common.staked_value')}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 pt-2">
             <div className="text-2xl font-bold">{formatCurrency(totalPositionsValue)}</div>
             <div className="text-sm text-muted-foreground mt-1">
-              Across {transactionHistory.length} positions
+              {t('common.positions_count', { count: transactionHistory.length })}
             </div>
           </CardContent>
         </Card>
@@ -155,7 +152,7 @@ export default function Dashboard() {
           <CardHeader className="p-4 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <Activity className="h-4 w-4 text-primary" />
-              Monthly Yield
+              {t('common.monthly_yield')}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 pt-2">
@@ -163,7 +160,7 @@ export default function Dashboard() {
               +{formatCurrency(totalPositionsValue * 0.15)}
             </div>
             <div className="text-sm text-muted-foreground mt-1">
-              Average APR: 15.2%
+              {t('common.average_apr')}: 15.2%
             </div>
           </CardContent>
         </Card>
@@ -178,18 +175,18 @@ export default function Dashboard() {
               <div>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <LineChart className="h-5 w-5 text-primary" />
-                  Portfolio Performance
+                  {t('dashboard.portfolio_performance')}
                 </CardTitle>
-                <CardDescription>Track your portfolio value and yields over time</CardDescription>
+                <CardDescription>{t('dashboard.performance_desc')}</CardDescription>
               </div>
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="bg-primary/10">
                   <div className="h-2 w-2 rounded-full bg-primary mr-1" />
-                  Value
+                  {t('dashboard.value')}
                 </Badge>
                 <Badge variant="outline" className="bg-green-500/10">
                   <div className="h-2 w-2 rounded-full bg-green-500 mr-1" />
-                  Yield
+                  {t('dashboard.yield')}
                 </Badge>
               </div>
             </div>
@@ -230,12 +227,12 @@ export default function Dashboard() {
                             <div className="space-y-0.5">
                               <div className="flex items-center gap-2 text-sm">
                                 <div className="h-2 w-2 rounded-full bg-primary" />
-                                <span>Value: {formatCurrency(payload[0].value)}</span>
+                                <span>{t('dashboard.value')}: {formatCurrency(payload[0].value)}</span>
                               </div>
-                              {payload[2] && (
+                              {payload[1] && (
                                 <div className="flex items-center gap-2 text-sm">
                                   <div className="h-2 w-2 rounded-full bg-green-500" />
-                                  <span>Yield: +{formatCurrency(payload[2].value)}</span>
+                                  <span>{t('dashboard.yield')}: +{formatCurrency(payload[1].value)}</span>
                                 </div>
                               )}
                             </div>
@@ -270,7 +267,7 @@ export default function Dashboard() {
           <CardHeader className="p-4 pb-2">
             <CardTitle className="text-lg flex items-center gap-2">
               <PieChart className="h-5 w-5 text-primary" />
-              Asset Allocation
+              {t('dashboard.asset_allocation')}
             </CardTitle>
             <CardDescription>Distribution of your portfolio</CardDescription>
           </CardHeader>
@@ -321,7 +318,7 @@ export default function Dashboard() {
               <div>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Activity className="h-5 w-5 text-primary" />
-                  Recent Activity
+                  {t('common.recent_activity')}
                 </CardTitle>
                 <CardDescription>Your latest transactions and updates</CardDescription>
               </div>
@@ -332,7 +329,7 @@ export default function Dashboard() {
                 asChild
               >
                 <a href="/history">
-                  View All
+                  {t('common.view_all')}
                   <ExternalLink className="h-3 w-3 ml-1" />
                 </a>
               </Button>
@@ -360,7 +357,7 @@ export default function Dashboard() {
                         <div className="flex items-center flex-wrap gap-2">
                           <p className="font-medium">{pool?.name}</p>
                           <Badge variant="secondary" className="px-1.5 py-0 text-xs">
-                            {isDeposit ? 'Deposit' : 'Withdraw'}
+                            {t(`history.transaction_type.${tx.type.toLowerCase()}`)}
                           </Badge>
                         </div>
                         <div className="flex items-center gap-1 text-sm text-muted-foreground mt-1">
