@@ -32,6 +32,17 @@ const healthColors = {
   low: 'text-red-600'
 } as const;
 
+// Format large numbers with abbreviations
+const formatLargeNumber = (value: number): string => {
+  if (value >= 1_000_000) {
+    return `${(value / 1_000_000).toFixed(1)}M`;
+  }
+  if (value >= 1_000) {
+    return `${(value / 1_000).toFixed(1)}K`;
+  }
+  return value.toLocaleString();
+};
+
 export function PoolCard({ pool }: PoolCardProps) {
   const { t } = useTranslation();
 
@@ -68,10 +79,10 @@ export function PoolCard({ pool }: PoolCardProps) {
         </HoverCard>
       </div>
 
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-4">
         {/* Pool Name and Tokens */}
         <div>
-          <h3 className="text-lg font-semibold mb-1">{pool.name}</h3>
+          <h3 className="text-lg font-semibold mb-1 truncate">{pool.name}</h3>
           <div className="flex items-center gap-2">
             <Badge variant="secondary">{pool.token1}</Badge>
             <span className="text-muted-foreground">+</span>
@@ -82,12 +93,12 @@ export function PoolCard({ pool }: PoolCardProps) {
         {/* Key Metrics */}
         <div className="grid grid-cols-3 gap-4">
           <Tooltip>
-            <TooltipTrigger className="text-left space-y-1">
+            <TooltipTrigger className="text-left">
               <div className="flex items-center gap-1">
                 <span className="text-sm text-muted-foreground">APR</span>
                 <Info className="h-4 w-4 text-muted-foreground" />
               </div>
-              <p className="text-2xl font-bold text-primary">
+              <p className="text-xl font-bold text-primary truncate">
                 {pool.apr.toLocaleString()}%
               </p>
             </TooltipTrigger>
@@ -99,13 +110,13 @@ export function PoolCard({ pool }: PoolCardProps) {
           </Tooltip>
 
           <Tooltip>
-            <TooltipTrigger className="text-left space-y-1">
+            <TooltipTrigger className="text-left">
               <div className="flex items-center gap-1">
                 <span className="text-sm text-muted-foreground">TVL</span>
                 <Info className="h-4 w-4 text-muted-foreground" />
               </div>
-              <p className="text-2xl font-bold">
-                ${pool.tvl.toLocaleString()}
+              <p className="text-xl font-bold truncate">
+                ${formatLargeNumber(pool.tvl)}
               </p>
             </TooltipTrigger>
             <TooltipContent>
@@ -116,13 +127,13 @@ export function PoolCard({ pool }: PoolCardProps) {
           </Tooltip>
 
           <Tooltip>
-            <TooltipTrigger className="text-left space-y-1">
+            <TooltipTrigger className="text-left">
               <div className="flex items-center gap-1">
                 <span className="text-sm text-muted-foreground">24h Vol</span>
                 <Info className="h-4 w-4 text-muted-foreground" />
               </div>
-              <p className="text-2xl font-bold">
-                ${pool.volume24h.toLocaleString()}
+              <p className="text-xl font-bold truncate">
+                ${formatLargeNumber(pool.volume24h)}
               </p>
             </TooltipTrigger>
             <TooltipContent>
