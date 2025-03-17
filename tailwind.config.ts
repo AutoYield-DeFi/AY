@@ -4,73 +4,87 @@ export default {
   darkMode: ["class"],
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    container: {
+      center: true,
+      padding: '1.5rem',
+      screens: {
+        '2xl': '1400px'
+      }
+    },
     extend: {
       fontFamily: {
-        sans: ['Cabinet Grotesk', 'system-ui', 'sans-serif'],
+        sans: ["Inter", "SF Pro Display", "SF Pro", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+        serif: ["Playfair Display", "Georgia", "Cambria", "Times New Roman", "Times", "serif"],
+        mono: ["Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
       },
-      fontSize: {
-        xs: ['0.75rem', { lineHeight: '1rem', letterSpacing: '-0.01em' }],
-        sm: ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '-0.01em' }],
-        base: ['1rem', { lineHeight: '1.5rem', letterSpacing: '-0.01em' }],
-        lg: ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em' }],
-        xl: ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.02em' }],
-        '2xl': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
-        '3xl': ['1.875rem', { lineHeight: '2.25rem', letterSpacing: '-0.02em' }],
-        '4xl': ['2.25rem', { lineHeight: '2.5rem', letterSpacing: '-0.02em' }],
+      colors: {
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+          muted: 'hsl(var(--primary-muted))'
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))'
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))'
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))'
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))'
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))'
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))'
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        primary: {
-          DEFAULT: "#5C69FF",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "#5C69FF",
-        chart: {
-          "1": "#5C69FF",
-          "2": "#4ADE80",
-          "3": "#F43F5E",
-          "4": "#FB923C",
-          "5": "#A855F7",
-        },
-      },
-      spacing: {
-        sidebar: '280px',
-      },
-      boxShadow: {
-        'card': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-        'card-hover': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: '100ch',
+            h1: {
+              fontWeight: '800',
+              fontSize: '2.25em',
+              marginTop: '0',
+              marginBottom: '0.8888889em',
+              lineHeight: '1.1111111',
+            },
+            h2: {
+              fontWeight: '700',
+              fontSize: '1.5em',
+              marginTop: '2em',
+              marginBottom: '1em',
+              lineHeight: '1.3333333',
+            },
+            h3: {
+              fontWeight: '600',
+              fontSize: '1.25em',
+              marginTop: '1.6em',
+              marginBottom: '0.6em',
+              lineHeight: '1.6',
+            }
+          }
+        }
       },
       keyframes: {
         "accordion-down": {
