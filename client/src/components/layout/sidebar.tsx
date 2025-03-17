@@ -1,17 +1,15 @@
 import { Link, useLocation } from "wouter";
 import { LayoutDashboard, Wallet, Database } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useTranslation } from "react-i18next";
 
 const navigation = [
-  { name: 'nav.dashboard', href: '/', icon: LayoutDashboard },
-  { name: 'nav.pools', href: '/pools', icon: Database },
-  { name: 'nav.portfolio', href: '/portfolio', icon: Wallet },
+  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+  { name: 'Pools', href: '/pools', icon: Database },
+  { name: 'Portfolio', href: '/portfolio', icon: Wallet },
 ];
 
 export function NavigationSidebar() {
   const [location] = useLocation();
-  const { t } = useTranslation();
 
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
@@ -40,7 +38,7 @@ export function NavigationSidebar() {
                         )}
                       >
                         <item.icon className="h-6 w-6 shrink-0" />
-                        {t(item.name)}
+                        {item.name}
                       </a>
                     </Link>
                   </li>

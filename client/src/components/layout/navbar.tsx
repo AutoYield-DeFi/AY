@@ -9,12 +9,13 @@ import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 
 const navigation = [
-  { name: 'nav.dashboard', href: '/' },
-  { name: 'nav.pools', href: '/pools' },
-  { name: 'nav.portfolio', href: '/portfolio' },
-  { name: 'nav.history', href: '/history' },
+  { name: 'common.dashboard', href: '/' },
+  { name: 'common.pools', href: '/pools' },
+  { name: 'common.portfolio', href: '/portfolio' },
+  { name: 'common.history', href: '/history' },
 ];
 
+// Memoize navigation links to prevent re-renders
 const DesktopNav = memo(function DesktopNav({ location, t }: { location: string, t: (key: string) => string }) {
   return (
     <div className="hidden md:flex items-center space-x-1">
@@ -45,7 +46,7 @@ export const NavigationBar = memo(function NavigationBar() {
   const handleConnectWallet = () => {
     setIsWalletConnected(!isWalletConnected);
     toast({
-      title: isWalletConnected ? t('common.button.disconnect') : t('common.button.connect_wallet'),
+      title: isWalletConnected ? t('common.disconnect_wallet') : t('common.connect_wallet'),
       description: "This is a demo - wallet connection is not implemented",
     });
   };
@@ -62,6 +63,7 @@ export const NavigationBar = memo(function NavigationBar() {
           </div>
 
           <div className="flex items-center space-x-4">
+            {/* Help icon removed as requested */}
             <LanguageSwitcher />
             <div className="hidden md:block">
               <WalletStatus isConnected={isWalletConnected} />
@@ -74,7 +76,7 @@ export const NavigationBar = memo(function NavigationBar() {
             >
               <WalletIcon className="h-4 w-4 md:mr-2" />
               <span className="hidden md:inline">
-                {isWalletConnected ? t('common.button.disconnect') : t('common.button.connect_wallet')}
+                {isWalletConnected ? t('common.disconnect_wallet') : t('common.connect_wallet')}
               </span>
             </Button>
           </div>
