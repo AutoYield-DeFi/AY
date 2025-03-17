@@ -37,6 +37,66 @@ i18n
             cancel: 'Cancel',
             back: 'Back',
             next: 'Next',
+            processing: 'Processing...',
+            success: 'Success!',
+            error: 'Error'
+          },
+          pools: {
+            title: 'Pools',
+            description: 'Manage your liquidity positions',
+            deposit: {
+              action: 'Deposit',
+              title: 'Deposit into',
+              tooltip: 'Review your deposit details and expected returns carefully before confirming.',
+              beginner_note: 'New to DeFi? Start with a small amount to understand how liquidity pools work.',
+              amount_label: 'Amount to Deposit',
+              estimated_daily: 'Daily Yield',
+              estimated_yearly: 'Yearly Yield',
+              yearly_impact: 'With this investment, you could earn {{yield}} annually - that\'s about {{coffees}} cups of coffee!',
+              pool: 'Pool',
+              amount: 'Amount',
+              confirm: 'Confirm Deposit',
+              success_message: 'Successfully deposited {{amount}} into {{pool}}',
+              error: 'Failed to process deposit. Please try again.',
+              confirmation_note: 'Please review your deposit details carefully. Once confirmed, this action cannot be undone.',
+              step: 'Step {{current}} of {{total}}: {{name}}',
+              steps: {
+                amount: 'Enter Amount',
+                review: 'Review & Confirm'
+              }
+            },
+            view_details: 'View Details',
+            utilization: 'Utilization',
+            pool_health: 'Pool Health',
+            health_metrics: 'Overall health and stability of the pool',
+            volume_metrics: '24-hour trading volume for this pool',
+            low_risk: 'Low Risk',
+            medium_risk: 'Medium Risk',
+            high_risk: 'High Risk'
+          },
+          portfolio: {
+            withdraw: {
+              title: 'Withdraw from',
+              tooltip: 'Review your withdrawal details and expected returns before confirming.',
+              info_note: 'Consider keeping some funds in the pool to maintain your earning position.',
+              amount_label: 'Withdrawal Amount',
+              current_value: 'Current Position',
+              withdraw_amount: 'Withdrawal Amount',
+              estimated_pnl: 'Estimated P&L',
+              percentage: 'Percentage',
+              amount: 'Amount',
+              realized_pnl: 'Realized P&L',
+              confirm: 'Confirm Withdrawal',
+              success_message: 'Successfully withdrawn {{amount}} from {{pool}} with {{pnl}} P&L',
+              error_message: 'Failed to process withdrawal. Please try again.',
+              confirmation_note: 'Please review your withdrawal details. Once confirmed, this action cannot be undone.',
+              step: 'Step {{current}} of {{total}}: {{name}}',
+              steps: {
+                amount: 'Select Amount',
+                review: 'Review & Confirm'
+              },
+              summary: 'Withdrawal Summary'
+            }
           },
           dashboard: {
             title: 'Dashboard',
