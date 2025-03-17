@@ -4,8 +4,7 @@ import {
   SlidersHorizontal, 
   TrendingUp, 
   ArrowDownUp,
-  Search,
-  Info
+  Search
 } from "lucide-react";
 import { 
   Select,
@@ -16,11 +15,6 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { 
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { PoolList } from "@/components/pools/pool-list";
 import { cn } from "@/lib/utils";
 
@@ -40,14 +34,14 @@ export default function Pools() {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-          {t('pools.title')}
+        <h1 className="text-3xl font-bold tracking-tight">
+          Liquidity Pools
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          {t('pools.description')}
+          Provide liquidity to earn yields and trading fees
         </p>
       </div>
 
@@ -56,7 +50,7 @@ export default function Pools() {
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search by token name..."
+            placeholder="Search pools..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
@@ -79,25 +73,25 @@ export default function Pools() {
 
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder={t('pools.sort_by')} />
+              <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="apr">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="h-4 w-4" />
-                  <span>{t('pools.highest_apr')}</span>
+                  <span>Highest APR</span>
                 </div>
               </SelectItem>
               <SelectItem value="tvl">
                 <div className="flex items-center gap-2">
                   <ArrowDownUp className="h-4 w-4" />
-                  <span>{t('pools.highest_tvl')}</span>
+                  <span>Highest TVL</span>
                 </div>
               </SelectItem>
               <SelectItem value="volume">
                 <div className="flex items-center gap-2">
                   <ArrowDownUp className="h-4 w-4" />
-                  <span>{t('pools.volume_24h')}</span>
+                  <span>24h Volume</span>
                 </div>
               </SelectItem>
             </SelectContent>
@@ -112,79 +106,49 @@ export default function Pools() {
           size="sm"
           onClick={() => setFilterBy("all")}
           className={cn(
-            "text-xs",
-            filterBy === "all" && "bg-primary hover:bg-primary/90"
+            "text-sm font-medium",
+            filterBy === "all" && "bg-primary text-primary-foreground hover:bg-primary/90"
           )}
         >
-          {t('pools.all_pools')}
+          All Pools
         </Button>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button 
-              variant={filterBy === "low" ? "default" : "outline"} 
-              size="sm"
-              onClick={() => setFilterBy("low")}
-              className={cn(
-                "text-xs",
-                filterBy === "low" && "bg-green-500 hover:bg-green-500/90 text-white"
-              )}
-            >
-              {t('pools.low_risk')}
-              <Info className="ml-1 h-3 w-3" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p className="text-sm">
-              {t('defi.terms.risk_note')}
-            </p>
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button 
-              variant={filterBy === "medium" ? "default" : "outline"} 
-              size="sm"
-              onClick={() => setFilterBy("medium")}
-              className={cn(
-                "text-xs",
-                filterBy === "medium" && "bg-yellow-500 hover:bg-yellow-500/90 text-white"
-              )}
-            >
-              {t('pools.medium_risk')}
-              <Info className="ml-1 h-3 w-3" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p className="text-sm">
-              {t('defi.terms.risk_note')}
-            </p>
-          </TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button 
-              variant={filterBy === "high" ? "default" : "outline"} 
-              size="sm"
-              onClick={() => setFilterBy("high")}
-              className={cn(
-                "text-xs",
-                filterBy === "high" && "bg-red-500 hover:bg-red-500/90 text-white"
-              )}
-            >
-              {t('pools.high_risk')}
-              <Info className="ml-1 h-3 w-3" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p className="text-sm">
-              {t('defi.terms.risk_note')}
-            </p>
-          </TooltipContent>
-        </Tooltip>
+        <Button 
+          variant={filterBy === "low" ? "default" : "outline"} 
+          size="sm"
+          onClick={() => setFilterBy("low")}
+          className={cn(
+            "text-sm font-medium",
+            filterBy === "low" && "bg-green-500 hover:bg-green-500/90 text-white"
+          )}
+        >
+          Low Risk
+        </Button>
+        <Button 
+          variant={filterBy === "medium" ? "default" : "outline"} 
+          size="sm"
+          onClick={() => setFilterBy("medium")}
+          className={cn(
+            "text-sm font-medium",
+            filterBy === "medium" && "bg-yellow-500 hover:bg-yellow-500/90 text-white"
+          )}
+        >
+          Medium Risk
+        </Button>
+        <Button 
+          variant={filterBy === "high" ? "default" : "outline"} 
+          size="sm"
+          onClick={() => setFilterBy("high")}
+          className={cn(
+            "text-sm font-medium",
+            filterBy === "high" && "bg-red-500 hover:bg-red-500/90 text-white"
+          )}
+        >
+          High Risk
+        </Button>
       </div>
 
       {/* Pool List Grid */}
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 md:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         <PoolList 
           filterRisk={filterBy} 
           sortBy={sortBy}

@@ -37,10 +37,10 @@ const healthColors = {
 // Format large numbers with abbreviations
 const formatLargeNumber = (value: number): string => {
   if (value >= 1_000_000) {
-    return `${(value / 1_000_000).toFixed(1)}M`;
+    return `${Math.round(value / 1_000_000)}M`;
   }
   if (value >= 1_000) {
-    return `${(value / 1_000).toFixed(1)}K`;
+    return `${Math.round(value / 1_000)}K`;
   }
   return value.toLocaleString();
 };
@@ -59,28 +59,15 @@ export function PoolCard({ pool }: PoolCardProps) {
 
   return (
     <>
-      <Card className="relative overflow-hidden hover:shadow-md transition-all duration-200">
+      <Card className="relative overflow-hidden hover:shadow-md transition-all duration-200 bg-card/50">
         {/* Risk Level Badge */}
         <div className="absolute top-4 right-4">
-          <HoverCard>
-            <HoverCardTrigger>
-              <Badge variant="outline" className={cn(
-                "font-medium border",
-                riskColors[pool.riskLevel]
-              )}>
-                {t(`pools.${pool.riskLevel}_risk`)}
-                <AlertTriangle className="ml-1 h-3 w-3" />
-              </Badge>
-            </HoverCardTrigger>
-            <HoverCardContent align="end" className="w-80">
-              <div className="space-y-2">
-                <h4 className="font-semibold">{t('pools.risk_profile')}</h4>
-                <p className="text-sm text-muted-foreground">
-                  {t('defi.terms.risk_note')}
-                </p>
-              </div>
-            </HoverCardContent>
-          </HoverCard>
+          <Badge variant="outline" className={cn(
+            "font-medium border",
+            riskColors[pool.riskLevel]
+          )}>
+            {pool.riskLevel === 'low' ? 'Low Risk' : pool.riskLevel === 'medium' ? 'Medium Risk' : 'High Risk'}
+          </Badge>
         </div>
 
         <div className="p-6 space-y-4">
@@ -103,12 +90,12 @@ export function PoolCard({ pool }: PoolCardProps) {
                   <Info className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <p className="text-xl font-bold text-primary truncate">
-                  {pool.apr.toLocaleString()}%
+                  {pool.apr}%
                 </p>
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-sm max-w-xs">
-                  {t('defi.terms.apr')}
+                  Annual Percentage Rate - The yearly rate of return on your investment without compounding.
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -125,7 +112,7 @@ export function PoolCard({ pool }: PoolCardProps) {
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-sm max-w-xs">
-                  {t('defi.terms.tvl')}
+                  Total Value Locked - The total amount of assets currently in the pool.
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -141,41 +128,41 @@ export function PoolCard({ pool }: PoolCardProps) {
                 </p>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="text-sm">{t('pools.volume_metrics')}</p>
+                <p className="text-sm">24-hour trading volume for this pool</p>
               </TooltipContent>
             </Tooltip>
           </div>
 
           {/* Additional Metrics */}
-          <div className="grid grid-cols-2 gap-4 pt-2 border-t">
+          <div className="grid grid-cols-2 gap-4 pt-2 border-t border-border/50">
             <Tooltip>
               <TooltipTrigger className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">
-                  {t('pools.utilization')}
+                  Utilization
                 </span>
                 <span className="font-medium">
-                  {pool.utilizationRate?.toLocaleString()}%
+                  {pool.utilizationRate}%
                 </span>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="text-sm">{t('defi.terms.utilization_rate')}</p>
+                <p className="text-sm">The percentage of pool assets currently being utilized</p>
               </TooltipContent>
             </Tooltip>
 
             <Tooltip>
               <TooltipTrigger className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">
-                  {t('pools.pool_health')}
+                  Health
                 </span>
                 <span className={cn(
                   "font-medium",
                   healthColors[healthStatus]
                 )}>
-                  {pool.poolHealth?.toLocaleString()}%
+                  {pool.poolHealth}%
                 </span>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="text-sm">{t('pools.health_metrics')}</p>
+                <p className="text-sm">Overall health and stability of the pool</p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -187,7 +174,7 @@ export function PoolCard({ pool }: PoolCardProps) {
               size="lg"
               onClick={() => setShowDepositDialog(true)}
             >
-              {t('pools.deposit.action')}
+              Deposit
               <TrendingUp className="h-4 w-4" />
             </Button>
             <Button 
@@ -196,7 +183,7 @@ export function PoolCard({ pool }: PoolCardProps) {
               size="lg"
               onClick={() => window.location.href = `/pools/${pool.id}`}
             >
-              {t('pools.view_details')}
+              Details
               <ArrowUpRight className="h-4 w-4" />
             </Button>
           </div>
