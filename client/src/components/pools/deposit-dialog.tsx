@@ -31,16 +31,11 @@ import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 import type { Pool } from "@/lib/types";
 import { Progress } from "@/components/ui/progress";
-import { Info, ChevronRight, ChevronLeft, TrendingUp, Wallet, ArrowRight } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Info, ChevronRight, ChevronLeft, TrendingUp, ArrowRight, Wallet } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { walletBalances } from "@/lib/mock-data";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
+import { walletBalances } from "@/lib/mock-data";
 
 const depositSchema = z.object({
   token: z.string().min(1, "Please select a token"),
@@ -58,7 +53,7 @@ interface DepositDialogProps {
   onClose: () => void;
 }
 
-const STEPS = ["token", "amount", "review"] as const;
+const STEPS = ["enter_details", "review"] as const;
 
 export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
   const { toast } = useToast();
@@ -82,32 +77,36 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
   const selectedToken = form.watch("token");
   const amount = Number(form.watch("amount")) || 0;
 
-  // Calculate USD value based on token prices
-  const getUSDValue = (tokenAmount: number, token: string) => {
-    if (token === "SOL") return tokenAmount * walletBalances.solPrice;
-    // Add other token price calculations here
-    return tokenAmount;
+  // Get token balance and price
+  const getTokenBalance = (token: string) => {
+    if (token === "SOL") return walletBalances.sol;
+    if (token === "USDC") return walletBalances.usdc;
+    return 0;
   };
 
-  const usdValue = getUSDValue(amount, selectedToken);
+  const getTokenPrice = (token: string) => {
+    if (token === "SOL") return walletBalances.solPrice;
+    if (token === "USDC") return walletBalances.usdcPrice;
+    return 0;
+  };
+
+  const tokenBalance = getTokenBalance(selectedToken);
+  const tokenPrice = getTokenPrice(selectedToken);
+  const usdValue = amount * tokenPrice;
+
+  // Calculate yields
   const estimatedDailyYield = (Number(pool.fees24h) * (usdValue / Number(pool.tvl)));
   const estimatedYearlyYield = estimatedDailyYield * 365;
   const estimatedAPR = (estimatedYearlyYield / usdValue) * 100;
 
-  // Calculate impact on investment
-  const yearlyCoffees = Math.floor(estimatedYearlyYield / 5); // assuming $5 per coffee
-
   async function onSubmit(data: DepositFormData) {
     setIsSubmitting(true);
     try {
-      // Simulate deposit transaction
       await new Promise(resolve => setTimeout(resolve, 1500));
-
       toast({
         title: "Success!",
         description: `Successfully deposited ${data.amount} ${data.token} (${formatCurrency(usdValue)}) into ${pool.name} pool`,
       });
-
       form.reset();
       onClose();
     } catch (error) {
@@ -135,51 +134,40 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
               </DialogTitle>
               <DialogDescription className="flex flex-col gap-2">
                 <span>Step {currentStep + 1} of {STEPS.length}: {
-                  currentStep === 0 ? "Select Token" :
-                  currentStep === 1 ? "Enter Amount" :
-                  "Review & Confirm"
+                  currentStep === 0 ? "Enter Amount" : "Review & Confirm"
                 }</span>
-                <Progress
-                  value={((currentStep + 1) / STEPS.length) * 100}
-                  className="h-1"
-                />
+                <Progress value={((currentStep + 1) / STEPS.length) * 100} className="h-1" />
               </DialogDescription>
             </DialogHeader>
 
             {currentStep === 0 && (
               <div className="space-y-4">
-                <Alert variant="outline" className="bg-muted/50">
-                  <AlertDescription className="text-sm">
-                    Choose which token you'd like to deposit. You can deposit either {pool.token1} or {pool.token2}.
-                  </AlertDescription>
-                </Alert>
-
                 <FormField
                   control={form.control}
                   name="token"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Select Token</FormLabel>
+                      <FormLabel>Select Token to Deposit</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Choose a token to deposit" />
+                            <SelectValue placeholder="Choose a token" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           <SelectItem value={pool.token1}>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center justify-between w-full">
                               <span>{pool.token1}</span>
-                              <span className="text-muted-foreground text-sm">
-                                ({formatCurrency(walletBalances.solPrice)})
+                              <span className="text-muted-foreground">
+                                Balance: {getTokenBalance(pool.token1).toLocaleString()}
                               </span>
                             </div>
                           </SelectItem>
                           <SelectItem value={pool.token2}>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center justify-between w-full">
                               <span>{pool.token2}</span>
-                              <span className="text-muted-foreground text-sm">
-                                (Price data)
+                              <span className="text-muted-foreground">
+                                Balance: {getTokenBalance(pool.token2).toLocaleString()}
                               </span>
                             </div>
                           </SelectItem>
@@ -189,144 +177,120 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                     </FormItem>
                   )}
                 />
+
+                {selectedToken && (
+                  <FormField
+                    control={form.control}
+                    name="amount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Amount to Deposit</FormLabel>
+                        <FormControl>
+                          <div className="space-y-2">
+                            <div className="relative">
+                              <Input
+                                placeholder="0.00"
+                                type="number"
+                                step="any"
+                                className="pl-12 pr-28 text-lg"
+                                {...field}
+                              />
+                              <div className="absolute left-3 top-1/2 -translate-y-1/2 font-medium text-muted-foreground">
+                                {selectedToken}
+                              </div>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 h-7 text-xs"
+                                onClick={() => form.setValue("amount", tokenBalance.toString())}
+                              >
+                                MAX
+                              </Button>
+                            </div>
+
+                            {amount > 0 && (
+                              <div className="text-sm text-muted-foreground text-right">
+                                ≈ {formatCurrency(usdValue)}
+                              </div>
+                            )}
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+
+                {amount > 0 && (
+                  <Card className="bg-muted/50 border-none">
+                    <div className="p-4 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-muted-foreground">Expected Daily Yield</span>
+                        <span className="font-medium text-green-500">
+                          +{formatCurrency(estimatedDailyYield)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-muted-foreground">Expected Yearly Yield</span>
+                        <span className="font-medium text-green-500">
+                          +{formatCurrency(estimatedYearlyYield)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-muted-foreground">APR</span>
+                        <span className="font-medium text-green-500">{estimatedAPR.toFixed(2)}%</span>
+                      </div>
+                    </div>
+                  </Card>
+                )}
+
+                <Alert variant="outline" className="bg-muted/50">
+                  <AlertDescription className="text-sm flex items-start gap-2">
+                    <Info className="h-4 w-4 mt-0.5 shrink-0" />
+                    <span>
+                      When you deposit {selectedToken || "tokens"} into this pool, you'll earn fees from trades 
+                      and receive yield on your deposit. The APR shown is based on current trading volume.
+                    </span>
+                  </AlertDescription>
+                </Alert>
               </div>
             )}
 
             {currentStep === 1 && (
               <div className="space-y-4">
                 <Card className="bg-muted/50 border-none">
-                  <div className="p-3 space-y-2">
-                    <div className="flex items-center gap-2">
-                      <Wallet className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">Available Balance</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="text-sm font-medium">{selectedToken}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {selectedToken === "SOL" ? walletBalances.sol.toLocaleString() : "Balance"} {selectedToken}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm font-medium">
-                          {formatCurrency(selectedToken === "SOL" ? walletBalances.sol * walletBalances.solPrice : 0)}
-                        </p>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="h-6 text-xs"
-                          onClick={() => form.setValue("amount", selectedToken === "SOL" ? walletBalances.sol.toString() : "0")}
-                        >
-                          Max
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-
-                <FormField
-                  control={form.control}
-                  name="amount"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Amount to Deposit</FormLabel>
-                      <FormControl>
-                        <div className="space-y-2">
-                          <div className="relative">
-                            <Input
-                              placeholder="0.00"
-                              type="number"
-                              step="0.01"
-                              className="pl-12 text-lg"
-                              {...field}
-                            />
-                            <div className="absolute left-3 top-1/2 -translate-y-1/2 font-medium text-muted-foreground">
-                              {selectedToken}
-                            </div>
-                          </div>
-
-                          {amount > 0 && (
-                            <div className="text-sm text-muted-foreground text-right">
-                              ≈ {formatCurrency(usdValue)}
-                            </div>
-                          )}
-
-                          {amount > 0 && (
-                            <div className="space-y-3">
-                              <Card className="bg-muted/50 border-none">
-                                <div className="p-4 space-y-3">
-                                  <div className="flex justify-between items-center">
-                                    <span className="text-sm text-muted-foreground">
-                                      Daily Yield
-                                    </span>
-                                    <span className="font-medium text-green-500">
-                                      +{formatCurrency(estimatedDailyYield)}
-                                    </span>
-                                  </div>
-                                  <div className="flex justify-between items-center">
-                                    <span className="text-sm text-muted-foreground">
-                                      Yearly Yield (Est.)
-                                    </span>
-                                    <span className="font-medium text-green-500">
-                                      +{formatCurrency(estimatedYearlyYield)}
-                                    </span>
-                                  </div>
-                                  <div className="flex justify-between items-center">
-                                    <span className="text-sm text-muted-foreground">APR</span>
-                                    <span className="font-medium text-green-500">
-                                      {estimatedAPR.toFixed(2)}%
-                                    </span>
-                                  </div>
-                                </div>
-                              </Card>
-
-                              {amount >= 100 && (
-                                <Alert variant="outline" className="bg-muted/50 border-primary/20">
-                                  <AlertDescription className="text-sm flex items-center gap-2">
-                                    <Info className="h-4 w-4 text-primary" />
-                                    This investment could earn you {formatCurrency(estimatedYearlyYield)} annually - 
-                                    that's enough for {yearlyCoffees} cups of coffee!
-                                  </AlertDescription>
-                                </Alert>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            )}
-
-            {currentStep === 2 && (
-              <div className="space-y-4">
-                <Card className="bg-muted/50 border-none">
-                  <div className="p-4 space-y-3">
+                  <div className="p-4 space-y-4">
                     <h3 className="font-medium">Deposit Summary</h3>
 
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <div className="flex justify-between items-center">
-                        <span className="text-muted-foreground">Token</span>
-                        <span className="font-medium">{selectedToken}</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-muted-foreground">Amount</span>
+                        <span className="text-muted-foreground">You're Depositing</span>
                         <div className="text-right">
                           <div className="font-medium">{amount} {selectedToken}</div>
-                          <div className="text-sm text-muted-foreground">
-                            ≈ {formatCurrency(usdValue)}
-                          </div>
+                          <div className="text-sm text-muted-foreground">≈ {formatCurrency(usdValue)}</div>
                         </div>
                       </div>
+
                       <div className="flex justify-between items-center">
                         <span className="text-muted-foreground">Pool</span>
                         <span className="font-medium">{pool.name}</span>
                       </div>
+
                       <div className="flex justify-between items-center">
                         <span className="text-muted-foreground">Expected APR</span>
                         <span className="font-medium text-green-500">{pool.apr}%</span>
+                      </div>
+
+                      <div className="pt-2 border-t">
+                        <div className="flex justify-between items-center">
+                          <span className="text-muted-foreground">Daily Yield</span>
+                          <span className="font-medium text-green-500">+{formatCurrency(estimatedDailyYield)}</span>
+                        </div>
+                        <div className="flex justify-between items-center mt-1">
+                          <span className="text-muted-foreground">Yearly Yield</span>
+                          <span className="font-medium text-green-500">+{formatCurrency(estimatedYearlyYield)}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -336,9 +300,8 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                   <AlertDescription className="flex items-start gap-2">
                     <Info className="h-4 w-4 mt-0.5 shrink-0" />
                     <span>
-                      Please review your deposit details carefully. Once confirmed, 
-                      this transaction cannot be undone. Make sure you understand 
-                      the risks involved in providing liquidity.
+                      Please review your deposit details. Once confirmed, you'll start earning yields 
+                      immediately. You can withdraw your deposit at any time.
                     </span>
                   </AlertDescription>
                 </Alert>
@@ -363,8 +326,8 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                 type="button"
                 onClick={() => {
                   if (currentStep < STEPS.length - 1) {
-                    if (currentStep === 0 && !selectedToken) {
-                      form.setError("token", { message: "Please select a token" });
+                    if (!selectedToken || !amount) {
+                      form.trigger();
                       return;
                     }
                     setCurrentStep(prev => prev + 1);
@@ -372,7 +335,7 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                     form.handleSubmit(onSubmit)();
                   }
                 }}
-                disabled={isSubmitting || (currentStep === 1 && !form.formState.isValid)}
+                disabled={isSubmitting || (currentStep === 0 && !form.formState.isValid)}
                 className="flex-1"
               >
                 {currentStep === STEPS.length - 1 ? (
@@ -386,8 +349,8 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                   )
                 ) : (
                   <>
-                    Next
-                    <ChevronRight className="h-4 w-4 ml-1" />
+                    Continue
+                    <ArrowRight className="h-4 w-4 ml-2" />
                   </>
                 )}
               </Button>
