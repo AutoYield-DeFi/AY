@@ -23,15 +23,16 @@ import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/lib/utils";
 import type { Pool } from "@/lib/types";
-import { useTranslation } from "react-i18next";
 import { Progress } from "@/components/ui/progress";
-import { Info, ChevronRight, ChevronLeft, ArrowUpRight, ShieldCheck } from "lucide-react";
+import { Info, ChevronRight, ChevronLeft, TrendingUp, Wallet } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { walletBalances } from "@/lib/mock-data";
 
 const depositSchema = z.object({
   amount: z.string()
@@ -52,7 +53,6 @@ const STEPS = ["amount", "review"] as const;
 
 export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
   const { toast } = useToast();
-  const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -84,19 +84,16 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
       await new Promise(resolve => setTimeout(resolve, 1500));
 
       toast({
-        title: t('common.success'),
-        description: t('pools.deposit.success_message', { 
-          amount: formatCurrency(Number(data.amount)), 
-          pool: pool.name
-        }),
+        title: "Success!",
+        description: `Successfully deposited ${formatCurrency(Number(data.amount))} into ${pool.name} pool`,
       });
 
       form.reset();
       onClose();
     } catch (error) {
       toast({
-        title: t('common.error'),
-        description: t('pools.deposit.error'),
+        title: "Error",
+        description: "Failed to process deposit. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -111,43 +108,56 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                {t('pools.deposit.title')} {pool.name}
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Info className="h-4 w-4 text-muted-foreground" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p className="max-w-xs text-sm">{t('pools.deposit.tooltip')}</p>
-                  </TooltipContent>
-                </Tooltip>
+                Deposit into {pool.name}
+                <Badge variant="outline" className="font-normal text-xs">
+                  {pool.token1} + {pool.token2}
+                </Badge>
               </DialogTitle>
-              <DialogDescription>
-                {t('pools.deposit.step', {
-                  current: currentStep + 1,
-                  total: STEPS.length,
-                  name: t(`pools.deposit.steps.${STEPS[currentStep]}`)
-                })}
+              <DialogDescription className="flex flex-col gap-2">
+                <span>Step {currentStep + 1} of {STEPS.length}: {
+                  currentStep === 0 ? "Enter Amount" : "Review & Confirm"
+                }</span>
+                <Progress
+                  value={((currentStep + 1) / STEPS.length) * 100}
+                  className="h-1"
+                />
               </DialogDescription>
-              <Progress
-                value={((currentStep + 1) / STEPS.length) * 100}
-                className="h-1"
-              />
             </DialogHeader>
 
             {currentStep === 0 && (
               <div className="space-y-4">
-                <Alert className="bg-muted">
-                  <AlertDescription>
-                    {t('pools.deposit.beginner_note')}
-                  </AlertDescription>
-                </Alert>
+                <div className="p-3 rounded-lg bg-muted space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Wallet className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">Available Balance</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-sm font-medium">USDC</p>
+                      <p className="text-xs text-muted-foreground">
+                        {walletBalances.usdc.toLocaleString()} USDC
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium">{formatCurrency(walletBalances.usdc)}</p>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-6 text-xs"
+                        onClick={() => form.setValue("amount", walletBalances.usdc.toString())}
+                      >
+                        Max
+                      </Button>
+                    </div>
+                  </div>
+                </div>
 
                 <FormField
                   control={form.control}
                   name="amount"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t('pools.deposit.amount_label')}</FormLabel>
+                      <FormLabel>Amount to Deposit</FormLabel>
                       <FormControl>
                         <div className="space-y-2">
                           <div className="relative">
@@ -166,7 +176,7 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                               <div className="p-4 rounded-lg bg-muted/50 space-y-3">
                                 <div className="flex justify-between items-center">
                                   <span className="text-sm text-muted-foreground">
-                                    {t('pools.deposit.estimated_daily')}
+                                    Daily Yield
                                   </span>
                                   <span className="font-medium text-green-500">
                                     +{formatCurrency(estimatedDailyYield)}
@@ -174,7 +184,7 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                                 </div>
                                 <div className="flex justify-between items-center">
                                   <span className="text-sm text-muted-foreground">
-                                    {t('pools.deposit.estimated_yearly')}
+                                    Yearly Yield (Est.)
                                   </span>
                                   <span className="font-medium text-green-500">
                                     +{formatCurrency(estimatedYearlyYield)}
@@ -190,10 +200,8 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
 
                               {amount >= 100 && (
                                 <div className="text-sm text-muted-foreground p-3 bg-muted rounded-lg border">
-                                  <p>{t('pools.deposit.yearly_impact', {
-                                    yield: formatCurrency(estimatedYearlyYield),
-                                    coffees: yearlyCoffees
-                                  })}</p>
+                                  <p>💡 This investment could earn you {formatCurrency(estimatedYearlyYield)} annually - 
+                                    that's enough for {yearlyCoffees} cups of coffee!</p>
                                 </div>
                               )}
                             </div>
@@ -204,33 +212,45 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                     </FormItem>
                   )}
                 />
+
+                <Alert variant="outline" className="bg-muted/50">
+                  <AlertDescription className="text-sm">
+                    New to DeFi? Start with a small amount to understand how liquidity pools work.
+                    Your funds will be split between {pool.token1} and {pool.token2}.
+                  </AlertDescription>
+                </Alert>
               </div>
             )}
 
             {currentStep === 1 && (
               <div className="space-y-4">
                 <div className="p-4 rounded-lg bg-muted/50 space-y-3">
-                  <h3 className="font-medium">{t('pools.deposit.summary')}</h3>
+                  <h3 className="font-medium">Deposit Summary</h3>
 
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">{t('pools.deposit.amount')}</span>
+                      <span className="text-muted-foreground">Amount</span>
                       <span className="font-medium">{formatCurrency(amount)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">{t('pools.deposit.pool')}</span>
+                      <span className="text-muted-foreground">Pool</span>
                       <span className="font-medium">{pool.name}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">APR</span>
+                      <span className="text-muted-foreground">Expected APR</span>
                       <span className="font-medium text-green-500">{pool.apr}%</span>
                     </div>
                   </div>
                 </div>
 
                 <Alert>
-                  <AlertDescription>
-                    {t('pools.deposit.confirmation_note')}
+                  <AlertDescription className="flex items-start gap-2">
+                    <Info className="h-4 w-4 mt-0.5 shrink-0" />
+                    <span>
+                      Please review your deposit details carefully. Once confirmed, 
+                      this transaction cannot be undone. Make sure you understand 
+                      the risks involved in providing liquidity.
+                    </span>
                   </AlertDescription>
                 </Alert>
               </div>
@@ -246,7 +266,7 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                   className="flex-1"
                 >
                   <ChevronLeft className="h-4 w-4 mr-1" />
-                  {t('common.back')}
+                  Back
                 </Button>
               )}
 
@@ -263,10 +283,17 @@ export function DepositDialog({ pool, isOpen, onClose }: DepositDialogProps) {
                 className="flex-1"
               >
                 {currentStep === STEPS.length - 1 ? (
-                  isSubmitting ? t('common.processing') : t('pools.deposit.confirm')
+                  isSubmitting ? (
+                    "Processing..."
+                  ) : (
+                    <>
+                      Confirm Deposit
+                      <TrendingUp className="h-4 w-4 ml-2" />
+                    </>
+                  )
                 ) : (
                   <>
-                    {t('common.next')}
+                    Next
                     <ChevronRight className="h-4 w-4 ml-1" />
                   </>
                 )}

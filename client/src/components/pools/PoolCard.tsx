@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DepositDialog } from "./deposit-dialog";
+import { useLocation } from "wouter";
 
 interface PoolCardProps {
   pool: Pool;
@@ -48,6 +49,7 @@ const formatLargeNumber = (value: number): string => {
 export function PoolCard({ pool }: PoolCardProps) {
   const { t } = useTranslation();
   const [showDepositDialog, setShowDepositDialog] = useState(false);
+  const [, setLocation] = useLocation();
 
   const getHealthStatus = (health: number = 100) => {
     if (health >= 80) return 'high';
@@ -169,19 +171,19 @@ export function PoolCard({ pool }: PoolCardProps) {
 
           {/* Actions */}
           <div className="flex gap-2 pt-2">
-            <Button 
-              className="flex-1 gap-2" 
+            <Button
+              className="flex-1 gap-2"
               size="lg"
               onClick={() => setShowDepositDialog(true)}
             >
               Deposit
               <TrendingUp className="h-4 w-4" />
             </Button>
-            <Button 
-              variant="outline" 
-              className="flex-1 gap-2" 
+            <Button
+              variant="outline"
+              className="flex-1 gap-2"
               size="lg"
-              onClick={() => window.location.href = `/pools/${pool.id}`}
+              onClick={() => setLocation(`/pools/${pool.id}`)}
             >
               Details
               <ArrowUpRight className="h-4 w-4" />
