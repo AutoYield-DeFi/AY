@@ -232,10 +232,12 @@ export default function Dashboard() {
                                 <div className="h-2 w-2 rounded-full bg-primary" />
                                 <span>Value: {formatCurrency(payload[0].value)}</span>
                               </div>
-                              <div className="flex items-center gap-2 text-sm">
-                                <div className="h-2 w-2 rounded-full bg-green-500" />
-                                <span>Yield: +{formatCurrency(payload[2].value)}</span>
-                              </div>
+                              {payload[2] && (
+                                <div className="flex items-center gap-2 text-sm">
+                                  <div className="h-2 w-2 rounded-full bg-green-500" />
+                                  <span>Yield: +{formatCurrency(payload[2].value)}</span>
+                                </div>
+                              )}
                             </div>
                           </div>
                         );
