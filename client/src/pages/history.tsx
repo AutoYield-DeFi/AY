@@ -135,10 +135,14 @@ export default function History() {
           <CardContent className="p-4 space-y-2">
             <div className="flex items-center gap-2">
               <CircleDollarSign className="h-4 w-4 text-primary" />
-              <span className="text-sm text-muted-foreground">{t("history.stats.total_deposits")}</span>
+              <span className="text-sm text-muted-foreground">
+                {t("common.labels.total_deposits")}
+              </span>
             </div>
             <div className="space-y-1">
-              <p className="text-2xl font-bold text-green-500">+{formatCurrency(totalDeposits)}</p>
+              <p className="text-2xl font-bold text-green-500">
+                +{formatCurrency(totalDeposits)}
+              </p>
               <p className="text-sm text-muted-foreground">
                 {t("history.stats.deposits_count", { count: depositCount })}
               </p>
@@ -150,10 +154,14 @@ export default function History() {
           <CardContent className="p-4 space-y-2">
             <div className="flex items-center gap-2">
               <Wallet className="h-4 w-4 text-primary" />
-              <span className="text-sm text-muted-foreground">{t("history.stats.total_withdrawals")}</span>
+              <span className="text-sm text-muted-foreground">
+                {t("common.labels.total_withdrawals")}
+              </span>
             </div>
             <div className="space-y-1">
-              <p className="text-2xl font-bold text-red-500">-{formatCurrency(totalWithdrawals)}</p>
+              <p className="text-2xl font-bold text-red-500">
+                -{formatCurrency(totalWithdrawals)}
+              </p>
               <p className="text-sm text-muted-foreground">
                 {t("history.stats.withdrawals_count", { count: withdrawalCount })}
               </p>
@@ -165,7 +173,9 @@ export default function History() {
           <CardContent className="p-4 space-y-2">
             <div className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-primary" />
-              <span className="text-sm text-muted-foreground">{t("history.stats.total_pnl")}</span>
+              <span className="text-sm text-muted-foreground">
+                {t("common.labels.total_pnl")}
+              </span>
             </div>
             <div className="space-y-1">
               <p className={cn("text-2xl font-bold", totalPnL >= 0 ? "text-green-500" : "text-red-500")}>
@@ -184,16 +194,24 @@ export default function History() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <TabsList className="h-10">
-              <TabsTrigger value="all">{t("history.all_activity")}</TabsTrigger>
-              <TabsTrigger value="deposits">{t("history.transaction_types.deposit")}</TabsTrigger>
-              <TabsTrigger value="withdrawals">{t("history.transaction_types.withdraw")}</TabsTrigger>
-              <TabsTrigger value="closed">{t("history.transaction_types.position_closed")}</TabsTrigger>
+              <TabsTrigger value="all">
+                {t("history.filters.all")}
+              </TabsTrigger>
+              <TabsTrigger value="deposits">
+                {t("history.filters.deposits")}
+              </TabsTrigger>
+              <TabsTrigger value="withdrawals">
+                {t("history.filters.withdrawals")}
+              </TabsTrigger>
+              <TabsTrigger value="closed">
+                {t("history.filters.positions")}
+              </TabsTrigger>
             </TabsList>
 
             <div className="relative flex-1 sm:w-[240px]">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder={t("history.search_placeholder")}
+                placeholder={t("history.search.placeholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9 h-10"
@@ -205,12 +223,16 @@ export default function History() {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="text-sm h-10">
                 <Filter className="h-4 w-4 mr-2" />
-                {t(`history.filter_periods.${timeFilter}`)}
+                {t(`history.filters.periods.${timeFilter}`)}
                 <ChevronDown className="h-4 w-4 ml-2" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {Object.entries(t("history.filter_periods", { returnObjects: true })).map(([key, label]) => (
+              {Object.entries({
+                all: t("history.filters.periods.all"),
+                week: t("history.filters.periods.week"),
+                month: t("history.filters.periods.month"),
+              }).map(([key, label]) => (
                 <DropdownMenuItem key={key} onClick={() => setTimeFilter(key)}>
                   {label}
                 </DropdownMenuItem>
@@ -225,7 +247,10 @@ export default function History() {
             <Card className="bg-card/50 border-primary/5 p-12">
               <div className="text-center">
                 <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-lg font-medium mb-1">{t("history.no_records")}</p>
+                <p className="text-lg font-medium mb-1">{t("history.empty.title")}</p>
+                <p className="text-sm text-muted-foreground">
+                  {t("history.empty.description")}
+                </p>
               </div>
             </Card>
           ) : (
@@ -255,7 +280,7 @@ export default function History() {
                               <div className="flex-1 min-w-0">
                                 <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                                   <h3 className="text-base font-medium">
-                                    {t(`history.transaction_types.${tx.type.toLowerCase().replace(" ", "_")}`)}
+                                    {t(`history.transaction.types.${tx.type.toLowerCase().replace(" ", "_")}`)}
                                   </h3>
                                   {pool && (
                                     <Badge variant="secondary" className="w-fit flex items-center gap-1">
@@ -271,10 +296,12 @@ export default function History() {
                                 {isPositionClosed && tx.entryDate && (
                                   <div className="mt-2 space-y-1">
                                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                      <span>{t("history.transaction_details.initial")}: {formatCurrency(Number(tx.amount))}</span>
+                                      <span>
+                                        {t("history.transaction.details.initial")}: {formatCurrency(Number(tx.amount))}
+                                      </span>
                                       <span>•</span>
                                       <span>
-                                        {t("history.transaction_details.duration", {
+                                        {t("history.transaction.details.duration", {
                                           start: format(new Date(tx.entryDate), "MMM d"),
                                           end: format(new Date(tx.date), "MMM d"),
                                         })}
@@ -282,7 +309,7 @@ export default function History() {
                                     </div>
                                     {pnl !== null && (
                                       <p className={cn("font-medium", pnl >= 0 ? "text-green-500" : "text-red-500")}>
-                                        {t("common.profit_loss")}: {pnl >= 0 ? "+" : ""}{formatCurrency(pnl)}
+                                        {t("common.labels.profit_loss")}: {pnl >= 0 ? "+" : ""}{formatCurrency(pnl)}
                                         {pnlPercentage !== null && (
                                           <span className="ml-1">
                                             ({pnlPercentage >= 0 ? "+" : ""}{pnlPercentage.toFixed(2)}%)
@@ -301,7 +328,7 @@ export default function History() {
                               </div>
                               {pool && (
                                 <div className="text-sm text-muted-foreground">
-                                  {t("history.transaction_details.apr", { value: pool.apr })}
+                                  {t("common.labels.apr", { value: pool.apr })}
                                 </div>
                               )}
                             </div>
