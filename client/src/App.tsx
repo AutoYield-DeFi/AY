@@ -8,38 +8,93 @@ import { Suspense, lazy, memo } from "react";
 import { Loading } from "@/components/ui/loading";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 
-// Lazy load pages with more granular chunks
-const Dashboard = lazy(() => import("@/pages/dashboard" /* webpackChunkName: "dashboard" */));
-const Pools = lazy(() => import("@/pages/pools" /* webpackChunkName: "pools" */));
-const PoolDetail = lazy(() => import("@/pages/pool-detail" /* webpackChunkName: "pool-detail" */));
-const Portfolio = lazy(() => import("@/pages/portfolio" /* webpackChunkName: "portfolio" */));
-const History = lazy(() => import("@/pages/history" /* webpackChunkName: "history" */));
-const NotFound = lazy(() => import("@/pages/not-found" /* webpackChunkName: "not-found" */));
+// Lazy load pages with more granular chunks and proper error boundaries
+const Dashboard = lazy(() => import("@/pages/dashboard"));
+const Pools = lazy(() => import("@/pages/pools"));
+const PoolDetail = lazy(() => import("@/pages/pool-detail"));
+const Portfolio = lazy(() => import("@/pages/portfolio"));
+const History = lazy(() => import("@/pages/history"));
+const NotFound = lazy(() => import("@/pages/not-found"));
 
-// Memoize the router component to prevent unnecessary re-renders
+// Page wrapper component for consistent error boundaries and loading states
+const PageWrapper = memo(function PageWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <ErrorBoundary>
+      <Suspense 
+        fallback={
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <Loading size="lg" />
+          </div>
+        }
+      >
+        {children}
+      </Suspense>
+    </ErrorBoundary>
+  );
+});
+
+// Router component with consistent error handling
 const Router = memo(function Router() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-background">
       <NavigationBar />
       <main className="flex-1 container mx-auto px-4 py-8 pb-24 md:pb-8">
-        <ErrorBoundary>
-          <Suspense fallback={<Loading />}>
-            <Switch>
-              <Route path="/" component={Dashboard} />
-              <Route path="/pools" component={Pools} />
-              <Route path="/pools/:id" component={PoolDetail} />
-              <Route path="/portfolio" component={Portfolio} />
-              <Route path="/history" component={History} />
-              <Route component={NotFound} />
-            </Switch>
-          </Suspense>
-        </ErrorBoundary>
+        <Switch>
+          <Route path="/">
+            {() => (
+              <PageWrapper>
+                <Dashboard />
+              </PageWrapper>
+            )}
+          </Route>
+
+          <Route path="/pools">
+            {() => (
+              <PageWrapper>
+                <Pools />
+              </PageWrapper>
+            )}
+          </Route>
+
+          <Route path="/pools/:id">
+            {(params) => (
+              <PageWrapper>
+                <PoolDetail />
+              </PageWrapper>
+            )}
+          </Route>
+
+          <Route path="/portfolio">
+            {() => (
+              <PageWrapper>
+                <Portfolio />
+              </PageWrapper>
+            )}
+          </Route>
+
+          <Route path="/history">
+            {() => (
+              <PageWrapper>
+                <History />
+              </PageWrapper>
+            )}
+          </Route>
+
+          <Route>
+            {() => (
+              <PageWrapper>
+                <NotFound />
+              </PageWrapper>
+            )}
+          </Route>
+        </Switch>
       </main>
       <BottomNav />
     </div>
   );
 });
 
+// Root App component with proper error handling
 function App() {
   return (
     <ErrorBoundary>
