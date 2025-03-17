@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { historicalPositions, transactionHistory, pools } from "@/lib/mock-data";
 import { formatCurrency, cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -13,10 +13,11 @@ import {
   CircleDollarSign,
   Wallet,
   TrendingUp,
-  Search
+  Search,
+  ArrowRightLeft
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SiBitcoin, SiEthereum, SiSolana } from "react-icons/si";
+import { SiSolana } from "react-icons/si";
 import { CoinsIcon } from "lucide-react";
 import {
   DropdownMenu,
@@ -28,19 +29,35 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 
-const TokenIcon = ({ symbol, size = "small" }: { symbol: string; size?: "small" | "large" }) => {
-  const sizeClass = size === "large" ? "h-8 w-8" : "h-5 w-5";
-
-  switch (symbol?.toUpperCase()) {
-    case 'BTC':
-      return <SiBitcoin className={`${sizeClass} text-orange-500`} />;
-    case 'ETH':
-      return <SiEthereum className={`${sizeClass} text-blue-500`} />;
-    case 'SOL':
-      return <SiSolana className={`${sizeClass} text-purple-500`} />;
-    default:
-      return <CoinsIcon className={`${sizeClass} text-gray-500`} />;
+const TokenIcon = ({ symbol }: { symbol: string }) => {
+  if (symbol === 'SOL') {
+    return <SiSolana className="h-5 w-5 text-[#14F195]" />;
   }
+  return <CoinsIcon className="h-5 w-5 text-primary" />;
+};
+
+const PositionStatus = ({ type }: { type: string }) => {
+  const colors = {
+    Deposit: "text-green-500 bg-green-500/10",
+    Withdraw: "text-red-500 bg-red-500/10",
+    "Position Closed": "text-blue-500 bg-blue-500/10",
+  };
+
+  const icons = {
+    Deposit: ArrowUpRight,
+    Withdraw: ArrowDownRight,
+    "Position Closed": ArrowRightLeft,
+  };
+
+  const Icon = icons[type as keyof typeof icons] || Activity;
+  return (
+    <div className={cn(
+      "h-10 w-10 flex items-center justify-center rounded-full",
+      colors[type as keyof typeof colors]
+    )}>
+      <Icon className="h-5 w-5" />
+    </div>
+  );
 };
 
 export default function History() {
@@ -88,7 +105,7 @@ export default function History() {
     return true;
   });
 
-  // Further filter by time
+  // Time filter
   const timeFilteredInteractions = filteredInteractions.filter(interaction => {
     if (timeFilter === "all") return true;
 
@@ -110,6 +127,7 @@ export default function History() {
 
   return (
     <div className="space-y-8">
+      {/* Header */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
           Transaction History
@@ -119,76 +137,92 @@ export default function History() {
         </p>
       </div>
 
-      {/* Summary Cards */}
+      {/* Summary Stats */}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
-        <Card className="bg-card/50 border-primary/5">
+        <Card className="bg-card/50 border-primary/5 hover:border-primary/20 transition-colors">
           <CardContent className="p-4 space-y-2">
             <div className="flex items-center gap-2">
               <CircleDollarSign className="h-4 w-4 text-primary" />
               <span className="text-sm text-muted-foreground">Total Deposits</span>
             </div>
-            <p className="text-2xl font-bold text-green-500">
-              +{formatCurrency(totalDeposits)}
-            </p>
+            <div className="space-y-1">
+              <p className="text-2xl font-bold text-green-500">
+                +{formatCurrency(totalDeposits)}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {transactionHistory.filter(tx => tx.type === "Deposit").length} deposits
+              </p>
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50 border-primary/5">
+        <Card className="bg-card/50 border-primary/5 hover:border-primary/20 transition-colors">
           <CardContent className="p-4 space-y-2">
             <div className="flex items-center gap-2">
               <Wallet className="h-4 w-4 text-primary" />
               <span className="text-sm text-muted-foreground">Total Withdrawals</span>
             </div>
-            <p className="text-2xl font-bold text-red-500">
-              -{formatCurrency(totalWithdrawals)}
-            </p>
+            <div className="space-y-1">
+              <p className="text-2xl font-bold text-red-500">
+                -{formatCurrency(totalWithdrawals)}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {transactionHistory.filter(tx => tx.type === "Withdraw").length} withdrawals
+              </p>
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-card/50 border-primary/5">
+        <Card className="bg-card/50 border-primary/5 hover:border-primary/20 transition-colors">
           <CardContent className="p-4 space-y-2">
             <div className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-primary" />
               <span className="text-sm text-muted-foreground">Total P&L</span>
             </div>
-            <p className={cn(
-              "text-2xl font-bold",
-              totalPnL >= 0 ? "text-green-500" : "text-red-500"
-            )}>
-              {totalPnL >= 0 ? '+' : ''}{formatCurrency(totalPnL)}
-            </p>
+            <div className="space-y-1">
+              <p className={cn(
+                "text-2xl font-bold",
+                totalPnL >= 0 ? "text-green-500" : "text-red-500"
+              )}>
+                {totalPnL >= 0 ? '+' : ''}{formatCurrency(totalPnL)}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {historicalPositions.length} positions closed
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
 
+      {/* Transaction List */}
       <Tabs defaultValue={activeTab} onValueChange={setActiveTab}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-            <TabsList className="h-9">
-              <TabsTrigger value="all" className="text-xs">All Activity</TabsTrigger>
-              <TabsTrigger value="deposits" className="text-xs">Deposits</TabsTrigger>
-              <TabsTrigger value="withdrawals" className="text-xs">Withdrawals</TabsTrigger>
-              <TabsTrigger value="closed" className="text-xs">Closed Positions</TabsTrigger>
+            <TabsList className="h-10">
+              <TabsTrigger value="all" className="text-sm">All Activity</TabsTrigger>
+              <TabsTrigger value="deposits" className="text-sm">Deposits</TabsTrigger>
+              <TabsTrigger value="withdrawals" className="text-sm">Withdrawals</TabsTrigger>
+              <TabsTrigger value="closed" className="text-sm">Closed Positions</TabsTrigger>
             </TabsList>
 
-            <div className="relative flex-1 sm:w-[200px]">
-              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="relative flex-1 sm:w-[240px]">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search by pool name..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-8"
+                className="pl-9 h-10"
               />
             </div>
           </div>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="text-xs h-9">
-                <Filter className="h-3.5 w-3.5 mr-1" />
+              <Button variant="outline" size="sm" className="text-sm h-10">
+                <Filter className="h-4 w-4 mr-2" />
                 {timeFilter === "all" ? "All Time" : 
                  timeFilter === "week" ? "Past Week" : "Past Month"}
-                <ChevronDown className="h-3 w-3 ml-1 opacity-70" />
+                <ChevronDown className="h-4 w-4 ml-2 opacity-70" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -216,16 +250,21 @@ export default function History() {
 function ActivityLog({ interactions }: { interactions: any[] }) {
   if (interactions.length === 0) {
     return (
-      <div className="text-center py-12 bg-card/30 rounded-lg border border-border/30">
-        <Activity className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
-        <p className="text-sm text-muted-foreground">No transactions found</p>
-      </div>
+      <Card className="bg-card/50 border-primary/5 p-12">
+        <div className="text-center">
+          <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <p className="text-lg font-medium mb-1">No Transactions Found</p>
+          <p className="text-sm text-muted-foreground">
+            Try adjusting your filters or search criteria
+          </p>
+        </div>
+      </Card>
     );
   }
 
   return (
     <Card className="bg-card/50 border-primary/5">
-      <CardContent className="p-4 space-y-4">
+      <CardContent className="p-6 space-y-6">
         {interactions.map((interaction, index) => {
           const pool = pools.find(p => p.id === interaction.poolId);
           const isDeposit = interaction.type === "Deposit";
@@ -245,35 +284,24 @@ function ActivityLog({ interactions }: { interactions: any[] }) {
           const showDateHeader = index === 0 || currentDate !== previousDate;
 
           return (
-            <div key={`${interaction.type}-${index}`}>
+            <div key={`${interaction.type}-${index}`} className="space-y-4">
               {showDateHeader && (
-                <div className="flex items-center gap-2 py-2 mb-3">
+                <div className="flex items-center gap-2 py-2">
                   <Clock className="h-4 w-4 text-primary" />
                   <span className="text-sm font-medium">{currentDate}</span>
                 </div>
               )}
 
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between p-4 rounded-lg bg-card/80 border border-border/20 hover:border-primary/20 hover:bg-card transition-all duration-200 gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between p-4 rounded-lg bg-background/50 border border-border/20 hover:border-primary/20 hover:bg-background transition-all duration-200 gap-4">
                 <div className="flex items-start gap-4">
-                  <div className={cn(
-                    "h-10 w-10 flex items-center justify-center rounded-full shrink-0",
-                    isDeposit && "bg-green-500/10 text-green-500",
-                    isWithdraw && "bg-red-500/10 text-red-500",
-                    isPositionClosed && "bg-blue-500/10 text-blue-500"
-                  )}>
-                    {isDeposit ? <ArrowUpRight className="h-5 w-5" /> :
-                     isWithdraw ? <ArrowDownRight className="h-5 w-5" /> :
-                     <Activity className="h-5 w-5" />}
-                  </div>
+                  <PositionStatus type={interaction.type} />
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                      <h3 className="text-sm font-medium">
-                        {isDeposit ? "Deposit" :
-                         isWithdraw ? "Withdrawal" :
-                         "Position Closed"}
+                      <h3 className="text-base font-medium">
+                        {interaction.type}
                       </h3>
                       {pool && (
-                        <Badge variant="secondary" className="w-fit flex items-center gap-1 text-xs">
+                        <Badge variant="secondary" className="w-fit flex items-center gap-1">
                           <div className="flex -space-x-1 mr-1">
                             <TokenIcon symbol={pool.token1} />
                             <TokenIcon symbol={pool.token2} />
@@ -282,9 +310,10 @@ function ActivityLog({ interactions }: { interactions: any[] }) {
                         </Badge>
                       )}
                     </div>
+
                     {isPositionClosed && interaction.entryDate && (
-                      <div className="mt-2 space-y-1 text-sm">
-                        <div className="flex items-center gap-2 text-muted-foreground">
+                      <div className="mt-2 space-y-1">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <span>Initial: {formatCurrency(Number(interaction.amount))}</span>
                           <span>•</span>
                           <span>{format(new Date(interaction.entryDate), 'MMM d')} - {format(interaction.date, 'MMM d')}</span>
@@ -304,8 +333,14 @@ function ActivityLog({ interactions }: { interactions: any[] }) {
                         )}
                       </div>
                     )}
+
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground mt-2">
+                      <Clock className="h-4 w-4" />
+                      {format(interaction.date, 'HH:mm')}
+                    </div>
                   </div>
                 </div>
+
                 <div className="text-right space-y-1">
                   <div className={cn(
                     "text-lg font-medium",
@@ -314,9 +349,11 @@ function ActivityLog({ interactions }: { interactions: any[] }) {
                   )}>
                     {isDeposit ? '+' : '-'}{formatCurrency(Number(interaction.amount))}
                   </div>
-                  <div className="text-xs text-muted-foreground">
-                    {format(interaction.date, 'HH:mm')}
-                  </div>
+                  {pool && (
+                    <div className="text-sm text-muted-foreground">
+                      {pool.apr}% APR
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
