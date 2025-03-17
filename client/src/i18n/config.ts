@@ -39,7 +39,8 @@ i18n
             next: 'Next',
             processing: 'Processing...',
             success: 'Success!',
-            error: 'Error'
+            error: 'Error',
+            details: 'View Details'
           },
           pools: {
             title: 'Pools',
@@ -63,7 +64,8 @@ i18n
               steps: {
                 amount: 'Enter Amount',
                 review: 'Review & Confirm'
-              }
+              },
+              summary: 'Deposit Summary'
             },
             view_details: 'View Details',
             utilization: 'Utilization',
