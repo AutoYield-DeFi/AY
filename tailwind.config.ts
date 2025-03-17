@@ -8,6 +8,15 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
+      fontSize: {
+        xs: ['0.75rem', '1rem'],
+        sm: ['0.875rem', '1.25rem'],
+        base: ['1rem', '1.5rem'],
+        lg: ['1.125rem', '1.75rem'],
+        xl: ['1.25rem', '1.75rem'],
+        '2xl': ['1.5rem', '2rem'],
+        '3xl': ['1.875rem', '2.25rem'],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -54,6 +63,13 @@ export default {
           "4": "#FB923C",
           "5": "#A855F7",
         },
+      },
+      spacing: {
+        sidebar: '280px',
+      },
+      boxShadow: {
+        'card': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+        'card-hover': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
       },
       keyframes: {
         "accordion-down": {
