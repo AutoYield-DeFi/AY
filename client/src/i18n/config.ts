@@ -45,12 +45,23 @@ i18n
             monthly_yield: 'Monthly Yield',
             average_apr: 'Average APR',
             recent_activity: 'Recent Activity',
-            view_all: 'View All'
+            view_all: 'View All',
+            positions_count: '{{count}} active positions',
+            total_balance: 'Total Balance',
+            processing_transaction: 'Processing Transaction...',
+            search: 'Search',
+            filter: 'Filter',
+            time_period: {
+              all: 'All Time',
+              week: 'Past Week',
+              month: 'Past Month'
+            }
           },
           dashboard: {
             title: 'Dashboard',
             description: 'Track your portfolio performance and market activity',
             portfolio_summary: 'Portfolio Summary',
+            performance_history: 'Performance History',
             total_value: 'Total Value',
             available_balance: 'Available Balance',
             total_balance: 'Total Balance',
@@ -61,7 +72,14 @@ i18n
             portfolio_performance: 'Portfolio Performance',
             performance_desc: 'Track your portfolio value and yields over time',
             value: 'Value',
-            yield: 'Yield'
+            yield: 'Yield',
+            distribution: 'Distribution of your portfolio',
+            chart: {
+              tooltip: {
+                value: 'Value: {{value}}',
+                yield: 'Yield: +{{value}}'
+              }
+            }
           },
           history: {
             title: 'Transaction History',
@@ -77,32 +95,23 @@ i18n
             initial_investment: 'Initial Investment',
             duration: 'Duration',
             profit_loss: 'Profit/Loss',
-            all_time: 'All Time',
-            past_week: 'Past Week',
-            past_month: 'Past Month',
-            no_transactions: 'No transactions found for the selected filters',
+            no_transactions: 'No transactions found',
+            deposits_count: '{{count}} deposits',
+            withdrawals_count: '{{count}} withdrawals',
             closed_positions: 'Closed Positions',
             search_placeholder: 'Search by pool name...',
             deposits: 'Deposits',
-            withdrawals: 'Withdrawals'
-          },
-          portfolio: {
-            title: 'Portfolio',
-            description: 'Track your liquidity positions and returns',
-            overview: 'Portfolio Overview',
-            total_portfolio_value: 'Total Portfolio Value',
-            positions_value: 'Positions Value',
-            total_balance: 'Total Balance',
-            initial_investment: 'Initial Investment',
-            current_value: 'Current Value',
-            performance: 'Performance',
-            performance_history: 'Performance History',
-            value: 'Value',
-            active_positions: 'Active Positions',
-            pool_share: 'Pool Share',
-            daily_yield: 'Daily Yield',
-            deposit: 'Deposit',
-            add_position: 'Add Position'
+            withdrawals: 'Withdrawals',
+            filter_options: {
+              all_time: 'All Time',
+              past_week: 'Past Week',
+              past_month: 'Past Month'
+            },
+            transaction_details: {
+              initial: 'Initial',
+              final: 'Final',
+              duration: '{{start}} - {{end}}'
+            }
           },
           pools: {
             title: 'Pools',
@@ -140,89 +149,37 @@ i18n
             pool_health: 'Pool Health',
             health_metrics: 'Overall health and stability of the pool',
             volume_metrics: '24-hour trading volume for this pool',
-            low_risk: 'Low Risk',
-            medium_risk: 'Medium Risk',
-            high_risk: 'High Risk',
-            all_pools: 'All Pools',
-            low_risk: 'Low Risk',
-            medium_risk: 'Medium Risk',
-            high_risk: 'High Risk',
-            sort_by: 'Sort by',
-            highest_apr: 'Highest APR',
-            highest_tvl: 'Highest TVL',
-            volume_24h: 'Volume (24h)',
-            risk_level: 'Risk Level',
-            low: 'Low',
-            medium: 'Medium',
-            high: 'High',
-            not_found: 'Pool not found',
-            details_description: 'Pool Details and Performance',
-            token_information: 'Token Information',
-            primary_token: 'Primary Token',
-            paired_token: 'Paired Token',
-            pool_reserve: 'Pool Reserve',
-            current_price: 'Current Price',
-            metrics: 'Pool Metrics',
-            risk_profile: 'Risk Profile',
-            volume_metrics: 'Volume Metrics',
-            pool_health: 'Pool Health',
-            utilization: 'Utilization',
-            price_ratio: 'Price Ratio',
-            impermanent_loss: 'Impermanent Loss',
-            weekly_volume: 'Weekly Volume',
-            weekly_fees: 'Weekly Fees',
-            annual_rate: 'Annual percentage rate',
-            trading_volume: 'Last 24 hours trading',
-            earned_24h: 'Earned in last 24h',
-            total_locked: 'Total value locked',
-            tvl_history: 'TVL History',
-            high_il_warning_title: 'High Impermanent Loss Risk',
-            high_il_warning: 'High impermanent loss risk detected. Consider your position carefully.',
-            daily_fees: 'Daily Fees',
-
-          },
-          history: {
-            title: 'History',
-            description: 'View your complete transaction history',
-            all_activity: 'All Activity',
-            transaction_type: {
-              deposit: 'Deposit',
-              withdraw: 'Withdraw',
-              position_closed: 'Position Closed',
+            risk_levels: {
+              low: 'Low Risk',
+              medium: 'Medium Risk',
+              high: 'High Risk'
             },
-            total_deposits: 'Total Deposits',
-            total_withdrawals: 'Total Withdrawals',
-            initial_investment: 'Initial Investment',
-            duration: 'Duration',
-            profit_loss: 'Profit/Loss',
-            all_time: 'All Time',
-            past_week: 'Past Week',
-            past_month: 'Past Month',
-            no_transactions: 'No transactions found for the selected filters.',
-            closed_positions: 'Closed Positions',
-          },
-          numbers: {
-            compact: '{{value, compact}}',
-            percent: '{{value, number}}%',
-            currency: '{{value, currency}}',
-          },
-          defi: {
-            terms: {
-              apr: 'Annual Percentage Rate - The yearly rate of return on your investment without compounding.',
-              tvl: 'Total Value Locked - The total amount of assets deposited in the pool.',
-              pool_share: 'The percentage of the pool that your deposit represents.',
-              impermanent_loss: 'Potential loss that occurs when the price of your deposited assets changes compared to simply holding them.',
-              pool_activity: 'How actively the pool is being used for trading and yield generation, indicating the pool\'s current momentum.',
-              yield_farming: 'Strategy of staking or lending crypto assets to generate high returns in the form of additional cryptocurrency.',
-              smart_contract: 'Self-executing code on a blockchain that automatically implements the terms of an agreement when predetermined conditions are met.',
-              gas_fee: 'Transaction fee paid to network validators for processing transactions on a blockchain network.',
-              amm: 'Automated Market Maker - A decentralized exchange protocol that uses liquidity pools to enable automatic trading.',
-              protocol_fee: 'Fee charged by a DeFi platform that goes to the protocol treasury or is distributed to governance token holders.',
-              utilization_rate: 'The percentage of available assets in a pool that are currently being lent out or used.',
-              risk_note: 'High levels can significantly impact returns. Consider your risk tolerance.'
+            metrics: {
+              volume_24h: '24h Volume',
+              tvl: 'Total Value Locked',
+              apr: 'Annual Rate',
+              daily_fees: 'Daily Fees'
             }
+          },
+          portfolio: {
+            title: 'Portfolio',
+            description: 'Track your liquidity positions and returns',
+            overview: 'Portfolio Overview',
+            total_portfolio_value: 'Total Portfolio Value',
+            positions_value: 'Positions Value',
+            total_balance: 'Total Balance',
+            initial_investment: 'Initial Investment',
+            current_value: 'Current Value',
+            performance: 'Performance',
+            performance_history: 'Performance History',
+            value: 'Value',
+            active_positions: 'Active Positions',
+            pool_share: 'Pool Share',
+            daily_yield: 'Daily Yield',
+            deposit: 'Deposit',
+            add_position: 'Add Position'
           }
-        },
+        }
       },
       es: {
         translation: {
@@ -248,6 +205,17 @@ i18n
             cancel: 'Cancelar',
             back: 'Atrás',
             next: 'Siguiente',
+            positions_count: '{{count}} posiciones activas',
+            total_balance: 'Saldo Total',
+            processing_transaction: 'Procesando transacción...',
+            search: 'Buscar',
+            filter: 'Filtrar',
+            time_period: {
+              all: 'Todo el tiempo',
+              week: 'Última semana',
+              month: 'Último mes'
+            }
+
           },
           dashboard: {
             title: 'Panel',
@@ -265,6 +233,14 @@ i18n
               market_update_title: 'Actualización de Mercado',
               market_update_message: 'Se espera una volatilidad del mercado mayor de lo habitual esta semana. Monitorea tus posiciones de cerca.',
             },
+            performance_history: 'Historial de Rendimiento',
+            distribution: 'Distribución de tu portafolio',
+            chart: {
+              tooltip: {
+                value: 'Valor: {{value}}',
+                yield: 'Rendimiento: +{{value}}'
+              }
+            }
           },
           portfolio: {
             title: 'Portafolio',
@@ -333,6 +309,40 @@ i18n
             tvl_history: 'Historial de TVL',
             high_il_warning_title: 'Alto Riesgo de Pérdida Impermanente',
             high_il_warning: 'Alto riesgo de pérdida impermanente detectado. Considera tu posición cuidadosamente.',
+            deposit: {
+              title: 'Depositar en',
+              amount_label: 'Cantidad a Depositar',
+              estimated_daily: 'Rendimiento Diario',
+              estimated_yearly: 'Rendimiento Anual',
+              confirm: 'Confirmar Depósito',
+              success_message: 'Depósito de {{amount}} en {{pool}} realizado correctamente',
+              error: 'Error al procesar el depósito',
+              steps: {
+                token: 'Seleccionar Token',
+                amount: 'Ingresar Cantidad',
+                review: 'Revisar y Confirmar'
+              }
+            },
+            withdraw: {
+              title: 'Retirar de',
+              amount_label: 'Cantidad a Retirar',
+              current_value: 'Valor Actual',
+              withdraw_amount: 'Cantidad de Retiro',
+              estimated_pnl: 'Estimación de Ganancias/Pérdidas',
+              confirm: 'Confirmar Retiro',
+              success_message: 'Retiro de {{amount}} de {{pool}} realizado correctamente con {{pnl}} de Ganancias/Pérdidas',
+              error: 'Error al procesar el retiro',
+              steps: {
+                amount: 'Seleccionar Cantidad',
+                review: 'Revisar y Confirmar'
+              }
+            },
+            metrics: {
+              volume_24h: 'Volumen 24h',
+              tvl: 'Valor Total Bloqueado',
+              apr: 'Tasa Anual',
+              daily_fees: 'Comisiones Diarias'
+            }
           },
           history: {
             title: 'Historial',
@@ -352,6 +362,16 @@ i18n
             past_week: 'Última Semana',
             past_month: 'Último Mes',
             no_transactions: 'No se encontraron transacciones para los filtros seleccionados.',
+            filter_options: {
+              all_time: 'Todo el tiempo',
+              past_week: 'Última semana',
+              past_month: 'Último mes'
+            },
+            transaction_details: {
+              initial: 'Inicial',
+              final: 'Final',
+              duration: '{{start}} - {{end}}'
+            }
           },
           numbers: {
             compact: '{{value, compact}}',
@@ -374,7 +394,7 @@ i18n
               risk_note: 'Los niveles altos pueden afectar significativamente los rendimientos. Considera tu tolerancia al riesgo.'
             }
           }
-        },
+        }
       },
       ja: {
         translation: {
@@ -400,6 +420,16 @@ i18n
             cancel: 'キャンセル',
             back: '戻る',
             next: '次へ',
+            positions_count: '{{count}}件のアクティブなポジション',
+            total_balance: '合計残高',
+            processing_transaction: 'トランザクション処理中...',
+            search: '検索',
+            filter: '絞り込み',
+            time_period: {
+              all: '全期間',
+              week: '過去1週間',
+              month: '過去1ヶ月'
+            }
           },
           dashboard: {
             title: 'ダッシュボード',
@@ -417,6 +447,14 @@ i18n
               market_update_title: '市場アップデート',
               market_update_message: '今週は通常より高い市場変動性が予想されます。ポジションを注意深く監視してください。',
             },
+            performance_history: 'パフォーマンス履歴',
+            distribution: 'ポートフォリオの配分',
+            chart: {
+              tooltip: {
+                value: '価値: {{value}}',
+                yield: '利回り: +{{value}}'
+              }
+            }
           },
           portfolio: {
             title: 'ポートフォリオ',
@@ -485,6 +523,40 @@ i18n
             tvl_history: 'TVL履歴',
             high_il_warning_title: '高い非永続的損失リスク',
             high_il_warning: '高い非永続的損失リスクが検出されました。慎重にポジションを検討してください。',
+            deposit: {
+              title: '預入',
+              amount_label: '預入額',
+              estimated_daily: '日次利回り',
+              estimated_yearly: '年間利回り',
+              confirm: '預入確認',
+              success_message: '{{pool}}に{{amount}}を正常に預け入れました',
+              error: '預け入れ処理に失敗しました',
+              steps: {
+                token: 'トークンの選択',
+                amount: '数量を入力',
+                review: '確認と承認'
+              }
+            },
+            withdraw: {
+              title: '引出',
+              amount_label: '引出額',
+              current_value: '現在価値',
+              withdraw_amount: '引出額',
+              estimated_pnl: '損益見込み',
+              confirm: '引出確認',
+              success_message: '{{pnl}}の損益で{{pool}}から{{amount}}を正常に引き出しました',
+              error: '引き出し処理に失敗しました',
+              steps: {
+                amount: '数量の選択',
+                review: '確認と承認'
+              }
+            },
+            metrics: {
+              volume_24h: '24時間取引量',
+              tvl: 'ロック済み総額',
+              apr: '年間利率',
+              daily_fees: '日次手数料'
+            }
           },
           history: {
             title: '履歴',
@@ -504,6 +576,16 @@ i18n
             past_week: '過去1週間',
             past_month: '過去1ヶ月',
             no_transactions: '選択されたフィルタに対する取引が見つかりません。',
+            filter_options: {
+              all_time: '全期間',
+              past_week: '過去1週間',
+              past_month: '過去1ヶ月'
+            },
+            transaction_details: {
+              initial: '開始時',
+              final: '終了時',
+              duration: '{{start}} - {{end}}'
+            }
           },
           numbers: {
             compact: '{{value, compact}}',
@@ -526,7 +608,7 @@ i18n
               risk_note: '高いレベルはリターンに大きな影響を与える可能性があります。あなたのリスク許容度を考慮してください。'
             }
           }
-        },
+        }
       },
       tr: {
         translation: {
@@ -552,6 +634,16 @@ i18n
             cancel: 'İptal',
             back: 'Geri',
             next: 'İleri',
+            positions_count: '{{count}} aktif pozisyon',
+            total_balance: 'Toplam Bakiye',
+            processing_transaction: 'İşlem işleniyor...',
+            search: 'Ara',
+            filter: 'Filtrele',
+            time_period: {
+              all: 'Tüm Zamanlar',
+              week: 'Geçen Hafta',
+              month: 'Geçen Ay'
+            }
           },
           dashboard: {
             title: 'Panel',
@@ -569,6 +661,14 @@ i18n
               market_update_title: 'Piyasa Güncellemesi',
               market_update_message: 'Bu hafta normalden daha yüksek piyasa oynaklığı bekleniyor. Pozisyonlarınızı yakından izleyin.',
             },
+            performance_history: 'Performans Geçmişi',
+            distribution: 'Portföyünüzün dağılımı',
+            chart: {
+              tooltip: {
+                value: 'Değer: {{value}}',
+                yield: 'Getiri: +{{value}}'
+              }
+            }
           },
           portfolio: {
             title: 'Portföy',
@@ -637,6 +737,40 @@ i18n
             tvl_history: 'TVL Geçmişi',
             high_il_warning_title: 'Yüksek Geçici Kayıp Riski',
             high_il_warning: 'Yüksek geçici kayıp riski tespit edildi. Pozisyonunuzu dikkatlice değerlendirin.',
+            deposit: {
+              title: 'Havuza Yatır',
+              amount_label: 'Yatırılacak Miktar',
+              estimated_daily: 'Günlük Getiri',
+              estimated_yearly: 'Yıllık Getiri',
+              confirm: 'Yatırımı Onayla',
+              success_message: '{{pool}} havuzuna {{amount}} başarıyla yatırıldı',
+              error: 'Yatırım işlemi başarısız oldu',
+              steps: {
+                token: 'Token Seç',
+                amount: 'Miktar Gir',
+                review: 'İncele ve Onayla'
+              }
+            },
+            withdraw: {
+              title: 'Havuzdan Çek',
+              amount_label: 'Çekilecek Miktar',
+              current_value: 'Güncel Değer',
+              withdraw_amount: 'Çekim Miktarı',
+              estimated_pnl: 'Tahmini Kar/Zarar',
+              confirm: 'Çekimi Onayla',
+              success_message: '{{pool}} havuzundan {{amount}} {{pnl}} Kar/Zarar ile başarıyla çekildi',
+              error: 'Çekim işlemi başarısız oldu',
+              steps: {
+                amount: 'Miktar Seç',
+                review: 'İncele ve Onayla'
+              }
+            },
+            metrics: {
+              volume_24h: '24s Hacim',
+              tvl: 'Kilitli Toplam Değer',
+              apr: 'Yıllık Oran',
+              daily_fees: 'Günlük Ücretler'
+            }
           },
           history: {
             title: 'Geçmiş',
@@ -656,6 +790,16 @@ i18n
             past_week: 'Geçen Hafta',
             past_month: 'Geçen Ay',
             no_transactions: 'Seçilen filtreler için işlem bulunamadı.',
+            filter_options: {
+              all_time: 'Tüm Zamanlar',
+              past_week: 'Geçen Hafta',
+              past_month: 'Geçen Ay'
+            },
+            transaction_details: {
+              initial: 'Başlangıç',
+              final: 'Bitiş',
+              duration: '{{start}} - {{end}}'
+            }
           },
           numbers: {
             compact: '{{value, compact}}',
@@ -678,7 +822,7 @@ i18n
               risk_note: 'Yüksek seviyeler getirileri önemli ölçüde etkileyebilir. Risk toleransınızı göz önünde bulundurun.'
             }
           }
-        },
+        }
       },
     },
   });

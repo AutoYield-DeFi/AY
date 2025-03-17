@@ -13,8 +13,7 @@ import {
   CircleDollarSign,
   Wallet,
   TrendingUp,
-  Search,
-  ArrowRightLeft
+  Search
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SiSolana } from "react-icons/si";
@@ -28,6 +27,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "react-i18next";
 
 const TokenIcon = ({ symbol }: { symbol: string }) => {
   if (symbol === 'SOL') {
@@ -46,7 +46,7 @@ const PositionStatus = ({ type }: { type: string }) => {
   const icons = {
     Deposit: ArrowUpRight,
     Withdraw: ArrowDownRight,
-    "Position Closed": ArrowRightLeft,
+    "Position Closed": Activity,
   };
 
   const Icon = icons[type as keyof typeof icons] || Activity;
@@ -61,6 +61,7 @@ const PositionStatus = ({ type }: { type: string }) => {
 };
 
 export default function History() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string>("all");
   const [timeFilter, setTimeFilter] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -130,10 +131,10 @@ export default function History() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-          Transaction History
+          {t('history.title')}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Track your deposits, withdrawals, and position closures
+          {t('history.description')}
         </p>
       </div>
 
@@ -143,14 +144,14 @@ export default function History() {
           <CardContent className="p-4 space-y-2">
             <div className="flex items-center gap-2">
               <CircleDollarSign className="h-4 w-4 text-primary" />
-              <span className="text-sm text-muted-foreground">Total Deposits</span>
+              <span className="text-sm text-muted-foreground">{t('history.total_deposits')}</span>
             </div>
             <div className="space-y-1">
               <p className="text-2xl font-bold text-green-500">
                 +{formatCurrency(totalDeposits)}
               </p>
               <p className="text-sm text-muted-foreground">
-                {transactionHistory.filter(tx => tx.type === "Deposit").length} deposits
+                {t('history.deposits_count', { count: transactionHistory.filter(tx => tx.type === "Deposit").length })}
               </p>
             </div>
           </CardContent>
@@ -160,14 +161,14 @@ export default function History() {
           <CardContent className="p-4 space-y-2">
             <div className="flex items-center gap-2">
               <Wallet className="h-4 w-4 text-primary" />
-              <span className="text-sm text-muted-foreground">Total Withdrawals</span>
+              <span className="text-sm text-muted-foreground">{t('history.total_withdrawals')}</span>
             </div>
             <div className="space-y-1">
               <p className="text-2xl font-bold text-red-500">
                 -{formatCurrency(totalWithdrawals)}
               </p>
               <p className="text-sm text-muted-foreground">
-                {transactionHistory.filter(tx => tx.type === "Withdraw").length} withdrawals
+                {t('history.withdrawals_count', { count: transactionHistory.filter(tx => tx.type === "Withdraw").length })}
               </p>
             </div>
           </CardContent>
@@ -177,7 +178,7 @@ export default function History() {
           <CardContent className="p-4 space-y-2">
             <div className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-primary" />
-              <span className="text-sm text-muted-foreground">Total P&L</span>
+              <span className="text-sm text-muted-foreground">{t('history.profit_loss')}</span>
             </div>
             <div className="space-y-1">
               <p className={cn(
@@ -187,7 +188,7 @@ export default function History() {
                 {totalPnL >= 0 ? '+' : ''}{formatCurrency(totalPnL)}
               </p>
               <p className="text-sm text-muted-foreground">
-                {historicalPositions.length} positions closed
+                {t('history.closed_positions', { count: historicalPositions.length })}
               </p>
             </div>
           </CardContent>
@@ -199,16 +200,16 @@ export default function History() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <TabsList className="h-10">
-              <TabsTrigger value="all" className="text-sm">All Activity</TabsTrigger>
-              <TabsTrigger value="deposits" className="text-sm">Deposits</TabsTrigger>
-              <TabsTrigger value="withdrawals" className="text-sm">Withdrawals</TabsTrigger>
-              <TabsTrigger value="closed" className="text-sm">Closed Positions</TabsTrigger>
+              <TabsTrigger value="all" className="text-sm">{t('history.all_activity')}</TabsTrigger>
+              <TabsTrigger value="deposits" className="text-sm">{t('history.deposits')}</TabsTrigger>
+              <TabsTrigger value="withdrawals" className="text-sm">{t('history.withdrawals')}</TabsTrigger>
+              <TabsTrigger value="closed" className="text-sm">{t('history.closed_positions')}</TabsTrigger>
             </TabsList>
 
             <div className="relative flex-1 sm:w-[240px]">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search by pool name..."
+                placeholder={t('history.search_placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9 h-10"
@@ -220,20 +221,21 @@ export default function History() {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="text-sm h-10">
                 <Filter className="h-4 w-4 mr-2" />
-                {timeFilter === "all" ? "All Time" : 
-                 timeFilter === "week" ? "Past Week" : "Past Month"}
+                {timeFilter === "all" ? t('history.filter_options.all_time') : 
+                 timeFilter === "week" ? t('history.filter_options.past_week') : 
+                 t('history.filter_options.past_month')}
                 <ChevronDown className="h-4 w-4 ml-2 opacity-70" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setTimeFilter("all")}>
-                All Time
+                {t('history.filter_options.all_time')}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTimeFilter("week")}>
-                Past Week
+                {t('history.filter_options.past_week')}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTimeFilter("month")}>
-                Past Month
+                {t('history.filter_options.past_month')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -248,14 +250,16 @@ export default function History() {
 }
 
 function ActivityLog({ interactions }: { interactions: any[] }) {
+  const { t } = useTranslation();
+
   if (interactions.length === 0) {
     return (
       <Card className="bg-card/50 border-primary/5 p-12">
         <div className="text-center">
           <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-lg font-medium mb-1">No Transactions Found</p>
+          <p className="text-lg font-medium mb-1">{t('history.no_transactions')}</p>
           <p className="text-sm text-muted-foreground">
-            Try adjusting your filters or search criteria
+            {t('common.try_filtering')}
           </p>
         </div>
       </Card>
@@ -298,7 +302,7 @@ function ActivityLog({ interactions }: { interactions: any[] }) {
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                       <h3 className="text-base font-medium">
-                        {interaction.type}
+                        {t(`history.transaction_type.${interaction.type.toLowerCase().replace(" ", "_")}`)}
                       </h3>
                       {pool && (
                         <Badge variant="secondary" className="w-fit flex items-center gap-1">
@@ -314,16 +318,19 @@ function ActivityLog({ interactions }: { interactions: any[] }) {
                     {isPositionClosed && interaction.entryDate && (
                       <div className="mt-2 space-y-1">
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <span>Initial: {formatCurrency(Number(interaction.amount))}</span>
+                          <span>{t('history.transaction_details.initial')}: {formatCurrency(Number(interaction.amount))}</span>
                           <span>•</span>
-                          <span>{format(new Date(interaction.entryDate), 'MMM d')} - {format(interaction.date, 'MMM d')}</span>
+                          <span>{t('history.transaction_details.duration', {
+                            start: format(new Date(interaction.entryDate), 'MMM d'),
+                            end: format(interaction.date, 'MMM d')
+                          })}</span>
                         </div>
                         {pnl !== null && (
                           <p className={cn(
                             "font-medium",
                             pnl >= 0 ? "text-green-500" : "text-red-500"
                           )}>
-                            P&L: {pnl >= 0 ? '+' : ''}{formatCurrency(pnl)}
+                            {t('history.profit_loss')}: {pnl >= 0 ? '+' : ''}{formatCurrency(pnl)}
                             {pnlPercentage !== null && (
                               <span className="ml-1">
                                 ({pnlPercentage >= 0 ? '+' : ''}{pnlPercentage.toFixed(2)}%)
@@ -333,11 +340,6 @@ function ActivityLog({ interactions }: { interactions: any[] }) {
                         )}
                       </div>
                     )}
-
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground mt-2">
-                      <Clock className="h-4 w-4" />
-                      {format(interaction.date, 'HH:mm')}
-                    </div>
                   </div>
                 </div>
 
