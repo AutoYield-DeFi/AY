@@ -1,4 +1,4 @@
-import type { Pool } from "@/lib/types";
+import type { Pool, Position, HistoricalPosition } from "@/lib/types";
 
 // Mock wallet balances
 export const walletBalances = {
@@ -12,7 +12,7 @@ export const walletBalances = {
 export const transactionHistory = [
   {
     id: 1,
-    poolId: "1", // Changed to string to match Pool type
+    poolId: "1",
     type: "Deposit",
     amount: "10000",
     timestamp: new Date("2024-03-15").toISOString()
@@ -112,5 +112,53 @@ export const pools: Pool[] = [
     utilizationRate: 92.3,
     poolHealth: 95,
     fees24h: 1560
+  }
+];
+
+// Portfolio positions
+export const portfolioPositions: Position[] = [
+  {
+    id: "1",
+    poolId: "1",
+    amount: 10000,
+    value: 12500,
+    value24hAgo: 12000,
+    pnl: 2500,
+    pnl24h: 500,
+    pnl7d: 1200,
+    entryDate: new Date("2024-02-01").toISOString()
+  },
+  {
+    id: "2",
+    poolId: "2",
+    amount: 25000,
+    value: 28000,
+    value24hAgo: 27500,
+    pnl: 3000,
+    pnl24h: 500,
+    pnl7d: 1800,
+    entryDate: new Date("2024-02-15").toISOString()
+  }
+];
+
+// Historical positions
+export const historicalPositions: HistoricalPosition[] = [
+  {
+    id: "1",
+    poolId: "1",
+    amount: 15000,
+    exitValue: 16800,
+    pnl: 1800,
+    entryDate: new Date("2024-01-01").toISOString(),
+    exitDate: new Date("2024-01-15").toISOString()
+  },
+  {
+    id: "2",
+    poolId: "3",
+    amount: 5000,
+    exitValue: 5300,
+    pnl: 300,
+    entryDate: new Date("2024-01-10").toISOString(),
+    exitDate: new Date("2024-01-20").toISOString()
   }
 ];
