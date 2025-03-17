@@ -6,16 +6,17 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Cabinet Grotesk', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        xs: ['0.75rem', '1rem'],
-        sm: ['0.875rem', '1.25rem'],
-        base: ['1rem', '1.5rem'],
-        lg: ['1.125rem', '1.75rem'],
-        xl: ['1.25rem', '1.75rem'],
-        '2xl': ['1.5rem', '2rem'],
-        '3xl': ['1.875rem', '2.25rem'],
+        xs: ['0.75rem', { lineHeight: '1rem', letterSpacing: '-0.01em' }],
+        sm: ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '-0.01em' }],
+        base: ['1rem', { lineHeight: '1.5rem', letterSpacing: '-0.01em' }],
+        lg: ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em' }],
+        xl: ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.02em' }],
+        '2xl': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
+        '3xl': ['1.875rem', { lineHeight: '2.25rem', letterSpacing: '-0.02em' }],
+        '4xl': ['2.25rem', { lineHeight: '2.5rem', letterSpacing: '-0.02em' }],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -34,7 +35,7 @@ export default {
           foreground: "hsl(var(--popover-foreground))",
         },
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "#5C69FF",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -55,7 +56,7 @@ export default {
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
+        ring: "#5C69FF",
         chart: {
           "1": "#5C69FF",
           "2": "#4ADE80",

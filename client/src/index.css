@@ -36,80 +36,83 @@
   }
 }
 
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&display=swap');
+
 @layer base {
   * {
     @apply border-border;
   }
-
   body {
-    @apply font-sans antialiased bg-background text-foreground selection:bg-primary/10;
+    @apply antialiased bg-background text-foreground selection:bg-primary/10;
+    font-family: 'Cabinet Grotesk', sans-serif;
   }
 
   h1 {
-    @apply font-sans font-bold tracking-tight text-2xl md:text-3xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70;
+    @apply font-bold tracking-tight text-3xl md:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-[#5C69FF] to-[#5C69FF]/90;
+    font-family: 'Cabinet Grotesk', sans-serif;
   }
 
   h2 {
-    @apply font-sans font-semibold text-xl md:text-2xl tracking-tight text-foreground;
+    @apply font-semibold text-2xl md:text-3xl tracking-tight text-foreground;
+    font-family: 'Cabinet Grotesk', sans-serif;
   }
 
   h3 {
-    @apply font-sans font-medium text-lg tracking-tight text-foreground;
+    @apply font-medium text-xl tracking-tight text-foreground;
+    font-family: 'Cabinet Grotesk', sans-serif;
   }
 }
 
 @layer components {
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#5C69FF] to-[#5C69FF]/70;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#5C69FF] to-[#5C69FF]/90;
   }
 
   .card-gradient {
     @apply relative bg-white bg-opacity-50 backdrop-blur-sm border border-slate-200/60 
            shadow-[0_1px_3px_0_rgb(0,0,0,0.1),0_1px_2px_-1px_rgb(0,0,0,0.1)]
            hover:shadow-[0_4px_6px_-1px_rgb(0,0,0,0.1),0_2px_4px_-2px_rgb(0,0,0,0.1)]
-           hover:border-primary/20 transition-all duration-200;
+           hover:border-[#5C69FF]/20 transition-all duration-200;
+  }
+
+  .button-primary {
+    @apply bg-[#5C69FF] hover:bg-[#5C69FF]/90 text-white font-medium px-4 py-2 rounded-lg
+           shadow-sm hover:shadow transition-all duration-200;
+  }
+
+  .button-outline {
+    @apply border border-slate-200 hover:border-[#5C69FF]/20 bg-white hover:bg-slate-50
+           text-slate-900 font-medium px-4 py-2 rounded-lg shadow-sm hover:shadow
+           transition-all duration-200;
   }
 
   .input-ring {
     @apply focus-visible:ring-2 focus-visible:ring-[#5C69FF] focus-visible:ring-offset-2;
   }
 
-  .table-header {
-    @apply bg-slate-50/50 backdrop-blur-sm border-b border-slate-200/60;
-  }
-
-  .table-row {
-    @apply hover:bg-slate-50/50 transition-colors border-b border-slate-200/60;
-  }
-
   .nav-item {
     @apply rounded-lg px-3 py-2 text-sm font-medium transition-colors
-           hover:bg-primary/10 hover:text-primary
-           data-[active=true]:bg-primary/10 data-[active=true]:text-primary;
+           hover:bg-[#5C69FF]/10 hover:text-[#5C69FF]
+           data-[active=true]:bg-[#5C69FF]/10 data-[active=true]:text-[#5C69FF];
   }
 
   .badge {
-    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold
-           transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium
+           transition-colors focus:outline-none focus:ring-2 focus:ring-[#5C69FF] focus:ring-offset-2;
   }
 
-  .badge-default {
-    @apply border-transparent bg-primary/10 text-primary;
+  .badge-primary {
+    @apply border-transparent bg-[#5C69FF]/10 text-[#5C69FF];
   }
 
   .badge-secondary {
-    @apply border-transparent bg-secondary text-secondary-foreground;
-  }
-
-  .button-gradient {
-    @apply bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80
-           text-white shadow-sm hover:shadow transition-all duration-200;
+    @apply border-transparent bg-slate-100 text-slate-900;
   }
 
   .stat-card {
-    @apply flex flex-col gap-1 p-4 rounded-lg bg-white border border-slate-200/60
+    @apply flex flex-col gap-1.5 p-4 rounded-lg bg-white border border-slate-200/60
            shadow-[0_1px_3px_0_rgb(0,0,0,0.1),0_1px_2px_-1px_rgb(0,0,0,0.1)]
            hover:shadow-[0_4px_6px_-1px_rgb(0,0,0,0.1),0_2px_4px_-2px_rgb(0,0,0,0.1)]
-           hover:border-primary/20 transition-all duration-200;
+           hover:border-[#5C69FF]/20 transition-all duration-200;
   }
 }
