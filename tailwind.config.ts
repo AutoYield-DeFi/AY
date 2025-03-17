@@ -13,92 +13,64 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "SF Pro Display", "SF Pro", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
-        serif: ["Playfair Display", "Georgia", "Cambria", "Times New Roman", "Times", "serif"],
-        mono: ["Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+        sans: ['Cabinet Grotesk', 'system-ui', 'sans-serif'],
       },
       colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
-          muted: 'hsl(var(--primary-muted))'
+          DEFAULT: "#5C69FF",
+          foreground: "hsl(var(--primary-foreground))",
+          muted: "rgb(92 105 255 / 0.1)"
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))'
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))'
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))'
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))'
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))'
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
         card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))'
-        }
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      typography: {
-        DEFAULT: {
-          css: {
-            maxWidth: '100ch',
-            h1: {
-              fontWeight: '800',
-              fontSize: '2.25em',
-              marginTop: '0',
-              marginBottom: '0.8888889em',
-              lineHeight: '1.1111111',
-            },
-            h2: {
-              fontWeight: '700',
-              fontSize: '1.5em',
-              marginTop: '2em',
-              marginBottom: '1em',
-              lineHeight: '1.3333333',
-            },
-            h3: {
-              fontWeight: '600',
-              fontSize: '1.25em',
-              marginTop: '1.6em',
-              marginBottom: '0.6em',
-              lineHeight: '1.6',
-            }
-          }
-        }
+      boxShadow: {
+        'sm': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+        'DEFAULT': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+        'md': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        'lg': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
       },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+      fontSize: {
+        xs: ['0.75rem', { lineHeight: '1rem', letterSpacing: '-0.01em' }],
+        sm: ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '-0.01em' }],
+        base: ['1rem', { lineHeight: '1.5rem', letterSpacing: '-0.01em' }],
+        lg: ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em' }],
+        xl: ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.02em' }],
+        '2xl': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
+        '3xl': ['1.875rem', { lineHeight: '2.25rem', letterSpacing: '-0.02em' }],
+        '4xl': ['2.25rem', { lineHeight: '2.5rem', letterSpacing: '-0.02em' }],
       },
     },
   },
