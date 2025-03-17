@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Info, TrendingUp, AlertTriangle, ArrowUpRight } from 'lucide-react';
 import { cn } from "@/lib/utils";
+import type { Pool } from "@/lib/types";
 import {
   HoverCard,
   HoverCardContent,
@@ -16,32 +17,20 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 interface PoolCardProps {
-  pool: {
-    id: string;
-    name: string;
-    token1: string;
-    token2: string;
-    apr: number;
-    tvl: number;
-    volume24h: number;
-    riskLevel: 'low' | 'medium' | 'high';
-    utilizationRate?: number;
-    poolHealth?: number;
-    fees24h?: number;
-  }
+  pool: Pool;
 }
 
 const riskColors = {
   low: 'bg-green-100 text-green-700 border-green-200',
   medium: 'bg-yellow-100 text-yellow-700 border-yellow-200',
   high: 'bg-red-100 text-red-800 border-red-200'
-};
+} as const;
 
 const healthColors = {
   high: 'text-green-600',
   medium: 'text-yellow-600',
   low: 'text-red-600'
-};
+} as const;
 
 export function PoolCard({ pool }: PoolCardProps) {
   const { t } = useTranslation();
@@ -150,7 +139,7 @@ export function PoolCard({ pool }: PoolCardProps) {
                 {t('pools.utilization')}
               </span>
               <span className="font-medium">
-                {pool.utilizationRate?.toFixed(1)}%
+                {pool.utilizationRate?.toLocaleString()}%
               </span>
             </TooltipTrigger>
             <TooltipContent>
@@ -167,7 +156,7 @@ export function PoolCard({ pool }: PoolCardProps) {
                 "font-medium",
                 healthColors[healthStatus]
               )}>
-                {pool.poolHealth}%
+                {pool.poolHealth?.toLocaleString()}%
               </span>
             </TooltipTrigger>
             <TooltipContent>

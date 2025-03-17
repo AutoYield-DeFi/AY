@@ -4,7 +4,7 @@ import { ArrowUpRight, ArrowDownRight, TrendingUp, Activity, ExternalLink } from
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
-import { portfolioPositions, transactionHistory, pools, walletBalances } from "@/lib/mock-data";
+import { transactionHistory, pools, walletBalances } from "@/lib/mock-data";
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
@@ -35,21 +35,20 @@ export default function Dashboard() {
   const totalWalletBalance = solBalanceUSD + usdcBalanceUSD;
 
   // Calculate positions value
-  const totalPositionsValue = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value), 0);
-  const totalPositionsValue24hAgo = portfolioPositions.reduce((sum, pos) => sum + Number(pos.value24hAgo || 0), 0);
-  const positionsValue24hChange = totalPositionsValue - totalPositionsValue24hAgo;
-  const positionsValue24hChangePercent = (positionsValue24hChange / totalPositionsValue24hAgo) * 100;
+  const totalPositionsValue = 0; // Temporary until positions feature is implemented
+  const positionsValue24hChange = 0;
+  const positionsValue24hChangePercent = 0;
 
   // Calculate total portfolio value (wallet + positions)
   const totalPortfolioValue = totalWalletBalance + totalPositionsValue;
 
   // Performance data for the line chart
   const performanceData = [
-    { date: '1 Mar', value: totalPortfolioValue - totalPositionsValue * 0.9 },
-    { date: '2 Mar', value: totalPortfolioValue - totalPositionsValue * 0.7 },
-    { date: '3 Mar', value: totalPortfolioValue - totalPositionsValue * 0.5 },
-    { date: '4 Mar', value: totalPortfolioValue - totalPositionsValue * 0.3 },
-    { date: '5 Mar', value: totalPortfolioValue - totalPositionsValue * 0.1 },
+    { date: '1 Mar', value: totalPortfolioValue * 0.9 },
+    { date: '2 Mar', value: totalPortfolioValue * 0.95 },
+    { date: '3 Mar', value: totalPortfolioValue * 0.97 },
+    { date: '4 Mar', value: totalPortfolioValue * 0.98 },
+    { date: '5 Mar', value: totalPortfolioValue * 0.99 },
     { date: '6 Mar', value: totalPortfolioValue },
   ];
 
@@ -181,8 +180,8 @@ export default function Dashboard() {
                         </p>
                         <div className="flex items-center gap-1 justify-end">
                           <div className="flex -space-x-1">
-                            <TokenIcon symbol={pool?.token0 || ""} />
                             <TokenIcon symbol={pool?.token1 || ""} />
+                            <TokenIcon symbol={pool?.token2 || ""} />
                           </div>
                         </div>
                       </div>

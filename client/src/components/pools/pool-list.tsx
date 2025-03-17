@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { PoolCard } from "./PoolCard";
 import { pools } from "@/lib/mock-data";
+import type { Pool } from "@/lib/types";
 
 interface PoolListProps {
   filterRisk?: string;
@@ -15,7 +16,7 @@ export function PoolList({
   aprRange = "all",
   searchQuery = ""
 }: PoolListProps) {
-  const [selectedPool, setSelectedPool] = useState<typeof pools[0] | null>(null);
+  const [selectedPool, setSelectedPool] = useState<Pool | null>(null);
 
   // Filter and sort pools based on props
   const filteredAndSortedPools = useMemo(() => {
@@ -31,16 +32,16 @@ export function PoolList({
     // Filter by APR range
     if (aprRange !== "all") {
       filteredPools = filteredPools.filter(pool => {
-        const apr = pool.apr;
+        const aprValue = Number(pool.apr);
         switch (aprRange) {
           case "0-10":
-            return apr >= 0 && apr <= 10;
+            return aprValue >= 0 && aprValue <= 10;
           case "10-20":
-            return apr > 10 && apr <= 20;
+            return aprValue > 10 && aprValue <= 20;
           case "20-50":
-            return apr > 20 && apr <= 50;
+            return aprValue > 20 && aprValue <= 50;
           case "50-plus":
-            return apr > 50;
+            return aprValue > 50;
           default:
             return true;
         }
@@ -61,13 +62,13 @@ export function PoolList({
     return filteredPools.sort((a, b) => {
       switch (sortBy) {
         case "apr":
-          return b.apr - a.apr;
+          return Number(b.apr) - Number(a.apr);
         case "tvl":
-          return b.tvl - a.tvl;
+          return Number(b.tvl) - Number(a.tvl);
         case "volume":
-          return b.volume24h - a.volume24h;
+          return Number(b.volume24h) - Number(a.volume24h);
         default:
-          return b.apr - a.apr;
+          return Number(b.apr) - Number(a.apr);
       }
     });
   }, [filterRisk, sortBy, aprRange, searchQuery]);
